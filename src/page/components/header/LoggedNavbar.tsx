@@ -21,6 +21,7 @@ const LoggedNavbar = () => {
         </li>
       </ul>
       <div>
+        <p>TEST</p>
         <ul className={classes.navProfileBlock} ref={dropdownRef}>
           <li className={classes.navProfile} onClick={setToggleValue}>
             <img src={noAvatarImg} alt="" className={classes.navProfileImg} />
