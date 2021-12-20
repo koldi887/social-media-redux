@@ -1,0 +1,49 @@
+.paginationContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    width: 100%;
+}
+.paginationBlock {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #e1e1e1;
+    border-radius: 0.5rem;
+    margin: 0 1rem 0 1rem;
+    padding: 0;
+    overflow: hidden;
+}
+
+.paginationBlock :not(:last-child) {
+    border-right: 2px solid #e1e1e1;
+}
+
+.paginationNumbers {
+    font-weight: bold;
+    font-size: large;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.paginationNumbers:hover {
+    background-color: #fff1e6;
+}
+
+.leftArrow,
+.rightArrow {
+    font-size: xx-large;
+    cursor: pointer;
+}
+.leftArrow:hover,
+.rightArrow:hover {
+    color: #fe9344;
+}
+
+.active {
+    background-color: #fff1e6;
+}
+.hide {
+    display: none;
+}

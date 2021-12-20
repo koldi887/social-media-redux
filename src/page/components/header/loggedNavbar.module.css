@@ -1,0 +1,59 @@
+.navBlock {
+    display: flex;
+    justify-content: space-between;
+}
+
+.navLinksBlock {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navNotification {
+    display: flex;
+    align-items: center;
+    padding: 0 0.7rem 0 0.7rem;
+    height: 100%;
+}
+
+.navMusic {
+    display: flex;
+    align-items: center;
+    padding: 0 0.7rem 0 0.7rem;
+    height: 100%;
+}
+
+.navProfileBlock {
+    display: flex;
+    align-items: center;
+    position: relative;
+    gap: 0.5rem;
+    height: 100%;
+    list-style-type: none;
+    margin: 0;
+}
+
+.navProfile {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 0.5rem 0 0.5rem;
+}
+
+.navProfileImg {
+    height: 2em;
+    width: 2em;
+    margin-right: 0.5rem;
+}
+
+.navNotification:hover,
+.navMusic:hover {
+    cursor: pointer;
+    background-color: #e7e9ee;
+}
+
+.navProfile:hover {
+    cursor: pointer;
+    background-color: #e7e9ee;
+}

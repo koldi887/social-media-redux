@@ -1,0 +1,15 @@
+.dropDownContainer {
+    position: absolute;
+    width: 14rem;
+    height: 10rem;
+    top: 3.1rem;
+    right: 0;
+    background-color: #f6f6f6;
+    box-shadow: 0 20px 40px 0 rgb(0 0 0 / 30%);
+    transition: height 0.3s ease;
+
+
+    list-style-type: none;
+    margin: 0;
+    padding: 1rem;
+}

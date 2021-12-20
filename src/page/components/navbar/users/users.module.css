@@ -1,0 +1,42 @@
+.usersPageContainer {
+    display: flex;
+    justify-content: space-evenly;
+    text-align: center;
+    border: 2px solid #cbcaca;
+    border-radius: 15px;
+    padding: 0 10px 10px 10px;
+    gap: 2rem;
+}
+
+.usersPageTitleBlock {
+    border-bottom: 5px solid #3f51b5;
+    margin-bottom: 1rem;
+}
+
+.usersBlock {
+    display: grid;
+    border-bottom: 1px solid gray;
+}
+
+.usersAvatar {
+    display: flex;
+    justify-content: center;
+}
+
+.followBtn {
+    font-weight: bold;
+}
+.userStatus {
+    margin: 0;
+    color: green;
+}
+.noStatus {
+    margin: 0;
+    color: red;
+}
+
+.userName {
+    margin: 0;
+    font-size: large;
+    font-weight: bold;
+}

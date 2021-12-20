@@ -1,0 +1,24 @@
+.formContainer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.loginForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.formEmail,
+.formPassword {
+    width: 20rem;
+    margin-bottom: 1rem;
+}
+.formCheckBoxBlock {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.formErrors {
+    color: red;
+}
