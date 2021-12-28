@@ -52,6 +52,7 @@ export const logOut = createAsyncThunk<void, void, { dispatch: AppDispatch }>(
   "auth/logOut",
   async function (_, { dispatch }) {
     const response = await authAPI.logOut();
+    console.log('auth')
     if (response.resultCode === ResultCodeEnum.success) {
       dispatch(
         setUserData({ id: null, email: null, login: null, isAuth: false })

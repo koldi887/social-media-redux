@@ -1,14 +1,14 @@
 import React, { useRef } from "react";
 import classes from "./loggedNavbar.module.css";
-import noAvatarImg from "./pinpng.com-no-avatar-png-3416159.png";
+import noAvatarImg from "../../img/pinpng.com-no-avatar-png-3416159.png";
 import { useToggle } from "../../../hooks/useToggle";
-import Dropdown from "./dropdown/Dropdown";
+import DropdownMenu from "./dropdown-menu/DropdownMenu";
 import useOnClickOutside from "../../../hooks/useOnClickOutside";
 
 const LoggedNavbar = () => {
   const [toggleValue, setToggleValue] = useToggle(false);
   const dropdownRef = useRef<HTMLUListElement>(null);
-  useOnClickOutside(dropdownRef, setToggleValue);
+  useOnClickOutside(dropdownRef, setToggleValue, toggleValue);
 
   return (
     <div className={classes.navBlock}>
@@ -21,14 +21,15 @@ const LoggedNavbar = () => {
         </li>
       </ul>
       <div>
-        <p>TEST-isa</p>
-        <h1>Dima</h1>
         <ul className={classes.navProfileBlock} ref={dropdownRef}>
-          <li className={classes.navProfile} onClick={setToggleValue}>
+          <li
+            className={`${classes.navProfile} ${toggleValue && classes.active}`}
+            onClick={setToggleValue}
+          >
             <img src={noAvatarImg} alt="" className={classes.navProfileImg} />
             <i className="fas fa-angle-down" />
           </li>
-          {toggleValue && <Dropdown />}
+          {toggleValue && <DropdownMenu />}
         </ul>
       </div>
     </div>

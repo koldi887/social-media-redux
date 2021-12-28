@@ -11,8 +11,8 @@ import MyPostsContainer from "./MyPost/MyPostContainer";
 const Profile = () => {
   const { userId } = useParams<string>();
   const { isAuth } = useSelector(authSelector);
-  if (!isAuth) return <Navigate to={"/login"} />;
 
+  // if (!isAuth) return <Navigate to={"/login"} />;
   return (
     <Grid container spacing={0}>
       <Grid item md={6}>
