@@ -21,16 +21,20 @@ const LoggedNavbar = () => {
         </li>
       </ul>
       <div>
-        <ul className={classes.navProfileBlock} ref={dropdownRef}>
-          <li
-            className={`${classes.navProfile} ${toggleValue && classes.active}`}
-            onClick={setToggleValue}
-          >
-            <img src={noAvatarImg} alt="" className={classes.navProfileImg} />
-            <i className="fas fa-angle-down" />
-          </li>
-          {toggleValue && <DropdownMenu />}
-        </ul>
+        {
+          <ul className={classes.navProfileBlock} ref={dropdownRef}>
+            <li
+              className={`${classes.navProfile} ${
+                toggleValue && classes.active
+              }`}
+              onClick={setToggleValue}
+            >
+              <img src={noAvatarImg} alt="" className={classes.navProfileImg} />
+              <i className="fas fa-angle-down" />
+            </li>
+            {toggleValue && <DropdownMenu />}
+          </ul>
+        }
       </div>
     </div>
   );

@@ -4,3 +4,7 @@
     justify-items: center;
     align-items: center;
 }
+
+.pagesBlock {
+    max-width: 60rem;
+}

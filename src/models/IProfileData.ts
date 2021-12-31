@@ -1,3 +1,8 @@
+export interface IPhotoType {
+  small: string | null,
+  large: string | null
+}
+
 export interface IProfileData {
   aboutMe: null | string;
   contacts: {
@@ -13,8 +18,8 @@ export interface IProfileData {
   fullName: string;
   lookingForAJob: boolean;
   lookingForAJobDescription: null | string;
-  photos: { small: null | string; large: null | string };
-  userId: number;
+  photos: IPhotoType;
+  userId: null | number;
 }
 
 export const profileData: IProfileData = {
@@ -27,11 +32,14 @@ export const profileData: IProfileData = {
     twitter: null,
     vk: null,
     website: null,
-    youtube: null,
+    youtube: null
   },
-  fullName: '',
+  fullName: "",
   lookingForAJob: false,
   lookingForAJobDescription: null,
-  photos: { small: null, large: null },
-  userId: -1,
+  photos: {
+    small: null,
+    large: null
+  },
+  userId: null
 }

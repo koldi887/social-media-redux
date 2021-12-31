@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ResultCodeEnum, usersAPI } from "../api/Api";
+import { ResultCodeEnum } from "../api/api";
 import { IUser } from "../models/IUser";
 import { AppDispatch, RootState } from "./redux-store";
+import { usersAPI } from "../api/users-api";
 
 interface IUsersState {
   users: IUser[];
@@ -9,6 +10,7 @@ interface IUsersState {
   isFetching: boolean;
   status: string;
   error: string;
+  totalUsersCount: number;
 }
 
 const initialState: IUsersState = {
@@ -17,20 +19,23 @@ const initialState: IUsersState = {
   isFetching: true,
   status: "",
   error: "",
+  totalUsersCount: 0
 };
 
-export const getUsers = createAsyncThunk<IUser[]>(
-  "users/getUsers",
-  async function () {
-    return await usersAPI.getUsers();
-  }
-);
+interface IRequestUsers {
+  items: IUser[];
+  totalCount: number;
+  error: null | string;
+}
 
-export const followUnfollowUser = createAsyncThunk<
-  undefined | number,
+export const requestUsers = createAsyncThunk<IRequestUsers,
+  { pageSize: number; currentPage: number }>("users/getUsers", async function({ pageSize, currentPage }) {
+  return await usersAPI.requestUsers(currentPage, pageSize);
+});
+
+export const followUnfollowUser = createAsyncThunk<undefined | number,
   IUser,
-  { dispatch: AppDispatch }
->("users/followUser", async function (user, { dispatch }) {
+  { dispatch: AppDispatch }>("users/followUser", async function(user, { dispatch }) {
   dispatch(followingInProgress(user.id));
   const response = !user.followed
     ? await usersAPI.followUser(user.id)
@@ -50,13 +55,17 @@ const usersSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getUsers.pending, (state) => {
+    builder.addCase(requestUsers.pending, (state) => {
+      state.users = [];
       state.isFetching = true;
     });
 
-    builder.addCase(getUsers.fulfilled, (state, action) => {
-      state.users = action.payload;
+    builder.addCase(requestUsers.fulfilled, (state, action: PayloadAction<IRequestUsers>) => {
+      const { items, totalCount } = action.payload;
+
       state.isFetching = false;
+      state.users = items;
+      state.totalUsersCount = totalCount;
     });
 
     builder.addCase(followUnfollowUser.fulfilled, (state, action) => {

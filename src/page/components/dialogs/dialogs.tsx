@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import classes from "./dialogs.module.css";
 import { Button, Grid } from "@material-ui/core";
-import DialogMessages from "./DialogsItem/dialogMessage";
-import DialogUsers from "./DialogsItem/dialogUsers";
-import {
-  addDialogMessage,
-  dialogsSelector,
-  IDialogsPageState,
-} from "../../../../redux/dialogpage-reducer";
-import { useAppDispatch, useAppSelector } from "../../../../hooks/redux";
+import { addDialogMessage, dialogsSelector, IDialogsPageState } from "../../../redux/dialogpage-reducer";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
+import DialogUsers from "./dialogs-items/dialogUsers";
+import DialogMessages from "./dialogs-items/dialogMessage";
 
 const Dialogs = () => {
   const dispatch = useAppDispatch();

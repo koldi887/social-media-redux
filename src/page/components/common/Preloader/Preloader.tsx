@@ -1,5 +1,5 @@
 import React from "react";
-import classes from "./preloader.module.css"
+import classes from "./Preloader.module.css";
 import preLoaderSvg from "../../../img/Spin-1.4s-124px.svg";
 
 const PreLoader = () => {

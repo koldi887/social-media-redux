@@ -2,12 +2,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 2rem;
+    flex-wrap: wrap;
     width: 100%;
 }
+
 .paginationBlock {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     align-items: center;
     border: 2px solid #e1e1e1;
     border-radius: 0.5rem;
@@ -36,6 +38,7 @@
     font-size: xx-large;
     cursor: pointer;
 }
+
 .leftArrow:hover,
 .rightArrow:hover {
     color: #fe9344;
@@ -44,6 +47,4 @@
 .active {
     background-color: #fff1e6;
 }
-.hide {
-    display: none;
-}
+

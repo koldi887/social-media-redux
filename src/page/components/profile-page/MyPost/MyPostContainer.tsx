@@ -1,10 +1,7 @@
 import React, { useState } from "react";
-import {
-  addNewPost,
-  profileSelector,
-} from "../../../../../redux/profile-reducer";
+import { addNewPost, profileSelector } from "../../../../redux/profile-reducer";
 import MyPosts from "./MyPosts";
-import { useAppDispatch, useAppSelector } from "../../../../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../../../hooks/redux";
 
 const MyPostsContainer = () => {
   const dispatch = useAppDispatch();

@@ -1,7 +1,8 @@
-import { authAPI, ResultCodeEnum } from "../api/Api";
+import { ResultCodeEnum } from "../api/api";
 import { getUserProfile } from "./profile-reducer";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch, RootState } from "./redux-store";
+import { authAPI } from "../api/auth-api";
 
 interface IAuth {
   id: number | null;
@@ -52,7 +53,6 @@ export const logOut = createAsyncThunk<void, void, { dispatch: AppDispatch }>(
   "auth/logOut",
   async function (_, { dispatch }) {
     const response = await authAPI.logOut();
-    console.log('auth')
     if (response.resultCode === ResultCodeEnum.success) {
       dispatch(
         setUserData({ id: null, email: null, login: null, isAuth: false })

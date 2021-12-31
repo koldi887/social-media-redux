@@ -1,23 +1,23 @@
 import React from "react";
-import classes from "./users.module.css";
+import classes from "./User.module.css";
 import { NavLink } from "react-router-dom";
 import { Avatar, Button } from "@material-ui/core";
-import userPhoto from "../../../img/noAvatar.png";
+import userPhoto from "../../img/noAvatar.png";
 import { useSelector } from "react-redux";
-import { usersSelector } from "../../../../redux/users-reducer";
-import { IUser } from "../../../../models/IUser";
+import { usersSelector } from "../../../redux/users-reducer";
+import { IUser } from "../../../models/IUser";
 
 interface IProps {
   user: IUser;
   isAuth: Boolean;
-  followHandler: (value: IUser) => void;
+  onUserFollow: (value: IUser) => void;
 }
 
-const User: React.FC<IProps> = ({ user, isAuth, followHandler }) => {
+const User: React.FC<IProps> = ({ user, isAuth, onUserFollow }) => {
   const { followingInProgress } = useSelector(usersSelector);
   return (
-    <div className={classes.usersBlock} key={user.id}>
-      <NavLink to={"/profile/" + user.id} className={classes.usersAvatar}>
+    <div className={classes.userBlock} key={user.id}>
+      <NavLink to={"/profile/" + user.id} className={classes.userAvatar}>
         <Avatar
           alt={user.name}
           src={user.photos.small != null ? user.photos.small : userPhoto}
@@ -30,7 +30,7 @@ const User: React.FC<IProps> = ({ user, isAuth, followHandler }) => {
       <div>
         {user.followed ? (
           <Button
-            onClick={() => followHandler(user)}
+            onClick={() => onUserFollow(user)}
             className={classes.followBtn}
             disabled={followingInProgress.some((id) => id === user.id)}
             color="primary"
@@ -39,7 +39,7 @@ const User: React.FC<IProps> = ({ user, isAuth, followHandler }) => {
           </Button>
         ) : (
           <Button
-            onClick={() => followHandler(user)}
+            onClick={() => onUserFollow(user)}
             className={classes.followBtn}
             disabled={
               isAuth ? followingInProgress.some((id) => id === user.id) : true

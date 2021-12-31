@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {
-  getUserProfile,
-  updateUserStatus,
-} from "../../../../../redux/profile-reducer";
-import { useAppDispatch, useAppSelector } from "../../../../../hooks/redux";
+import { getUserProfile, updateUserStatus } from "../../../../redux/profile-reducer";
+import { useAppDispatch, useAppSelector } from "../../../../hooks/redux";
 import ProfileInfo from "./ProfileInfo";
 
 interface IProps {

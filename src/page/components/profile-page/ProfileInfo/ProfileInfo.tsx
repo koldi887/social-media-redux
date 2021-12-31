@@ -1,8 +1,8 @@
 import React from "react";
 import classes from "./ProfileInfo.module.css";
-import { useToggle } from "../../../../../hooks/useToggle";
-import { useAppSelector } from "../../../../../hooks/redux";
-import { profileSelector } from "../../../../../redux/profile-reducer";
+import { useToggle } from "../../../../hooks/useToggle";
+import { useAppSelector } from "../../../../hooks/redux";
+import { profileSelector } from "../../../../redux/profile-reducer";
 
 interface IProps {
   onStatusChange: (value: React.ChangeEvent<HTMLInputElement>) => void;
@@ -12,7 +12,7 @@ interface IProps {
 }
 
 const ProfileInfo: React.FC<IProps> = ({
-  onStatusChange,
+                                         onStatusChange,
   setNewStatusHandler,
 }) => {
   const { profile, status } = useAppSelector(profileSelector);

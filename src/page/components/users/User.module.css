@@ -1,0 +1,30 @@
+.userBlock {
+    display: flex;
+    flex-direction: column;
+    /*border-bottom: 1px solid gray;*/
+}
+
+.userAvatar {
+    display: flex;
+    justify-content: center;
+}
+
+.followBtn {
+    font-weight: bold;
+}
+
+.userStatus {
+    margin: 0;
+    color: green;
+}
+
+.noStatus {
+    margin: 0;
+    color: red;
+}
+
+.userName {
+    margin: 0;
+    font-size: large;
+    font-weight: bold;
+}

@@ -3,7 +3,7 @@ import classes from "./myPosts.module.css";
 import Grid from "@material-ui/core/Grid";
 import { Button } from "@material-ui/core";
 import Post from "./Posts";
-import { IPosts } from "../../../../../redux/profile-reducer";
+import { IPosts } from "../../../../redux/profile-reducer";
 
 interface IProps {
   newPost: string;

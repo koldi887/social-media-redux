@@ -1,7 +1,8 @@
-import { profileAPI, ResultCodeEnum } from "../api/Api";
+import { ResultCodeEnum } from "../api/api";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "./redux-store";
-import { IProfileData, profileData } from "../models/IUserProfile";
+import { IPhotoType, IProfileData, profileData } from "../models/IProfileData";
+import { profileAPI } from "../api/profile-api";
 
 export interface IPosts {
   id: number | null;
@@ -13,6 +14,7 @@ interface IState {
   posts: Array<IPosts>;
   profile: IProfileData;
   status: string | undefined;
+  isFetching: boolean;
 }
 
 const initialState: IState = {
@@ -25,6 +27,7 @@ const initialState: IState = {
   ],
   profile: profileData,
   status: "",
+  isFetching: false
 };
 
 interface IProfile {
@@ -42,14 +45,26 @@ export const getUserProfile = createAsyncThunk<IProfile, number | null>(
   }
 );
 
-export const updateUserStatus = createAsyncThunk<string | undefined, string>(
+export const updateUserStatus = createAsyncThunk<string | undefined,
+  string>
+(
   "profile/updateUserStatus",
-  async function (status) {
+  async function(status) {
     const response = await profileAPI.updateUserStatus(status);
     if (response.data.resultCode === ResultCodeEnum.success) {
       return status;
     }
     return;
+  }
+);
+export const updateProfilePhoto = createAsyncThunk<IPhotoType, File>(
+  "profile/updateProfilePhoto",
+  // @ts-ignore
+  async function(photoFile) {
+    const response = await profileAPI.updateProfilePhoto(photoFile);
+    if (response.resultCode === ResultCodeEnum.success) {
+      return response.data.photos;
+    }
   }
 );
 
@@ -72,10 +87,17 @@ const profileSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getUserProfile.fulfilled, (state, action) => {
       state.profile = action.payload.profileData;
-      state.status = action.payload.status;
+      state.status = action.payload.status ? action.payload.status : "No status";
     });
     builder.addCase(updateUserStatus.fulfilled, (state, action) => {
       state.status = action.payload;
+    });
+    builder.addCase(updateProfilePhoto.pending, (state) => {
+      state.isFetching = true;
+    });
+
+    builder.addCase(updateProfilePhoto.fulfilled, (state, action: PayloadAction<IPhotoType>) => {
+      state.profile.photos = action.payload;
     });
   },
 });
