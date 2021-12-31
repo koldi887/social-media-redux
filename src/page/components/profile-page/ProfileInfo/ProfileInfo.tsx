@@ -32,7 +32,7 @@ const ProfileInfo: React.FC<IProps> = ({
         ) : (
           <li onDoubleClick={setToggle}>Status: {status}</li>
         )}
-        <li>Date of birth:</li>
+        <li>Date of birth:...</li>
         <li>City:</li>
         <li>Education:</li>
         <li>Contacts:</li>
