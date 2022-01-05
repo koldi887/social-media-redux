@@ -16,7 +16,9 @@ import Settings from "./page/components/settings/settings";
 import Register from "./page/components/register/Register";
 import HelpPage from "./page/components/help-page/HelpPage";
 
-const ProfilePage = React.lazy(() => import("./page/components/profile-page/ProfilePage"));
+const ProfilePage = React.lazy(
+  () => import("./page/components/profile-page/ProfilePage")
+);
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -38,11 +40,22 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route element={<ProtectedRoutes />}>
-            <Route path="/profile" element={
-              <Suspense fallback={<h1>Page Loading... </h1>}>
-                <ProfilePage />
-              </Suspense>}>
-              <Route path=":userId" />
+            <Route
+              path="/profile"
+              element={
+                <Suspense fallback={<h1>Page Loading... </h1>}>
+                  <ProfilePage />
+                </Suspense>
+              }
+            >
+              <Route
+                path=":userId"
+                element={
+                  <Suspense fallback={<h1>Page Loading... </h1>}>
+                    <ProfilePage />
+                  </Suspense>
+                }
+              />
             </Route>
             <Route path="/dialogs" element={<DialogsContainer />} />
             <Route path="/users" element={<UsersContainer />} />

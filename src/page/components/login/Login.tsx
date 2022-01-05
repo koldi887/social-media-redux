@@ -4,46 +4,52 @@ import { useForm } from "react-hook-form";
 import { authSelector, ILog, login } from "../../../redux/auth-reducer";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { Navigate } from "react-router-dom";
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  TextField,
+} from "@material-ui/core";
+import { ErrorMessage } from "@hookform/error-message";
 
 export const Login = () => {
   const dispatch = useAppDispatch();
-  const { isAuth } = useAppSelector(authSelector);
+  const { isAuth, captchaUrl } = useAppSelector(authSelector);
+  const loginErrors = useAppSelector((state) => state.auth.errors?.loginErrors);
+
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm();
 
   const onSubmit = (data: ILog) => {
     dispatch(login(data));
-    if (!data.rememberMe) reset();
   };
-
   if (isAuth) return <Navigate to={"/profile"} />;
   return (
     <div className={classes.formContainer}>
       <form className={classes.loginForm} onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor="email">Email</label>
-        <input
-          className={classes.formEmail}
+        {loginErrors &&
+          loginErrors.map((error, index) => (
+            <span key={index} className={classes.errorMessage}>
+              {error}
+            </span>
+          ))}
+
+        <TextField
+          label="Email"
+          variant="outlined"
+          size={"small"}
           {...register("email", {
             required: true,
-            pattern: {
-              value: /\S+@\S+\.\S+/,
-              message: "Entered value does not match email format",
-            },
           })}
-          type="email"
         />
-        {errors.email && (
-          <span className={classes.formErrors} role="alert">
-            {errors.email.message}
-          </span>
-        )}
-        <label htmlFor="password">Password</label>
-        <input
-          className={classes.formPassword}
+        <TextField
+          type="password"
+          label="Password"
+          variant="outlined"
+          size={"small"}
           {...register("password", {
             required: true,
             minLength: {
@@ -51,22 +57,26 @@ export const Login = () => {
               message: "Minimum length is 5",
             },
           })}
-          type="password"
         />
-        {errors.password && (
-          <span className={classes.formErrors} role="alert">
-            {errors.password.message}
-          </span>
-        )}
+
+        <ErrorMessage errors={errors} name="password" />
         <div className={classes.formCheckBoxBlock}>
-          <input
-            type="checkbox"
-            {...register("rememberMe")}
-            // value={true}
+          <FormControlLabel
+            control={<Checkbox {...register("lookingForAJob")} />}
+            label="Remember Me"
           />
-          <label htmlFor="rememberMe">Remember me</label>
         </div>
-        <button type="submit">SUBMIT</button>
+
+        {captchaUrl && (
+          <div className={classes.captcha}>
+            <img src={captchaUrl} alt="captcha" />
+            <input type="text" {...register("captcha")} />
+          </div>
+        )}
+
+        <Button type="submit" variant="contained" size="small" color="primary">
+          Sign in
+        </Button>
       </form>
     </div>
   );

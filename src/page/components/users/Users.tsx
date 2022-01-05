@@ -32,11 +32,23 @@ const Users: React.FC<IProps> = ({
   const navigate = useNavigate();
 
   return (
-    <div className={`${classes.usersPageContainer}`}>
+    <div
+      className={
+        location.pathname !== "/users"
+          ? classes.usersContainerProfilePage
+          : classes.usersPageContainer
+      }
+    >
       <div className={classes.usersPageTitleBlock}>
         <h2>Users</h2>
       </div>
-      <div className={`${location.pathname !== "/users" ? classes.onProfilePage : classes.usersBlock}`}>
+      <div
+        className={`${
+          location.pathname !== "/users"
+            ? classes.usersBlockProfilePage
+            : classes.usersBlock
+        }`}
+      >
         {isFetching ? <PreLoader /> : null}
         {users.map((user) => (
           <User

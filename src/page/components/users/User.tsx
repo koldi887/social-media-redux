@@ -6,6 +6,7 @@ import userPhoto from "../../img/noAvatar.png";
 import { useSelector } from "react-redux";
 import { usersSelector } from "../../../redux/users-reducer";
 import { IUser } from "../../../models/IUser";
+import { capitalize } from "../../../helpers/capitalize";
 
 interface IProps {
   user: IUser;
@@ -24,9 +25,9 @@ const User: React.FC<IProps> = ({ user, isAuth, onUserFollow }) => {
         />
       </NavLink>
       <p className={user.status ? classes.userStatus : classes.noStatus}>
-        {user.status ? user.status : "No status"}
+        {user.status ? capitalize(user.status) : "No status"}
       </p>
-      <p className={classes.userName}>{user.name}</p>
+      <p className={classes.userName}>{capitalize(user.name)}</p>
       <div>
         {user.followed ? (
           <Button

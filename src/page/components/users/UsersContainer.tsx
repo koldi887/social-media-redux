@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { followUnfollowUser, requestUsers, usersSelector } from "../../../redux/users-reducer";
+import {
+  followUnfollowUser,
+  requestUsers,
+  usersSelector,
+} from "../../../redux/users-reducer";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { authSelector } from "../../../redux/auth-reducer";
 import { IUser } from "../../../models/IUser";
@@ -28,18 +32,16 @@ const UsersContainer = () => {
   }, [dispatch]);
 
   return (
-    <>
-      <Users
-        onUserFollow={onUserFollow}
-        isAuth={isAuth}
-        users={users}
-        isFetching={isFetching}
-        totalUsersCount={totalUsersCount}
-        currentPage={currentPage}
-        pageSize={pageSize}
-        onPageChanged={onPageChanged}
-      />
-    </>
+    <Users
+      onUserFollow={onUserFollow}
+      isAuth={isAuth}
+      users={users}
+      isFetching={isFetching}
+      totalUsersCount={totalUsersCount}
+      currentPage={currentPage}
+      pageSize={pageSize}
+      onPageChanged={onPageChanged}
+    />
   );
 };
 

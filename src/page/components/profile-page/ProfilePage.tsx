@@ -1,36 +1,30 @@
 import React from "react";
 import classes from "./profilePage.module.css";
-import ProfileInfoContainer from "./ProfileInfo/ProfileInfoContainer";
 import { useParams } from "react-router-dom";
-import ProfileImage from "./profile-image-component/ProfileImage";
+import ProfileImage from "./ProfileImage/ProfileImage";
 import UsersContainer from "../users/UsersContainer";
 import MyPostsContainer from "./MyPost/MyPostContainer";
+import ProfileInfo from "./ProfileInfo/ProfileInfo";
 
 const ProfilePage = () => {
   const { userId } = useParams<string>();
+
   return (
-    <div className={classes.profilePageContainer}>
-      <div className={classes.profileImageContainer}>
+    <div className={classes.profilePageWrapper}>
+      <div className={classes.profileImageWrapper}>
         <ProfileImage paramsUserId={userId} />
       </div>
-      <div className={classes.infoContainer}>
-        <ProfileInfoContainer paramsUserId={userId} />
-      </div>
-
-      <div className={classes.usersContainer}>
-        <UsersContainer />
-      </div>
-
-      {!userId &&
-        <>
-          <div className={classes.postsContainer}>
+      <div className={classes.infoWrapper}>
+        <ProfileInfo paramsUserId={userId} />
+        {!userId && (
+          <div className={classes.postsWrapper}>
             <MyPostsContainer />
           </div>
-          <div className={classes.friendsContainer}>
-            dima
-          </div>
-        </>
-      }
+        )}
+      </div>
+      <div className={classes.usersWrapper}>
+        <UsersContainer />
+      </div>
     </div>
   );
 };
