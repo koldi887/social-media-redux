@@ -1,25 +1,27 @@
 export interface IPhotoType {
-  small: string | null,
-  large: string | null
+  small: string | null;
+  large: string | null;
+}
+
+export interface IProfileContacts {
+  facebook: null | string;
+  github: null | string;
+  instagram: null | string;
+  mainLink: null | string;
+  twitter: null | string;
+  vk: null | string;
+  website: null | string;
+  youtube: null | string;
 }
 
 export interface IProfileData {
-  aboutMe: null | string;
-  contacts: {
-    facebook: null | string;
-    github: null | string;
-    instagram: null | string;
-    mainLink: null | string;
-    twitter: null | string;
-    vk: null | string;
-    website: null | string;
-    youtube: null | string;
-  };
-  fullName: string;
+  userId: null | number;
   lookingForAJob: boolean;
   lookingForAJobDescription: null | string;
-  photos: IPhotoType;
-  userId: null | number;
+  fullName: string;
+  contacts: IProfileContacts;
+  aboutMe?: null | string;
+  photos?: IPhotoType;
 }
 
 export const profileData: IProfileData = {
@@ -32,14 +34,14 @@ export const profileData: IProfileData = {
     twitter: null,
     vk: null,
     website: null,
-    youtube: null
+    youtube: null,
   },
   fullName: "",
   lookingForAJob: false,
   lookingForAJobDescription: null,
   photos: {
     small: null,
-    large: null
+    large: null,
   },
-  userId: null
-}
+  userId: null,
+};

@@ -3,13 +3,14 @@ import { IAPIResponse, instance } from "./api";
 
 export const profileAPI = {
   getProfile(userId: number | null) {
+    console.log("profileAPI");
     return instance
       .get<IProfileData>("profile/" + userId)
       .then((response) => response.data);
   },
 
   getUserStatus(userID: number | null) {
-    console.log(userID);
+    console.log("statusAPI");
     return instance
       .get<string>(`profile/status/${userID}`)
       .then((response) => response.data);
@@ -30,6 +31,11 @@ export const profileAPI = {
           "Content-Type": "multipart/form-data",
         },
       })
+      .then((response) => response.data);
+  },
+  updateProfileInfo(profileData: object) {
+    return instance
+      .put<IAPIResponse<object>>(`profile`, profileData)
       .then((response) => response.data);
   },
 };

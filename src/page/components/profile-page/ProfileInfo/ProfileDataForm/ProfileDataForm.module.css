@@ -1,0 +1,28 @@
+.editForm {
+    display: grid;
+    justify-items: left;
+    gap: 0.5rem;
+}
+
+.formButtons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.contactsList {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    grid-gap: 0.5rem;
+}
+
+.editProfileLabel {
+    font-weight: bolder;
+    font-size: larger;
+}
+
+.contactsLabel {
+    grid-column: 1 / span 2;
+    font-weight: bolder;
+    font-size: larger;
+}

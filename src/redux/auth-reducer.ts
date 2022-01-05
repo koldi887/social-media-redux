@@ -1,14 +1,19 @@
 import { ResultCodeEnum } from "../api/api";
-import { getUserProfile } from "./profile-reducer";
+import { getUserProfile, updateUserStatus } from "./profile-reducer";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch, RootState } from "./redux-store";
 import { authAPI } from "../api/auth-api";
+import { securityAPI } from "../api/security-api";
 
 interface IAuth {
   id: number | null;
   email: string | null;
   login: string | null;
   isAuth: boolean;
+  captchaUrl: null | string;
+  errors: {
+    loginErrors: Array<string | undefined>;
+  };
 }
 
 const initialState: IAuth = {
@@ -16,6 +21,10 @@ const initialState: IAuth = {
   email: null,
   login: null,
   isAuth: false,
+  captchaUrl: null,
+  errors: {
+    loginErrors: [],
+  },
 };
 
 export interface ILog {
@@ -33,19 +42,32 @@ export const getAuthUserData = createAsyncThunk<
   if (response.resultCode === ResultCodeEnum.success) {
     const { id, email, login } = response.data;
     dispatch(setUserData({ id, email, login, isAuth: true }));
+    dispatch(setCaptchaUrl(null));
     dispatch(getUserProfile(id));
   }
   return;
 });
 
-export const login = createAsyncThunk<void, ILog, { dispatch: AppDispatch }>(
+export const login = createAsyncThunk<void, any, { dispatch: AppDispatch }>(
   "auth/login",
-  async function ({ email, password, rememberMe }, { dispatch }) {
-    const response = await authAPI.login(email, password, rememberMe);
+  async function ({ email, password, rememberMe, captcha }, { dispatch }) {
+    const response = await authAPI.login(email, password, rememberMe, captcha);
     if (response.resultCode === ResultCodeEnum.success) {
       dispatch(getAuthUserData());
+    } else {
+      if (response.resultCode === ResultCodeEnum.captcha) {
+        dispatch(getCaptchaUrl());
+      }
     }
-    return;
+    dispatch(setErrors(response.messages));
+  }
+);
+
+export const getCaptchaUrl = createAsyncThunk(
+  "auth/getCaptchaUrl",
+  async function (_, { dispatch }) {
+    const response = await securityAPI.getCaptchaUrl();
+    dispatch(setCaptchaUrl(response.url));
   }
 );
 
@@ -55,7 +77,12 @@ export const logOut = createAsyncThunk<void, void, { dispatch: AppDispatch }>(
     const response = await authAPI.logOut();
     if (response.resultCode === ResultCodeEnum.success) {
       dispatch(
-        setUserData({ id: null, email: null, login: null, isAuth: false })
+        setUserData({
+          id: null,
+          email: null,
+          login: null,
+          isAuth: false,
+        })
       );
     }
     return;
@@ -66,7 +93,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setUserData: (state, action: PayloadAction<IAuth>) => {
+    setUserData: (state, action) => {
       const { id, email, login, isAuth } = action.payload;
       return {
         ...state,
@@ -76,9 +103,16 @@ const authSlice = createSlice({
         isAuth,
       };
     },
+
+    setCaptchaUrl: (state, action: PayloadAction<string | null>) => {
+      state.captchaUrl = action.payload;
+    },
+    setErrors: (state, action) => {
+      state.errors.loginErrors = action.payload;
+    },
   },
 });
 
-export const { setUserData } = authSlice.actions;
+export const { setUserData, setCaptchaUrl, setErrors } = authSlice.actions;
 export const authSelector = (state: RootState) => state.auth;
 export default authSlice.reducer;

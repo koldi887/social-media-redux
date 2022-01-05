@@ -24,5 +24,5 @@ export const usersAPI = {
     return instance
       .delete<IAPIResponse<object>>(`follow/${userId}`)
       .then((response) => response.data);
-  }
+  },
 };

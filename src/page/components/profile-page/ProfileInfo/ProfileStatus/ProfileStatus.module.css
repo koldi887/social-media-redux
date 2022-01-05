@@ -1,0 +1,26 @@
+.statusContainerActive {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: grid;
+    justify-items: start;
+    gap: 1rem;
+    width: 100%;
+    border-radius: 1rem;
+    padding: 1rem;
+    background-color: #fcfcfc;
+    box-shadow: 0 0 20px 0 rgb(0 0 0 / 20%);
+
+}
+
+.closeIcon {
+    justify-self: end;
+}
+
+.closeIcon:hover {
+    cursor: pointer;
+    opacity: 50%;
+}
+
+
+

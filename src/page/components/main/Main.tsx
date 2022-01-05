@@ -1,6 +1,6 @@
 import React from "react";
-import { Button } from "@material-ui/core";
 import classes from "./main.module.css";
+import { Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../../hooks/redux";
 import { authSelector } from "../../../redux/auth-reducer";
