@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import classes from "./ProfileStatus.module.css";
 import { useAppDispatch } from "../../../../../hooks/redux";
-import { updateUserStatus } from "../../../../../redux/profile-reducer";
 import { Button, TextField } from "@material-ui/core";
 import { useToggle } from "../../../../../hooks/useToggle";
+import { updateProfileStatus } from "../../../../../redux/profile-reducer";
 
 interface IStatusProps {
   userId: number | null;
@@ -21,7 +21,7 @@ const ProfileStatus: React.FC<IStatusProps> = ({ userId }) => {
   };
 
   const onStatusSave = () => {
-    dispatch(updateUserStatus(newStatus));
+    dispatch(updateProfileStatus(newStatus));
     setToggleValue();
   };
 

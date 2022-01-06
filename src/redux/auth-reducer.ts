@@ -1,11 +1,11 @@
 import { ResultCodeEnum } from "../api/api";
-import { getUserProfile, updateUserStatus } from "./profile-reducer";
+import { getUserProfile } from "./profile-reducer";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch, RootState } from "./redux-store";
 import { authAPI } from "../api/auth-api";
 import { securityAPI } from "../api/security-api";
 
-interface IAuth {
+export interface IAuth {
   id: number | null;
   email: string | null;
   login: string | null;

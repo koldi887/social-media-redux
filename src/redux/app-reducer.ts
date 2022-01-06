@@ -2,11 +2,7 @@ import { getAuthUserData } from "./auth-reducer";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AppDispatch, RootState } from "./redux-store";
 
-interface IInit {
-  initialized: boolean;
-}
-
-let initialState: IInit = {
+let initialState = {
   initialized: false,
 };
 

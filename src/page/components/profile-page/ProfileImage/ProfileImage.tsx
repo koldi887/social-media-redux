@@ -35,7 +35,7 @@ const ProfileImage: React.FC<IProfileImageProps> = ({ paramsUserId }) => {
       dispatch(getAuthUserData());
     }
   }, [paramsUserId, dispatch]);
-
+  console.log(profile);
   return (
     <div className={classes.profileImageBlock}>
       <img
