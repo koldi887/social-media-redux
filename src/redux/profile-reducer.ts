@@ -1,9 +1,9 @@
 import { ResultCodeEnum } from "../api/api";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "./redux-store";
-import { IPhotoType, IProfileData, profileData } from "../models/IProfileData";
+import { IPhotoType, IProfileData, profileData } from "../types/IProfileData";
 import { profileAPI } from "../api/profile-api";
-import { capitalize } from "../helpers/capitalize";
+import { capitalize } from "../utils/capitalize";
 
 export interface IPosts {
   id: number | null;
@@ -102,7 +102,6 @@ const profileSlice = createSlice({
     builder.addCase(
       getUserProfile.fulfilled,
       (state, action: PayloadAction<IProfile>) => {
-        console.log(action.payload);
         state.profile = action.payload.profileData;
         state.status = action.payload.status;
       }

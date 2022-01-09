@@ -1,6 +1,4 @@
-import app, { initializedSuccess } from "./app-reducer";
 import authReducer, {
-  getAuthUserData,
   IAuth,
   setCaptchaUrl,
   setErrors,

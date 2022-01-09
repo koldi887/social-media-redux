@@ -1,6 +1,6 @@
 import { IAPIResponse, instance } from "./api";
 
-interface IAuthMe {
+export interface IAuthMe {
   id: number | null;
   email: string;
   login: string;

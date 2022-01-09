@@ -1,0 +1,54 @@
+.navContainer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 3rem;
+    background-color: #fcfcfc;
+    margin-bottom: 3rem;
+
+}
+
+.navBlock {
+    display: inline-grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 60rem;
+}
+
+.navElementsBlock {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.inputBlock {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 1rem;
+}
+
+.searchInput {
+    border: none;
+    background-color: #e7e9ee;
+    outline: none;
+    line-height: 2rem;
+    width: 14rem;
+    height: 2rem;
+    border-radius: 0.5rem;
+    padding-left: 2rem;
+}
+
+.searchIcon {
+    position: relative;
+    color: #949292;
+    left: 1.5rem;
+}
+
+.navLogo {
+    height: 2rem;
+    width: 2rem;
+}
+
+.navLogo:hover {
+    cursor: pointer;
+}
