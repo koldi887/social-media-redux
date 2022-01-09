@@ -30,7 +30,6 @@ const Users: React.FC<IProps> = ({
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  console.log("dima");
   return (
     <div
       className={
