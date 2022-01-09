@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import dialogsPageSlice from "./dialogpage-reducer";
+import dialogsPageSlice from "./dialogs-reducer";
 import UsersSlice from "./users-reducer";
 import appSlice from "./app-reducer";
 import authSlice from "./auth-reducer";

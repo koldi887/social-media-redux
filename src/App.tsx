@@ -4,21 +4,18 @@ import { useAppDispatch, useAppSelector } from "./hooks/redux";
 import { initializeApp, initialSlice } from "./redux/app-reducer";
 import { Routes } from "react-router-dom";
 import { Route } from "react-router";
-import { Login } from "./page/components/login/Login";
-import NavBar from "./page/components/header/NavBar";
+import { Login } from "./page/components/Login/Login";
+import NavBar from "./page/components/Navbar/NavBar";
 import PreLoader from "./page/components/common/Preloader/Preloader";
-import DialogsContainer from "./page/components/dialogs/dialogsContainer";
-import UsersContainer from "./page/components/users/UsersContainer";
-import ProtectedRoutes from "./router/ProtectedRoutes";
-import Main from "./page/components/main/Main";
-import Music from "./page/components/music/music";
-import Settings from "./page/components/settings/settings";
-import Register from "./page/components/register/Register";
-import HelpPage from "./page/components/help-page/HelpPage";
-
-const ProfilePage = React.lazy(
-  () => import("./page/components/profile-page/ProfilePage")
-);
+import DialogsContainer from "./page/components/Dialogs/dialogsContainer";
+import UsersContainer from "./page/components/Users/UsersContainer";
+import ProtectedRoutes from "./utils/ProtectedRoutes";
+import Main from "./page/components/Main/Main";
+import Music from "./page/components/Music/Music";
+import Settings from "./page/components/Settings/Settings";
+import Register from "./page/components/Register/Register";
+import HelpPage from "./page/components/Help/HelpPage";
+const ProfilePage = React.lazy(() => import("./page/profile-page/ProfilePage"));
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -63,7 +60,7 @@ const App = () => {
             <Route path="/settings" element={<Settings />} />
             <Route path="/help" element={<HelpPage />} />
           </Route>
-          {/*<Route path="*" element={<Navigate to="/" />} />*/}
+          <Route path="*" element={<Main />} />
         </Routes>
       </div>
     </div>

@@ -33,23 +33,21 @@ export interface ILog {
   rememberMe: boolean;
 }
 
-export const getAuthUserData = createAsyncThunk<
-  void,
-  void,
-  { dispatch: AppDispatch }
->("auth/getAuthUser", async function (_, { dispatch }) {
-  const response = await authAPI.authMe();
-  if (response.resultCode === ResultCodeEnum.success) {
-    const { id, email, login } = response.data;
-    dispatch(setUserData({ id, email, login, isAuth: true }));
-    dispatch(setCaptchaUrl(null));
-    dispatch(getUserProfile(id));
+export const getAuthUserData = createAsyncThunk<void, void>(
+  "auth/getAuthUser",
+  async function (_, { dispatch }) {
+    const response = await authAPI.authMe();
+    if (response.resultCode === ResultCodeEnum.success) {
+      const { id, email, login } = response.data;
+      dispatch(setUserData({ id, email, login, isAuth: true }));
+      dispatch(setCaptchaUrl(null));
+      dispatch(getUserProfile(id));
+    }
   }
-  return;
-});
+);
 
 export const login = createAsyncThunk<void, any, { dispatch: AppDispatch }>(
-  "auth/login",
+  "auth/Login",
   async function ({ email, password, rememberMe, captcha }, { dispatch }) {
     const response = await authAPI.login(email, password, rememberMe, captcha);
     if (response.resultCode === ResultCodeEnum.success) {
