@@ -3,14 +3,12 @@ import { IAPIResponse, instance } from "./api";
 
 export const profileAPI = {
   getProfile(userId: number | null) {
-    console.log("profileAPI");
     return instance
       .get<IProfileData>("profile/" + userId)
       .then((response) => response.data);
   },
 
   getUserStatus(userID: number | null) {
-    console.log("statusAPI");
     return instance
       .get<string>(`profile/status/${userID}`)
       .then((response) => response.data);
