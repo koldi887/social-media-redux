@@ -1,6 +1,10 @@
 import React from "react";
 import classes from "./ProfileInfoData.module.css";
-import { IProfileContacts, IProfileData } from "../../../../types/IProfileData";
+import {
+  IProfileContacts,
+  IProfileData,
+  profileData,
+} from "../../../../types/IProfileData";
 import { Button } from "@material-ui/core";
 import { capitalize } from "../../../../utils/capitalize";
 
@@ -32,7 +36,7 @@ const ProfileInfoData: React.FC<IProfileInfoProps> = ({
       {Object.keys(profile.contacts).map((key) => {
         return (
           <div key={key}>
-            <b>{capitalize(key)}</b>:{" "}
+            <b>{capitalize(key)}</b>
             {profile.contacts[key as keyof IProfileContacts]}
           </div>
         );

@@ -2,7 +2,6 @@ import { usersAPI } from "../api/users-api";
 import { IAPIResponse, ResultCodeEnum } from "../api/api";
 import { followingInProgress, followUnfollowUser } from "./users-reducer";
 
-jest.mock("../api/Users-api");
 const userAPIMock = usersAPI as jest.Mocked<typeof usersAPI>;
 
 const dispatchMock = jest.fn();
@@ -30,4 +29,5 @@ describe("user reducer thunks", () => {
     expect(dispatchMock).toHaveBeenCalledWith(followingInProgress(2));
     expect(dispatchMock).toBeCalledTimes(2);
   });
+
 });

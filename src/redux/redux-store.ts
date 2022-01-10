@@ -5,7 +5,7 @@ import appSlice from "./app-reducer";
 import authSlice from "./auth-reducer";
 import profileSlice from "./profile-reducer";
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   profilePage: profileSlice,
   dialogsPage: dialogsPageSlice,
   usersPage: UsersSlice,
