@@ -1,14 +1,8 @@
-import {
-  createAsyncThunk,
-  createSlice,
-  PayloadAction,
-  ThunkAction,
-} from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ResultCodeEnum } from "../api/api";
 import { IUser } from "../types/IUser";
 import { AppDispatch, RootState } from "./redux-store";
 import { usersAPI } from "../api/users-api";
-import { setUserData } from "./auth-reducer";
 
 export interface IUsersState {
   users: IUser[];

@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import classes from "./ProfileStatus.module.css";
 import { useAppDispatch } from "../../../../hooks/redux";
 import { Button, TextField } from "@material-ui/core";
-import { useToggle } from "../../../../hooks/useToggle";
 import { updateProfileStatus } from "../../../../redux/profile-reducer";
 
-const ProfileStatus: React.FC = () => {
+interface IStatusProps {
+  setStatusToggle: () => void;
+}
+
+const ProfileStatus: React.FC<IStatusProps> = ({ setStatusToggle }) => {
   const dispatch = useAppDispatch();
   const [newStatus, setNewStatus] = useState("");
-  const [toggleValue, setToggleValue] = useToggle(false);
 
   const onStatusChange = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -18,43 +20,31 @@ const ProfileStatus: React.FC = () => {
 
   const onStatusSave = () => {
     dispatch(updateProfileStatus(newStatus));
-    setToggleValue();
+    setStatusToggle();
   };
 
   return (
-    <div>
-      <Button
+    <div className={classes.statusContainer}>
+      <i
+        className={`fas fa-times fa-lg ${classes.closeIcon}`}
+        onClick={setStatusToggle}
+      />
+      <TextField
+        fullWidth
+        label="New status"
         variant="outlined"
-        size={"small"}
+        color="primary"
+        size="small"
+        onChange={(e) => onStatusChange(e)}
+      />
+      <Button
+        variant="contained"
         color={"primary"}
-        onClick={setToggleValue}
+        size={"small"}
+        onClick={onStatusSave}
       >
-        Set Status
+        Save
       </Button>
-      {toggleValue && (
-        <div className={classes.statusContainerActive}>
-          <i
-            className={`fas fa-times fa-lg ${classes.closeIcon}`}
-            onClick={setToggleValue}
-          />
-          <TextField
-            fullWidth
-            label="New status"
-            variant="outlined"
-            color="primary"
-            size="small"
-            onChange={(e) => onStatusChange(e)}
-          />
-          <Button
-            variant="contained"
-            color={"primary"}
-            size={"small"}
-            onClick={onStatusSave}
-          >
-            Save
-          </Button>
-        </div>
-      )}
     </div>
   );
 };

@@ -10,6 +10,7 @@ import { capitalize } from "../../../utils/capitalize";
 import ProfileInfoData from "./ProfileInfoData/ProfileInfoData";
 import ProfileDataForm from "./ProfileDataForm/ProfileDataForm";
 import { useToggle } from "../../../hooks/useToggle";
+import { Button } from "@material-ui/core";
 
 interface IProfileInfoProps {
   paramsUserId: string | undefined;
@@ -18,6 +19,7 @@ interface IProfileInfoProps {
 const ProfileInfo: React.FC<IProfileInfoProps> = ({ paramsUserId }) => {
   const dispatch = useAppDispatch();
   const [editMode, setEditMode] = useToggle(false);
+  const [statusToggle, setStatusToggle] = useToggle(false);
   const { profile } = useAppSelector(profileSelector);
 
   useEffect(() => {
@@ -25,10 +27,24 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ paramsUserId }) => {
       dispatch(getUserProfile(paramsUserId as unknown as number));
     }
   }, [dispatch, paramsUserId]);
+
   return (
     <div className={classes.profileInfoContainer}>
       <h2 className={classes.profileName}>{capitalize(profile.fullName)}</h2>
-      {!paramsUserId && <ProfileStatus />}
+
+      {!paramsUserId && (
+        <Button
+          variant="outlined"
+          size={"small"}
+          color={"primary"}
+          onClick={setStatusToggle}
+        >
+          Set Status
+        </Button>
+      )}
+      {!paramsUserId && statusToggle && (
+        <ProfileStatus setStatusToggle={setStatusToggle} />
+      )}
       {editMode ? (
         <ProfileDataForm profile={profile} setEditMode={setEditMode} />
       ) : (
