@@ -8,9 +8,17 @@ export interface IRequestUserAPI {
 }
 
 export const usersAPI = {
-  requestUsers(page: number, pageSize: number) {
+  requestUsers(
+    currentPage = 1,
+    pageSize = 10,
+    term = "",
+    friend: null | boolean
+  ) {
     return instance
-      .get<IRequestUserAPI>(`users?page=${page}&count=${pageSize}`)
+      .get<IRequestUserAPI>(
+        `users?page=${currentPage}&count=${pageSize}&term=${term}` +
+          (friend === null ? "" : `&friend=${friend}`)
+      )
       .then((response) => response.data);
   },
 
