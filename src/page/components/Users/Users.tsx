@@ -49,6 +49,7 @@ const Users: React.FC<IProps> = ({
         }`}
       >
         {isFetching ? <PreLoader /> : null}
+        {totalUsersCount === 0 && !isFetching && <h1>Users not found</h1>}
         {users.map((user) => (
           <User
             key={user.id}

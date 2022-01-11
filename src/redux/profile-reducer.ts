@@ -3,7 +3,6 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "./redux-store";
 import { IPhotoType, IProfileData, profileData } from "../types/IProfileData";
 import { profileAPI } from "../api/profile-api";
-import { capitalize } from "../utils/capitalize";
 
 export interface IPosts {
   id: number | null;

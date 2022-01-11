@@ -10,8 +10,7 @@ import Users from "./Users";
 
 const UsersContainer = () => {
   const dispatch = useAppDispatch();
-
-  const { users, isFetching } = useAppSelector(usersSelector);
+  const { users, isFetching, filter } = useAppSelector(usersSelector);
   const { isAuth } = useAppSelector(authSelector);
   const { totalUsersCount } = useAppSelector(usersSelector);
   const [currentPage, setCurrentPage] = useState(1);
@@ -23,12 +22,29 @@ const UsersContainer = () => {
 
   const onPageChanged = (currentPage: number) => {
     setCurrentPage(currentPage);
-    dispatch(requestUsers({ pageSize, currentPage }));
+    dispatch(
+      requestUsers({
+        pageSize,
+        currentPage,
+        term: filter.term,
+        friend: filter.friend,
+      })
+    );
   };
 
   useEffect(() => {
-    dispatch(requestUsers({ pageSize, currentPage }));
-  }, [dispatch]);
+    dispatch(
+      requestUsers({
+        pageSize,
+        currentPage,
+        term: filter.term,
+        friend: filter.friend,
+      })
+    );
+    if (currentPage > 1) {
+      setCurrentPage(1);
+    }
+  }, [dispatch, filter]);
 
   return (
     <Users

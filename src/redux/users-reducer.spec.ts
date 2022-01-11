@@ -35,6 +35,10 @@ const initialState: IUsersState = {
   status: "",
   error: "",
   totalUsersCount: 0,
+  filter: {
+    term: "",
+    friend: null,
+  },
 };
 
 describe("user reducer sync actions", () => {

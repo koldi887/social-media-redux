@@ -5,6 +5,7 @@ import LoggedNavbar from "./LoggedNavbar";
 import { useAppSelector } from "../../../hooks/redux";
 import { authSelector } from "../../../redux/auth-reducer";
 import { useNavigate } from "react-router-dom";
+import SearchBox from "./Search/SearchBox";
 
 const NavBar = () => {
   const { isAuth } = useAppSelector(authSelector);
@@ -24,14 +25,7 @@ const NavBar = () => {
             className={classes.navLogo}
             onClick={onMainPageClick}
           />
-          <div className={classes.inputBlock}>
-            <i className={`fas fa-search ${classes.searchIcon}`} />
-            <input
-              type="search"
-              placeholder={"Search"}
-              className={classes.searchInput}
-            />
-          </div>
+          <SearchBox />
         </div>
         {isAuth && <LoggedNavbar />}
       </div>

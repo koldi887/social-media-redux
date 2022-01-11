@@ -11,6 +11,10 @@ export interface IUsersState {
   status: string;
   error: string;
   totalUsersCount: number;
+  filter: {
+    term: string;
+    friend: null | boolean;
+  };
 }
 
 const initialState: IUsersState = {
@@ -20,20 +24,32 @@ const initialState: IUsersState = {
   status: "",
   error: "",
   totalUsersCount: 0,
+  filter: {
+    term: "",
+    friend: null,
+  },
 };
 
-interface IRequestUsers {
+interface IRequestResponse {
   items: IUser[];
   totalCount: number;
   error: null | string;
 }
 
 export const requestUsers = createAsyncThunk<
-  IRequestUsers,
-  { pageSize: number; currentPage: number }
->("Users/getUsers", async function ({ pageSize, currentPage }) {
-  return await usersAPI.requestUsers(currentPage, pageSize);
-});
+  IRequestResponse,
+  {
+    pageSize: number;
+    currentPage: number;
+    term: string;
+    friend: null | boolean;
+  }
+>(
+  "Users/requestUsers",
+  async function ({ pageSize, currentPage, term, friend }) {
+    return await usersAPI.requestUsers(currentPage, pageSize, term, friend);
+  }
+);
 
 export const followUnfollowUser = createAsyncThunk<
   void,
@@ -68,6 +84,9 @@ const usersSlice = createSlice({
       });
       state.followingInProgress = [];
     },
+    setFilter(state, action: PayloadAction<FilterType>) {
+      state.filter = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(requestUsers.pending, (state) => {
@@ -77,7 +96,7 @@ const usersSlice = createSlice({
 
     builder.addCase(
       requestUsers.fulfilled,
-      (state, action: PayloadAction<IRequestUsers>) => {
+      (state, action: PayloadAction<IRequestResponse>) => {
         const { items, totalCount } = action.payload;
         state.isFetching = false;
         state.users = items;
@@ -87,7 +106,8 @@ const usersSlice = createSlice({
   },
 });
 
-export const { followingInProgress, followUnfollowUserSuccess } =
+export const { followingInProgress, followUnfollowUserSuccess, setFilter } =
   usersSlice.actions;
 export const usersSelector = (state: RootState) => state.usersPage;
 export default usersSlice.reducer;
+export type FilterType = typeof initialState.filter;
