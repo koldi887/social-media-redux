@@ -34,6 +34,8 @@ const initialState: IUsersState = {
   isFetching: true,
   status: "",
   error: "",
+  pageSize: 15,
+  currentPage: 1,
   totalUsersCount: 0,
   filter: {
     term: "",

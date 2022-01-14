@@ -6,6 +6,8 @@ import { IUser } from "../../../types/IUser";
 import { useLocation, useNavigate } from "react-router-dom";
 import NewPaginator from "../common/Paginator/Paginator";
 import { Button } from "@material-ui/core";
+import SearchBox from "../Navbar/Search/SearchBox";
+import { FilterType } from "../../../redux/users-reducer";
 
 interface IProps {
   users: Array<IUser>;
@@ -30,10 +32,11 @@ const Users: React.FC<IProps> = ({
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
+
   return (
     <div
       className={
-        location.pathname !== "/Users"
+        location.pathname !== "/users"
           ? classes.usersContainerProfilePage
           : classes.usersPageContainer
       }
@@ -43,13 +46,13 @@ const Users: React.FC<IProps> = ({
       </div>
       <div
         className={`${
-          location.pathname !== "/Users"
+          location.pathname !== "/users"
             ? classes.usersBlockProfilePage
             : classes.usersBlock
         }`}
       >
         {isFetching ? <PreLoader /> : null}
-        {totalUsersCount === 0 && !isFetching && <h1>Users not found</h1>}
+        {!totalUsersCount && !isFetching && <h1>Users not found</h1>}
         {users.map((user) => (
           <User
             key={user.id}
@@ -60,7 +63,7 @@ const Users: React.FC<IProps> = ({
         ))}
       </div>
       <div>
-        {location.pathname === "/Users" ? (
+        {location.pathname === "/users" ? (
           <NewPaginator
             currentPage={currentPage}
             onPageChanged={onPageChanged}
@@ -70,7 +73,7 @@ const Users: React.FC<IProps> = ({
         ) : (
           <Button
             variant="outlined"
-            onClick={() => navigate("/Users")}
+            onClick={() => navigate("/users")}
             color={"primary"}
           >
             Show all users

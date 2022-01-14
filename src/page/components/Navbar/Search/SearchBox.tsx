@@ -1,8 +1,13 @@
 import React from "react";
 import classes from "./SearchBox.module.css";
 import { useForm } from "react-hook-form";
-import { useAppDispatch } from "../../../../hooks/redux";
-import { FilterType, setFilter } from "../../../../redux/users-reducer";
+import { useAppDispatch, useAppSelector } from "../../../../hooks/redux";
+import {
+  FilterType,
+  requestUsers,
+  usersSelector,
+} from "../../../../redux/users-reducer";
+import { friendParamValueConvert } from "../../../../utils/friendParamValueConvert";
 
 export interface ISearchForm {
   term: string;
@@ -10,15 +15,17 @@ export interface ISearchForm {
 }
 
 const SearchBox: React.FC = () => {
-  const dispatch = useAppDispatch();
+  const { filter, pageSize } = useAppSelector(usersSelector);
   const { register, handleSubmit } = useForm();
+
+  const dispatch = useAppDispatch();
 
   const onSearchSubmit = (data: ISearchForm) => {
     const filter: FilterType = {
       ...data,
-      friend: data.friend === "null" ? null : data.friend === "true",
+      friend: friendParamValueConvert(data.friend),
     };
-    dispatch(setFilter(filter));
+    dispatch(requestUsers({ pageSize, page: 1, filter }));
   };
 
   return (
@@ -28,12 +35,17 @@ const SearchBox: React.FC = () => {
     >
       <i className={`fas fa-search ${classes.searchIcon}`} />
       <input
+        defaultValue={filter.term}
         type="search"
         placeholder={"Search for users"}
         className={classes.searchInput}
         {...register("term")}
       />
-      <select className={classes.selectBlock} {...register("friend")}>
+      <select
+        defaultValue={String(filter.friend)}
+        className={classes.selectBlock}
+        {...register("friend")}
+      >
         <option value="null">All users</option>
         <option value="true">Followed</option>
         <option value="false">Not Followed</option>

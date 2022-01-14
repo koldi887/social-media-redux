@@ -8,7 +8,7 @@ export const dropdownElements = [
   },
   {
     name: "Settings",
-    path: "/Settings",
+    path: "/settings",
     logo: <i className="fas fa-cog" />,
   },
   {

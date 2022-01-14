@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   followUnfollowUser,
   requestUsers,
@@ -7,44 +7,56 @@ import {
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { authSelector } from "../../../redux/auth-reducer";
 import Users from "./Users";
+import { useLocation, useSearchParams } from "react-router-dom";
+import { friendParamValueConvert } from "../../../utils/friendParamValueConvert";
 
 const UsersContainer = () => {
-  const dispatch = useAppDispatch();
-  const { users, isFetching, filter } = useAppSelector(usersSelector);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { users, isFetching, filter, totalUsersCount, currentPage, pageSize } =
+    useAppSelector(usersSelector);
   const { isAuth } = useAppSelector(authSelector);
-  const { totalUsersCount } = useAppSelector(usersSelector);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize] = useState(15);
+
+  const dispatch = useAppDispatch();
+  const location = useLocation();
+
+  useEffect(() => {
+    const searchTerm = searchParams.get("term");
+    const searchFriend = friendParamValueConvert(searchParams.get("friend"));
+    const searchPage = Number(searchParams.get("page"));
+
+    let actualPage = currentPage;
+    let actualFilter = filter;
+
+    if (searchPage) actualPage = searchPage;
+    if (searchTerm) actualFilter = { ...actualFilter, term: searchTerm };
+    if (searchFriend) actualFilter = { ...actualFilter, friend: searchFriend };
+
+    dispatch(
+      requestUsers({ page: actualPage, pageSize, filter: actualFilter })
+    );
+  }, []);
+
+  useEffect(() => {
+    if (location.pathname === "/users") {
+      let actualParams = {};
+      if (filter.term) actualParams = { term: filter.term };
+      if (filter.friend !== null) {
+        actualParams = { ...actualParams, friend: filter.friend };
+      }
+      if (currentPage !== 1) {
+        actualParams = { ...actualParams, page: currentPage };
+      }
+      setSearchParams(actualParams);
+    }
+  }, [filter, currentPage]);
 
   const onUserFollow = (userId: number, followed: boolean) => {
     dispatch(followUnfollowUser({ userId, followed }));
   };
 
   const onPageChanged = (currentPage: number) => {
-    setCurrentPage(currentPage);
-    dispatch(
-      requestUsers({
-        pageSize,
-        currentPage,
-        term: filter.term,
-        friend: filter.friend,
-      })
-    );
+    dispatch(requestUsers({ pageSize, page: currentPage, filter }));
   };
-
-  useEffect(() => {
-    dispatch(
-      requestUsers({
-        pageSize,
-        currentPage,
-        term: filter.term,
-        friend: filter.friend,
-      })
-    );
-    if (currentPage > 1) {
-      setCurrentPage(1);
-    }
-  }, [dispatch, filter]);
 
   return (
     <Users

@@ -8,13 +8,13 @@ import { usersSelector } from "../../../redux/users-reducer";
 import { IUser } from "../../../types/IUser";
 import { capitalize } from "../../../utils/capitalize";
 
-interface IProps {
+interface IUserProps {
   user: IUser;
   isAuth: Boolean;
   onUserFollow: (userId: number, followed: boolean) => void;
 }
 
-const User: React.FC<IProps> = ({ user, isAuth, onUserFollow }) => {
+const User: React.FC<IUserProps> = ({ user, isAuth, onUserFollow }) => {
   const { followingInProgress } = useSelector(usersSelector);
   return (
     <div className={classes.userBlock} key={user.id}>

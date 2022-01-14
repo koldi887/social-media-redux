@@ -10,6 +10,8 @@ export interface IUsersState {
   isFetching: boolean;
   status: string;
   error: string;
+  pageSize: number;
+  currentPage: number;
   totalUsersCount: number;
   filter: {
     term: string;
@@ -23,6 +25,8 @@ const initialState: IUsersState = {
   isFetching: true,
   status: "",
   error: "",
+  pageSize: 15,
+  currentPage: 1,
   totalUsersCount: 0,
   filter: {
     term: "",
@@ -40,14 +44,20 @@ export const requestUsers = createAsyncThunk<
   IRequestResponse,
   {
     pageSize: number;
-    currentPage: number;
-    term: string;
-    friend: null | boolean;
+    page: number;
+    filter: FilterType;
   }
 >(
   "Users/requestUsers",
-  async function ({ pageSize, currentPage, term, friend }) {
-    return await usersAPI.requestUsers(currentPage, pageSize, term, friend);
+  async function ({ pageSize, page, filter }, { dispatch }) {
+    dispatch(setCurrentPage(page));
+    dispatch(setFilter(filter));
+    return await usersAPI.requestUsers(
+      page,
+      pageSize,
+      filter.term,
+      filter.friend
+    );
   }
 );
 
@@ -87,6 +97,9 @@ const usersSlice = createSlice({
     setFilter(state, action: PayloadAction<FilterType>) {
       state.filter = action.payload;
     },
+    setCurrentPage(state, action) {
+      state.currentPage = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(requestUsers.pending, (state) => {
@@ -106,8 +119,12 @@ const usersSlice = createSlice({
   },
 });
 
-export const { followingInProgress, followUnfollowUserSuccess, setFilter } =
-  usersSlice.actions;
+export const {
+  followingInProgress,
+  followUnfollowUserSuccess,
+  setFilter,
+  setCurrentPage,
+} = usersSlice.actions;
 export const usersSelector = (state: RootState) => state.usersPage;
 export default usersSlice.reducer;
 export type FilterType = typeof initialState.filter;
