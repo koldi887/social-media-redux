@@ -2,11 +2,11 @@ import React from "react";
 import classes from "./User.module.css";
 import { NavLink } from "react-router-dom";
 import { Avatar, Button } from "@material-ui/core";
-import userPhoto from "../../../assets/img/noAvatar.png";
+import userPhoto from "../../../../assets/img/noAvatar.png";
 import { useSelector } from "react-redux";
-import { usersSelector } from "../../../redux/users-reducer";
-import { IUser } from "../../../types/IUser";
-import { capitalize } from "../../../utils/capitalize";
+import { usersSelector } from "../../../../redux/users-reducer";
+import { IUser } from "../../../../types/IUser";
+import { capitalize } from "../../../../utils/capitalize";
 
 interface IUserProps {
   user: IUser;

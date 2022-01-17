@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./Users.module.css";
 import PreLoader from "../common/Preloader/Preloader";
-import User from "./User";
+import User from "./User/User";
 import { IUser } from "../../../types/IUser";
 import { useLocation, useNavigate } from "react-router-dom";
 import NewPaginator from "../common/Paginator/Paginator";
