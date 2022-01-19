@@ -1,35 +1,31 @@
-import React from "react";
-import classes from "./Login.module.css";
-import { useForm } from "react-hook-form";
-import { authSelector, ILog, login } from "../../../redux/auth-reducer";
-import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
-import { Navigate } from "react-router-dom";
-import {
-  Button,
-  Checkbox,
-  FormControlLabel,
-  TextField,
-} from "@material-ui/core";
-import { ErrorMessage } from "@hookform/error-message";
+import React from 'react'
+import classes from './Login.module.css'
+import { useForm } from 'react-hook-form'
+import { authSelector, ILog, login } from '../../../redux/auth-reducer'
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
+import { Navigate } from 'react-router-dom'
+import { Button, Checkbox, FormControlLabel, TextField } from '@material-ui/core'
+import { ErrorMessage } from '@hookform/error-message'
 
 export const Login = () => {
-  const dispatch = useAppDispatch();
-  const { isAuth, captchaUrl } = useAppSelector(authSelector);
-  const loginErrors = useAppSelector((state) => state.auth.errors?.loginErrors);
+  const dispatch = useAppDispatch()
+  const { isAuth, captchaUrl } = useAppSelector(authSelector)
+  const loginErrors = useAppSelector((state) => state.auth.errors?.loginErrors)
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<ILog>()
 
-  const onSubmit = (data: ILog) => {
-    dispatch(login(data));
-  };
-  if (isAuth) return <Navigate to={"/profile"} />;
+  const onSubmit = handleSubmit((data) => {
+    dispatch(login(data))
+  })
+
+  if (isAuth) return <Navigate to={'/profile'} />
   return (
     <div className={classes.formContainer}>
-      <form className={classes.loginForm} onSubmit={handleSubmit(onSubmit)}>
+      <form className={classes.loginForm} onSubmit={onSubmit}>
         {loginErrors &&
           loginErrors.map((error, index) => (
             <span key={index} className={classes.errorMessage}>
@@ -40,8 +36,8 @@ export const Login = () => {
         <TextField
           label="Email"
           variant="outlined"
-          size={"small"}
-          {...register("email", {
+          size={'small'}
+          {...register('email', {
             required: true,
           })}
         />
@@ -50,20 +46,20 @@ export const Login = () => {
           type="password"
           label="Password"
           variant="outlined"
-          size={"small"}
-          {...register("password", {
+          size={'small'}
+          {...register('password', {
             required: true,
             minLength: {
               value: 5,
-              message: "Minimum length is 5",
+              message: 'Minimum length is 5',
             },
           })}
         />
-
         <ErrorMessage errors={errors} name="password" />
+
         <div className={classes.formCheckBoxBlock}>
           <FormControlLabel
-            control={<Checkbox {...register("lookingForAJob")} />}
+            control={<Checkbox {...register('rememberMe')} />}
             label="Remember Me"
           />
         </div>
@@ -71,7 +67,7 @@ export const Login = () => {
         {captchaUrl && (
           <div className={classes.captcha}>
             <img src={captchaUrl} alt="captcha" />
-            <input type="text" {...register("captcha")} />
+            <input type="text" {...register('captcha')} />
           </div>
         )}
 
@@ -80,5 +76,5 @@ export const Login = () => {
         </Button>
       </form>
     </div>
-  );
-};
+  )
+}

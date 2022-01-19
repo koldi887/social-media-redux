@@ -1,67 +1,56 @@
-import React from "react";
-import classes from "./ProfileDataForm.module.css";
-import { IProfileData } from "../../../../types/IProfileData";
-import { useForm } from "react-hook-form";
-import {
-  Button,
-  Checkbox,
-  FormControlLabel,
-  TextField,
-} from "@material-ui/core";
-import { useAppDispatch } from "../../../../hooks/redux";
-import { saveProfileInfo } from "../../../../redux/profile-reducer";
-import { useToggle } from "../../../../hooks/useToggle";
-import { ErrorMessage } from "@hookform/error-message";
+import React from 'react'
+import classes from './ProfileDataForm.module.css'
+import { IProfileData } from '../../../../types/IProfileData'
+import { useForm } from 'react-hook-form'
+import { Button, Checkbox, FormControlLabel, TextField } from '@material-ui/core'
+import { useAppDispatch } from '../../../../hooks/redux'
+import { saveProfileInfo } from '../../../../redux/profile-reducer'
+import { useToggle } from '../../../../hooks/useToggle'
+import { ErrorMessage } from '@hookform/error-message'
 
 interface IProfileFormProps {
-  profile: IProfileData;
-  setEditMode: () => void;
+  profile: IProfileData
+  setEditMode: () => void
 }
 
-const ProfileDataForm: React.FC<IProfileFormProps> = ({
-  profile,
-  setEditMode,
-}) => {
-  const lookingForAJob = profile.lookingForAJob;
-  const dispatch = useAppDispatch();
-  const [toggleValue, setToggleValue] = useToggle(lookingForAJob);
+const ProfileDataForm: React.FC<IProfileFormProps> = ({ profile, setEditMode }) => {
+  const lookingForAJob = profile.lookingForAJob
+  const dispatch = useAppDispatch()
+  const [toggleValue, setToggleValue] = useToggle(lookingForAJob)
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<IProfileData>()
 
-  const onProfileInfoSubmit = (profileData: object) => {
-    dispatch(saveProfileInfo(profileData));
-    setEditMode();
-  };
+  const onProfileInfoSubmit = handleSubmit((profileData) => {
+    dispatch(saveProfileInfo(profileData))
+    setEditMode()
+  })
 
   return (
-    <form
-      className={classes.editForm}
-      onSubmit={handleSubmit((data) => onProfileInfoSubmit(data))}
-    >
+    <form className={classes.editForm} onSubmit={onProfileInfoSubmit}>
       <label className={classes.editProfileLabel}>Edit Profile:</label>
       <TextField
         label="Full name"
         variant="outlined"
-        size={"small"}
+        size={'small'}
         defaultValue={profile.fullName}
-        {...register("FullName", {
-          required: "This field is required",
+        {...register('fullName', {
+          required: 'This field is required',
         })}
       />
       <ErrorMessage errors={errors} name="FullName" />
       <FormControlLabel
+        label="Looking for a Job"
         control={
           <Checkbox
             defaultChecked={profile.lookingForAJob}
             onClick={setToggleValue}
-            {...register("lookingForAJob")}
+            {...register('lookingForAJob')}
           />
         }
-        label="Looking for a Job"
       />
 
       {toggleValue && (
@@ -74,8 +63,8 @@ const ProfileDataForm: React.FC<IProfileFormProps> = ({
             defaultValue={profile.lookingForAJobDescription}
             multiline
             fullWidth
-            {...register("LookingForAJobDescription", {
-              required: "This field is required",
+            {...register('lookingForAJobDescription', {
+              required: 'This field is required',
             })}
           />
           <ErrorMessage errors={errors} name="LookingForAJobDescription" />
@@ -86,12 +75,12 @@ const ProfileDataForm: React.FC<IProfileFormProps> = ({
         id="standard-multiline-static"
         label="About me"
         variant="outlined"
-        size={"small"}
+        size={'small'}
         defaultValue={profile.aboutMe}
         rows={4}
         multiline
         fullWidth
-        {...register("AboutMe")}
+        {...register('aboutMe')}
       />
       <section className={classes.contactsList}>
         <label className={classes.contactsLabel}>Contacts:</label>
@@ -103,7 +92,7 @@ const ProfileDataForm: React.FC<IProfileFormProps> = ({
             variant="outlined"
             size="small"
             defaultValue={value}
-            {...register(`contacts.${item}`, {})}
+            {...register(`contacts`)}
           />
         ))}
       </section>
@@ -111,17 +100,12 @@ const ProfileDataForm: React.FC<IProfileFormProps> = ({
         <Button type="submit" size="small" variant="contained" color="primary">
           Edit Info
         </Button>
-        <Button
-          variant="outlined"
-          size="small"
-          color="primary"
-          onClick={setEditMode}
-        >
+        <Button variant="outlined" size="small" color="primary" onClick={setEditMode}>
           Cancel
         </Button>
       </section>
     </form>
-  );
-};
+  )
+}
 
-export default ProfileDataForm;
+export default ProfileDataForm
