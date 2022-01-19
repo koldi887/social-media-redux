@@ -20,16 +20,16 @@ import { Chat } from './page/components/Chat/Chat'
 const ProfilePage = React.lazy(() => import('./page/profile-page/ProfilePage'))
 
 const App = () => {
-  const dispatch = useAppDispatch()
   const { initialized } = useAppSelector(initialSlice)
 
-  const SuspendedProfilePage = withSuspense(ProfilePage)
+  const dispatch = useAppDispatch()
+  const SuspenseProfilePage = withSuspense(ProfilePage)
 
   useEffect(() => {
     if (!initialized) {
       dispatch(initializeApp())
     }
-  }, [dispatch, initialized])
+  }, [])
 
   if (!initialized) return <PreLoader />
   return (
@@ -41,9 +41,8 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route element={<ProtectedRoutes />}>
-            <Route path="/profile" element={<SuspendedProfilePage />}>
-              <Route path=":userId" element={<SuspendedProfilePage />} />
-            </Route>
+            <Route path="/profile" element={<SuspenseProfilePage />} />
+            <Route path="/profile/:userId" element={<SuspenseProfilePage />} />
             <Route path="/users" element={<UsersContainer />} />
             <Route path="/music" element={<Music />} />
             <Route path="/settings" element={<Settings />} />

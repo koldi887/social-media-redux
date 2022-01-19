@@ -8,9 +8,10 @@ import { Button, Checkbox, FormControlLabel, TextField } from '@material-ui/core
 import { ErrorMessage } from '@hookform/error-message'
 
 export const Login = () => {
-  const dispatch = useAppDispatch()
   const { isAuth, captchaUrl } = useAppSelector(authSelector)
   const loginErrors = useAppSelector((state) => state.auth.errors?.loginErrors)
+
+  const dispatch = useAppDispatch()
 
   const {
     register,
@@ -18,14 +19,14 @@ export const Login = () => {
     formState: { errors },
   } = useForm<ILog>()
 
-  const onSubmit = handleSubmit((data) => {
+  const onFormSubmit = handleSubmit((data) => {
     dispatch(login(data))
   })
 
   if (isAuth) return <Navigate to={'/profile'} />
   return (
     <div className={classes.formContainer}>
-      <form className={classes.loginForm} onSubmit={onSubmit}>
+      <form className={classes.loginForm} onSubmit={onFormSubmit}>
         {loginErrors &&
           loginErrors.map((error, index) => (
             <span key={index} className={classes.errorMessage}>
@@ -43,8 +44,8 @@ export const Login = () => {
         />
 
         <TextField
-          type="password"
           label="Password"
+          type="password"
           variant="outlined"
           size={'small'}
           {...register('password', {

@@ -1,13 +1,13 @@
-import React from "react";
-import classes from "./profilePage.module.css";
-import { useParams } from "react-router-dom";
-import UsersContainer from "../components/Users/UsersContainer";
-import ProfileInfo from "./ProfileInfo/ProfileInfo";
-import ProfileImage from "./ProfileImage/ProfileImage";
-import MyPostsContainer from "./MyPosts/MyPostContainer";
+import React from 'react'
+import classes from './ProfilePage.module.css'
+import { useParams } from 'react-router-dom'
+import UsersContainer from '../components/Users/UsersContainer'
+import ProfileInfo from './ProfileInfo/ProfileInfo'
+import ProfileImage from './ProfileImage/ProfileImage'
+import MyPostsContainer from './MyPosts/MyPostContainer'
 
 const ProfilePage = () => {
-  const { userId } = useParams<string>();
+  const { userId } = useParams<string>()
 
   return (
     <div className={classes.profilePageWrapper}>
@@ -26,7 +26,7 @@ const ProfilePage = () => {
         <UsersContainer />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProfilePage;
+export default ProfilePage

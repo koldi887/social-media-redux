@@ -36,6 +36,7 @@ export const Message: React.FC = () => {
   const { messages } = useAppSelector(chatSelector)
   const messageAnchorRef = useRef<HTMLDivElement>(null)
   const [isAutoScroll, setIsAutoScroll] = useState(true)
+
   const scrollHandler = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
     const element = e.currentTarget
     if (Math.abs(element.scrollHeight - element.scrollTop - element.clientHeight) < 300) {

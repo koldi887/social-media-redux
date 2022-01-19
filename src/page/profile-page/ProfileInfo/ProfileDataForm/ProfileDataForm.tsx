@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from './ProfileDataForm.module.css'
-import { IProfileData } from '../../../../types/IProfileData'
+import { IProfileContacts, IProfileData } from '../../../../types/IProfileData'
 import { useForm } from 'react-hook-form'
 import { Button, Checkbox, FormControlLabel, TextField } from '@material-ui/core'
 import { useAppDispatch } from '../../../../hooks/redux'
@@ -92,7 +92,7 @@ const ProfileDataForm: React.FC<IProfileFormProps> = ({ profile, setEditMode }) 
             variant="outlined"
             size="small"
             defaultValue={value}
-            {...register(`contacts`)}
+            {...register(`contacts.${item as keyof IProfileContacts}`)}
           />
         ))}
       </section>
