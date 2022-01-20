@@ -1,17 +1,14 @@
-import { IPhotoType, IProfileData } from "../types/IProfileData";
-import { IAPIResponse, instance } from "./api";
+import { IPhotoType, IProfileData } from '../types/IProfileData';
+import { IAPIResponse, instance } from './api';
 
 export const profileAPI = {
   getProfile(userId: number | null) {
-    return instance
-      .get<IProfileData>("profile/" + userId)
-      .then((response) => response.data);
+    console.log('profileAPI');
+    return instance.get<IProfileData>('profile/' + userId).then((response) => response.data);
   },
 
   getUserStatus(userID: number | null) {
-    return instance
-      .get<string>(`profile/status/${userID}`)
-      .then((response) => response.data);
+    return instance.get<string>(`profile/status/${userID}`).then((response) => response.data);
   },
 
   updateUserStatus(status: string) {
@@ -22,11 +19,11 @@ export const profileAPI = {
 
   updateProfilePhoto(photoFile: File) {
     const formData = new FormData();
-    formData.append("image", photoFile);
+    formData.append('image', photoFile);
     return instance
       .put<IAPIResponse<{ photos: IPhotoType }>>(`profile/photo`, formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          'Content-Type': 'multipart/form-data',
         },
       })
       .then((response) => response.data);

@@ -15,8 +15,9 @@ interface IProfileFormProps {
 
 const ProfileDataForm: React.FC<IProfileFormProps> = ({ profile, setEditMode }) => {
   const lookingForAJob = profile.lookingForAJob
-  const dispatch = useAppDispatch()
   const [toggleValue, setToggleValue] = useToggle(lookingForAJob)
+
+  const dispatch = useAppDispatch()
 
   const {
     register,

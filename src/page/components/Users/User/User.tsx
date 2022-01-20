@@ -1,22 +1,30 @@
-import React from 'react'
-import classes from './User.module.css'
-import { NavLink } from 'react-router-dom'
-import { ROUTE } from '../../../../routes/routing'
-import userPhoto from '../../../../assets/img/noAvatar.png'
-import { Avatar, Button } from '@material-ui/core'
-import { useSelector } from 'react-redux'
-import { usersSelector } from '../../../../redux/users-reducer'
-import { IUser } from '../../../../types/IUser'
-import { capitalize } from '../../../../utils/capitalize'
+import React from 'react';
+import classes from './User.module.css';
+import { NavLink } from 'react-router-dom';
+import { ROUTE } from '../../../../routes/routing';
+import userPhoto from '../../../../assets/img/noAvatar.png';
+import { Avatar, Button } from '@material-ui/core';
+import { useSelector } from 'react-redux';
+import { followUnfollowUser, usersSelector } from '../../../../redux/users-reducer';
+import { IUser } from '../../../../types/IUser';
+import { capitalize } from '../../../../utils/capitalize';
+import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
+import { authSelector } from '../../../../redux/auth-reducer';
 
 interface IUserProps {
-  user: IUser
-  isAuth: Boolean
-  onUserFollow: (userId: number, followed: boolean) => void
+  user: IUser;
 }
 
-const User: React.FC<IUserProps> = ({ user, isAuth, onUserFollow }) => {
-  const { followingInProgress } = useSelector(usersSelector)
+const User: React.FC<IUserProps> = ({ user }) => {
+  const { followingInProgress } = useSelector(usersSelector);
+  const { isAuth } = useAppSelector(authSelector);
+
+  const dispatch = useAppDispatch();
+
+  const onUserFollow = (userId: number, followed: boolean) => {
+    dispatch(followUnfollowUser({ userId, followed }));
+  };
+
   return (
     <div className={classes.userBlock} key={user.id}>
       <NavLink to={ROUTE.PROFILE + user.id} className={classes.userAvatar}>
@@ -48,7 +56,7 @@ const User: React.FC<IUserProps> = ({ user, isAuth, onUserFollow }) => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default User
+export default User;

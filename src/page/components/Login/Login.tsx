@@ -1,30 +1,30 @@
-import React from 'react'
-import classes from './Login.module.css'
-import { useForm } from 'react-hook-form'
-import { authSelector, ILog, login } from '../../../redux/auth-reducer'
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
-import { Navigate } from 'react-router-dom'
-import { Button, Checkbox, FormControlLabel, TextField } from '@material-ui/core'
-import { ErrorMessage } from '@hookform/error-message'
-import { ROUTE } from '../../../routes/routing'
+import React from 'react';
+import classes from './Login.module.css';
+import { useForm } from 'react-hook-form';
+import { authSelector, ILog, login } from '../../../redux/auth-reducer';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { Navigate } from 'react-router-dom';
+import { Button, Checkbox, FormControlLabel, TextField } from '@material-ui/core';
+import { ErrorMessage } from '@hookform/error-message';
+import { ROUTE } from '../../../routes/routing';
 
 export const Login = () => {
-  const { isAuth, captchaUrl } = useAppSelector(authSelector)
-  const loginErrors = useAppSelector((state) => state.auth.errors?.loginErrors)
+  const { isAuth, captchaUrl } = useAppSelector(authSelector);
+  const loginErrors = useAppSelector((state) => state.auth.errors?.loginErrors);
 
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ILog>()
+  } = useForm<ILog>();
 
   const onFormSubmit = handleSubmit((data) => {
-    dispatch(login(data))
-  })
+    dispatch(login(data));
+  });
 
-  if (isAuth) return <Navigate to={ROUTE.PROFILE} />
+  if (isAuth) return <Navigate to={ROUTE.PROFILE} />;
   return (
     <div className={classes.formContainer}>
       <form className={classes.loginForm} onSubmit={onFormSubmit}>
@@ -78,5 +78,5 @@ export const Login = () => {
         </Button>
       </form>
     </div>
-  )
-}
+  );
+};

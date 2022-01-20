@@ -1,26 +1,20 @@
-import React, { useState } from "react";
-import { addNewPost, profileSelector } from "../../../redux/profile-reducer";
-import MyPosts from "./MyPosts";
-import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
+import React, { useState } from 'react';
+import { addNewPost, profileSelector } from '../../../redux/profile-reducer';
+import MyPosts from './MyPosts';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
 const MyPostsContainer = () => {
-  const dispatch = useAppDispatch();
   const { posts } = useAppSelector(profileSelector);
-  const [newPost, setNewPost] = useState("");
+  const [newPost, setNewPost] = useState('');
+
+  const dispatch = useAppDispatch();
 
   const addPost = () => {
     dispatch(addNewPost(newPost));
-    setNewPost("");
+    setNewPost('');
   };
 
-  return (
-    <MyPosts
-      posts={posts}
-      addPost={addPost}
-      setNewPost={setNewPost}
-      newPost={newPost}
-    />
-  );
+  return <MyPosts posts={posts} addPost={addPost} setNewPost={setNewPost} newPost={newPost} />;
 };
 
 export default MyPostsContainer;

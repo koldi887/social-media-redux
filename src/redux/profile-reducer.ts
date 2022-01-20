@@ -1,8 +1,8 @@
-import { ResultCodeEnum } from "../api/api";
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "./redux-store";
-import { IPhotoType, IProfileData, profileData } from "../types/IProfileData";
-import { profileAPI } from "../api/profile-api";
+import { ResultCodeEnum } from '../api/api';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from './redux-store';
+import { IPhotoType, IProfileData, profileData } from '../types/IProfileData';
+import { profileAPI } from '../api/profile-api';
 
 export interface IPosts {
   id: number | null;
@@ -21,12 +21,12 @@ const initialState: IState = {
   posts: [
     {
       id: null,
-      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
+      text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
       likesCount: 12,
     },
   ],
   profile: profileData,
-  status: "",
+  status: '',
   isFetching: false,
 };
 
@@ -36,17 +36,17 @@ interface IProfile {
 }
 
 export const getUserProfile = createAsyncThunk<IProfile, number | null>(
-  "profile/getUserProfile",
+  'profile/getUserProfile',
   async function (userId) {
     const profileData = await profileAPI.getProfile(userId);
     let status = await profileAPI.getUserStatus(userId);
-    if (!status) status = "No status";
+    if (!status) status = 'No status';
     return { profileData, status };
   }
 );
 
 export const updateProfileStatus = createAsyncThunk<string | undefined, string>(
-  "profile/updateUserStatus",
+  'profile/updateUserStatus',
   async function (status) {
     const response = await profileAPI.updateUserStatus(status);
     if (response.data.resultCode === ResultCodeEnum.success) {
@@ -55,9 +55,8 @@ export const updateProfileStatus = createAsyncThunk<string | undefined, string>(
     return;
   }
 );
-export const updateProfilePhoto = createAsyncThunk<IPhotoType, File>(
-  "profile/updateProfilePhoto",
-  // @ts-ignore
+export const updateProfilePhoto = createAsyncThunk<IPhotoType | undefined, File>(
+  'profile/updateProfilePhoto',
   async function (photoFile) {
     const response = await profileAPI.updateProfilePhoto(photoFile);
     if (response.resultCode === ResultCodeEnum.success) {
@@ -66,12 +65,8 @@ export const updateProfilePhoto = createAsyncThunk<IPhotoType, File>(
   }
 );
 
-export const saveProfileInfo = createAsyncThunk<
-  void | string[],
-  object,
-  { state: RootState }
->(
-  "profile/updateProfilePhoto",
+export const saveProfileInfo = createAsyncThunk<void | string[], object, { state: RootState }>(
+  'profile/updateProfilePhoto',
   async function (profileData, { dispatch, getState }) {
     const authUserId = getState().auth.id;
     const response = await profileAPI.updateProfileInfo(profileData);
@@ -82,7 +77,7 @@ export const saveProfileInfo = createAsyncThunk<
 );
 
 const profileSlice = createSlice({
-  name: "profile",
+  name: 'profile',
   initialState,
   reducers: {
     addNewPost: (state, action: PayloadAction<string>) => {
@@ -98,13 +93,11 @@ const profileSlice = createSlice({
   },
 
   extraReducers: (builder) => {
-    builder.addCase(
-      getUserProfile.fulfilled,
-      (state, action: PayloadAction<IProfile>) => {
-        state.profile = action.payload.profileData;
-        state.status = action.payload.status;
-      }
-    );
+    builder.addCase(getUserProfile.fulfilled, (state, action: PayloadAction<IProfile>) => {
+      state.isFetching = false;
+      state.profile = action.payload.profileData;
+      state.status = action.payload.status;
+    });
 
     builder.addCase(
       updateProfileStatus.fulfilled,
@@ -119,9 +112,8 @@ const profileSlice = createSlice({
 
     builder.addCase(
       updateProfilePhoto.fulfilled,
-      (state, action: PayloadAction<IPhotoType>) => {
+      (state, action: PayloadAction<IPhotoType | undefined>) => {
         state.profile.photos = action.payload;
-        state.isFetching = false;
       }
     );
   },

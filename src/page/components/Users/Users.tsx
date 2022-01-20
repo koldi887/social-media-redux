@@ -1,39 +1,56 @@
-import React from 'react'
-import classes from './Users.module.css'
-import PreLoader from '../common/Preloader/Preloader'
-import User from './User/User'
-import { IUser } from '../../../types/IUser'
-import { useLocation, useNavigate } from 'react-router-dom'
-import NewPaginator from '../common/Paginator/Paginator'
-import { Button } from '@material-ui/core'
-import SearchBox from '../Navbar/Search/SearchBox'
-import { FilterType } from '../../../redux/users-reducer'
-import { ROUTE } from '../../../routes/routing'
+import React, { useEffect } from 'react';
+import classes from './Users.module.css';
+import PreLoader from '../common/Preloader/Preloader';
+import User from './User/User';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import NewPaginator from '../common/Paginator/Paginator';
+import { Button } from '@material-ui/core';
+import { requestUsers, usersSelector } from '../../../redux/users-reducer';
+import { ROUTE } from '../../../routes/routing';
+import { friendParamValueConvert } from '../../../utils/friendParamValueConvert';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
-interface IProps {
-  users: Array<IUser>
-  isAuth: boolean
-  isFetching: boolean
-  onUserFollow: (value: number, value2: boolean) => void
-  totalUsersCount: number
-  currentPage: number
-  pageSize: number
-  onPageChanged: (value: number) => void
-}
+const Users: React.FC = () => {
+  const { users, isFetching, filter, totalUsersCount, currentPage, pageSize } =
+    useAppSelector(usersSelector);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
+  const navigate = useNavigate();
 
-const Users: React.FC<IProps> = ({
-  users,
-  isAuth,
-  isFetching,
-  onUserFollow,
-  totalUsersCount,
-  currentPage,
-  pageSize,
-  onPageChanged,
-}) => {
-  const location = useLocation()
-  const navigate = useNavigate()
+  const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    const searchTerm = searchParams.get('term');
+    const searchFriend = friendParamValueConvert(searchParams.get('friend'));
+    const searchPage = Number(searchParams.get('page'));
+
+    let actualPage = currentPage;
+    let actualFilter = filter;
+
+    if (searchPage) actualPage = searchPage;
+    if (searchTerm) actualFilter = { ...actualFilter, term: searchTerm };
+    if (searchFriend) actualFilter = { ...actualFilter, friend: searchFriend };
+
+    dispatch(requestUsers({ page: actualPage, pageSize, filter: actualFilter }));
+  }, []);
+
+  useEffect(() => {
+    if (location.pathname === ROUTE.USERS) {
+      let actualParams = {};
+      if (filter.term) actualParams = { term: filter.term };
+      if (filter.friend !== null) {
+        actualParams = { ...actualParams, friend: filter.friend };
+      }
+      if (currentPage !== 1) {
+        actualParams = { ...actualParams, page: currentPage };
+      }
+      setSearchParams(actualParams);
+    }
+  }, [filter, currentPage]);
+
+  const onPageChanged = (currentPage: number) => {
+    dispatch(requestUsers({ pageSize, page: currentPage, filter }));
+  };
   return (
     <div
       className={
@@ -53,7 +70,7 @@ const Users: React.FC<IProps> = ({
         {isFetching ? <PreLoader /> : null}
         {!totalUsersCount && !isFetching && <h1>Users not found</h1>}
         {users.map((user) => (
-          <User key={user.id} user={user} onUserFollow={onUserFollow} isAuth={isAuth} />
+          <User key={user.id} user={user} />
         ))}
       </div>
       <div>
@@ -71,7 +88,7 @@ const Users: React.FC<IProps> = ({
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Users
+export default Users;
