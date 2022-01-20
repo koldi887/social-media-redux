@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 import { Navigate } from 'react-router-dom'
 import { Button, Checkbox, FormControlLabel, TextField } from '@material-ui/core'
 import { ErrorMessage } from '@hookform/error-message'
+import { ROUTE } from '../../../routes/routing'
 
 export const Login = () => {
   const { isAuth, captchaUrl } = useAppSelector(authSelector)
@@ -23,7 +24,7 @@ export const Login = () => {
     dispatch(login(data))
   })
 
-  if (isAuth) return <Navigate to={'/profile'} />
+  if (isAuth) return <Navigate to={ROUTE.PROFILE} />
   return (
     <div className={classes.formContainer}>
       <form className={classes.loginForm} onSubmit={onFormSubmit}>

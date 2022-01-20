@@ -1,31 +1,29 @@
-import React from "react";
-import classes from "./User.module.css";
-import { NavLink } from "react-router-dom";
-import { Avatar, Button } from "@material-ui/core";
-import userPhoto from "../../../../assets/img/noAvatar.png";
-import { useSelector } from "react-redux";
-import { usersSelector } from "../../../../redux/users-reducer";
-import { IUser } from "../../../../types/IUser";
-import { capitalize } from "../../../../utils/capitalize";
+import React from 'react'
+import classes from './User.module.css'
+import { NavLink } from 'react-router-dom'
+import { ROUTE } from '../../../../routes/routing'
+import userPhoto from '../../../../assets/img/noAvatar.png'
+import { Avatar, Button } from '@material-ui/core'
+import { useSelector } from 'react-redux'
+import { usersSelector } from '../../../../redux/users-reducer'
+import { IUser } from '../../../../types/IUser'
+import { capitalize } from '../../../../utils/capitalize'
 
 interface IUserProps {
-  user: IUser;
-  isAuth: Boolean;
-  onUserFollow: (userId: number, followed: boolean) => void;
+  user: IUser
+  isAuth: Boolean
+  onUserFollow: (userId: number, followed: boolean) => void
 }
 
 const User: React.FC<IUserProps> = ({ user, isAuth, onUserFollow }) => {
-  const { followingInProgress } = useSelector(usersSelector);
+  const { followingInProgress } = useSelector(usersSelector)
   return (
     <div className={classes.userBlock} key={user.id}>
-      <NavLink to={"/profile/" + user.id} className={classes.userAvatar}>
-        <Avatar
-          alt={user.name}
-          src={user.photos.small != null ? user.photos.small : userPhoto}
-        />
+      <NavLink to={ROUTE.PROFILE + user.id} className={classes.userAvatar}>
+        <Avatar alt={user.name} src={user.photos.small != null ? user.photos.small : userPhoto} />
       </NavLink>
       <p className={user.status ? classes.userStatus : classes.noStatus}>
-        {user.status ? capitalize(user.status) : "No status"}
+        {user.status ? capitalize(user.status) : 'No status'}
       </p>
       <p className={classes.userName}>{capitalize(user.name)}</p>
       <div>
@@ -42,9 +40,7 @@ const User: React.FC<IUserProps> = ({ user, isAuth, onUserFollow }) => {
           <Button
             onClick={() => onUserFollow(user.id, user.followed)}
             className={classes.followBtn}
-            disabled={
-              isAuth ? followingInProgress.some((id) => id === user.id) : true
-            }
+            disabled={isAuth ? followingInProgress.some((id) => id === user.id) : true}
             color="primary"
           >
             Follow
@@ -52,7 +48,7 @@ const User: React.FC<IUserProps> = ({ user, isAuth, onUserFollow }) => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default User;
+export default User

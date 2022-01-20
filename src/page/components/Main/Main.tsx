@@ -4,6 +4,7 @@ import { Button } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import { useAppSelector } from '../../../hooks/redux'
 import { authSelector } from '../../../redux/auth-reducer'
+import { ROUTE } from '../../../routes/routing'
 
 const Main = () => {
   const { isAuth } = useAppSelector(authSelector)
@@ -21,13 +22,19 @@ const Main = () => {
         reprehenderit repudiandae rerum sint, ut.
       </p>
       <div className={classes.buttonsBlock}>
-        <Button disabled={isAuth} component={Link} to="/login" variant="contained" color="primary">
+        <Button
+          disabled={isAuth}
+          component={Link}
+          to={ROUTE.LOGIN}
+          variant="contained"
+          color="primary"
+        >
           Sign in
         </Button>
         <Button
           disabled={isAuth}
           component={Link}
-          to="/register"
+          to={ROUTE.REGISTER}
           variant="contained"
           color="inherit"
         >

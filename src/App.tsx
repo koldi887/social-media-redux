@@ -8,7 +8,7 @@ import { Login } from './page/components/Login/Login'
 import NavBar from './page/components/Navbar/NavBar'
 import PreLoader from './page/components/common/Preloader/Preloader'
 import UsersContainer from './page/components/Users/UsersContainer'
-import ProtectedRoutes from './utils/ProtectedRoutes'
+import ProtectedRoutes from './routes/ProtectedRoutes'
 import Main from './page/components/Main/Main'
 import Music from './page/components/Music/Music'
 import Settings from './page/components/Settings/Settings'
@@ -16,6 +16,7 @@ import Register from './page/components/Register/Register'
 import HelpPage from './page/components/Help/HelpPage'
 import { withSuspense } from './hoc/withSuspense'
 import { Chat } from './page/components/Chat/Chat'
+import { ROUTE } from './routes/routing'
 
 const ProfilePage = React.lazy(() => import('./page/profile-page/ProfilePage'))
 
@@ -37,21 +38,21 @@ const App = () => {
       <NavBar />
       <div className={classes.pagesBlock}>
         <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path={ROUTE.MAIN} element={<Main />} />
+          <Route path={ROUTE.LOGIN} element={<Login />} />
+          <Route path={ROUTE.REGISTER} element={<Register />} />
           <Route element={<ProtectedRoutes />}>
-            <Route path="/profile" element={<SuspenseProfilePage />} />
-            <Route path="/profile/:userId" element={<SuspenseProfilePage />} />
-            <Route path="/users" element={<UsersContainer />} />
-            <Route path="/music" element={<Music />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/help" element={<HelpPage />} />
+            <Route path={ROUTE.PROFILE} element={<SuspenseProfilePage />} />
+            <Route path={ROUTE.USER_PROFILE} element={<SuspenseProfilePage />} />
+            <Route path={ROUTE.USERS} element={<UsersContainer />} />
+            <Route path={ROUTE.MUSIC} element={<Music />} />
+            <Route path={ROUTE.SETTINGS} element={<Settings />} />
+            <Route path={ROUTE.HELP} element={<HelpPage />} />
           </Route>
           <Route path="*" element={<Main />} />
         </Routes>
       </div>
-      <Chat />
+      {/*<Chat />*/}
     </div>
   )
 }
