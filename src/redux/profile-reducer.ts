@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './redux-store';
 import { IPhotoType, IProfileData, profileData } from '../types/IProfileData';
 import { profileAPI } from '../api/profile-api';
+import { setAuthUserAvatar } from './auth-reducer';
 
 export interface IPosts {
   id: number | null;
@@ -35,13 +36,18 @@ interface IProfile {
   status: string;
 }
 
-export const getUserProfile = createAsyncThunk<IProfile, number | null>(
+export const getUserProfile = createAsyncThunk<void, number | null, { state: RootState }>(
   'profile/getUserProfile',
-  async function (userId) {
+  async function (userId, { dispatch, getState }) {
+    const authorizedUserId = getState().auth.id;
+    const authorizedUserAvatar = getState().auth.avatar;
     const profileData = await profileAPI.getProfile(userId);
     let status = await profileAPI.getUserStatus(userId);
+    if (!authorizedUserAvatar && userId === authorizedUserId) {
+      dispatch(setAuthUserAvatar(profileData.photos?.small));
+    }
     if (!status) status = 'No status';
-    return { profileData, status };
+    dispatch(setUserProfile({ profileData, status }));
   }
 );
 
@@ -57,9 +63,10 @@ export const updateProfileStatus = createAsyncThunk<string | undefined, string>(
 );
 export const updateProfilePhoto = createAsyncThunk<IPhotoType | undefined, File>(
   'profile/updateProfilePhoto',
-  async function (photoFile) {
+  async function (photoFile, { dispatch }) {
     const response = await profileAPI.updateProfilePhoto(photoFile);
     if (response.resultCode === ResultCodeEnum.success) {
+      dispatch(setAuthUserAvatar(response.data.photos.small));
       return response.data.photos;
     }
   }
@@ -90,15 +97,14 @@ const profileSlice = createSlice({
         });
       }
     },
-  },
-
-  extraReducers: (builder) => {
-    builder.addCase(getUserProfile.fulfilled, (state, action: PayloadAction<IProfile>) => {
+    setUserProfile: (state, action: PayloadAction<IProfile>) => {
       state.isFetching = false;
       state.profile = action.payload.profileData;
       state.status = action.payload.status;
-    });
+    },
+  },
 
+  extraReducers: (builder) => {
     builder.addCase(
       updateProfileStatus.fulfilled,
       (state, action: PayloadAction<string | undefined>) => {
@@ -119,6 +125,6 @@ const profileSlice = createSlice({
   },
 });
 
-export const { addNewPost } = profileSlice.actions;
+export const { addNewPost, setUserProfile } = profileSlice.actions;
 export const profileSelector = (state: RootState) => state.profilePage;
 export default profileSlice.reducer;

@@ -10,6 +10,7 @@ export interface IAuth {
   email: string | null;
   login: string | null;
   isAuth: boolean;
+  avatar: null | string;
   captchaUrl: null | string;
   errors: {
     loginErrors: Array<string | undefined>;
@@ -21,6 +22,7 @@ const initialState: IAuth = {
   email: null,
   login: null,
   isAuth: false,
+  avatar: null,
   captchaUrl: null,
   errors: {
     loginErrors: [],
@@ -34,14 +36,13 @@ export interface ILog {
   captcha?: string;
 }
 
-export const getAuthUserData = createAsyncThunk<void, void>(
+export const getAuthUserData = createAsyncThunk<void, void, { state: RootState }>(
   'auth/getAuthUser',
   async function (_, { dispatch }) {
     const response = await authAPI.authMe();
     if (response.resultCode === ResultCodeEnum.success) {
       const { id, email, login } = response.data;
-      dispatch(setUserData({ id, email, login, isAuth: true }));
-      dispatch(setCaptchaUrl(null));
+      dispatch(setAuthUserData({ id, email, login, isAuth: true }));
       dispatch(getUserProfile(id));
     }
   }
@@ -53,11 +54,15 @@ export const login = createAsyncThunk<void, any, { dispatch: AppDispatch }>(
     const response = await authAPI.login(email, password, rememberMe, captcha);
     if (response.resultCode === ResultCodeEnum.success) {
       dispatch(getAuthUserData());
+      dispatch(setCaptchaUrl(null));
+      dispatch(setErrors([]));
     }
     if (response.resultCode === ResultCodeEnum.captcha) {
       dispatch(getCaptchaUrl());
     }
-    if (response.messages.length) dispatch(setErrors(response.messages));
+    if (response.messages.length) {
+      dispatch(setErrors(response.messages));
+    }
   }
 );
 
@@ -75,7 +80,7 @@ export const logOut = createAsyncThunk<void, void, { dispatch: AppDispatch }>(
     const response = await authAPI.logOut();
     if (response.resultCode === ResultCodeEnum.success) {
       dispatch(
-        setUserData({
+        setAuthUserData({
           id: null,
           email: null,
           login: null,
@@ -91,7 +96,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setUserData: (state, action) => {
+    setAuthUserData: (state, action) => {
       const { id, email, login, isAuth } = action.payload;
       return {
         ...state,
@@ -108,9 +113,12 @@ const authSlice = createSlice({
     setErrors: (state, action) => {
       state.errors.loginErrors = action.payload;
     },
+    setAuthUserAvatar: (state, action) => {
+      state.avatar = action.payload;
+    },
   },
 });
 
-export const { setUserData, setCaptchaUrl, setErrors } = authSlice.actions;
+export const { setAuthUserData, setCaptchaUrl, setErrors, setAuthUserAvatar } = authSlice.actions;
 export const authSelector = (state: RootState) => state.auth;
 export default authSlice.reducer;

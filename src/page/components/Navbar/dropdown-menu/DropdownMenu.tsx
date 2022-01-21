@@ -1,13 +1,13 @@
-import React from "react";
-import classes from "./Dropdown.module.css";
-import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../../../../hooks/redux";
-import { logOut } from "../../../../redux/auth-reducer";
-import { dropdownElements } from "./dropdownElements";
+import React from 'react';
+import classes from './Dropdown.module.css';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../../../hooks/redux';
+import { logOut } from '../../../../redux/auth-reducer';
+import { dropdownElements } from './dropdownElements';
 
 const DropdownMenu = () => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const logOutUser = () => {
     dispatch(logOut());

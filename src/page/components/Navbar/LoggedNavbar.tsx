@@ -5,10 +5,10 @@ import { useToggle } from '../../../hooks/useToggle';
 import useOnClickOutside from '../../../hooks/useOnClickOutside';
 import DropdownMenu from './dropdown-menu/DropdownMenu';
 import { useAppSelector } from '../../../hooks/redux';
-import { profileSelector } from '../../../redux/profile-reducer';
+import { authSelector } from '../../../redux/auth-reducer';
 
 const LoggedNavbar = () => {
-  const { profile } = useAppSelector(profileSelector);
+  const { avatar } = useAppSelector(authSelector);
   const [toggleValue, setToggleValue] = useToggle(false);
   const dropdownRef = useRef<HTMLUListElement>(null);
   useOnClickOutside(dropdownRef, setToggleValue, toggleValue);
@@ -30,11 +30,7 @@ const LoggedNavbar = () => {
               className={`${classes.navProfile} ${toggleValue && classes.active}`}
               onClick={setToggleValue}
             >
-              <img
-                src={profile.photos?.small ? profile.photos.small : noAvatarImg}
-                alt=""
-                className={classes.navProfileImg}
-              />
+              <img src={avatar ? avatar : noAvatarImg} alt="" className={classes.navProfileImg} />
               <i className="fas fa-angle-down" />
             </li>
             {toggleValue && <DropdownMenu />}
