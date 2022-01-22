@@ -1,17 +1,20 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect } from 'react';
 import classes from './Chat.module.css';
-import { Button } from '@material-ui/core';
-import noAvatarImg from '../../../assets/img/pinpng.com-no-avatar-png-3416159.png';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import {
   chatSelector,
+  setUnreadMessages,
   startMessagesListening,
   stopMessagesListening,
-  sendMessage,
 } from '../../../redux/chat-reducer';
+import { AddMessageForm } from './SendMessagesForm';
+import { Message } from './Message';
+import { useToggle } from '../../../hooks/useToggle';
 
-export const Chat = () => {
-  const { status } = useAppSelector(chatSelector);
+export const Chat: React.FC = () => {
+  const { unreadMessages } = useAppSelector(chatSelector);
+  const [chatToggle, setChatToggle] = useToggle(false);
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -21,71 +24,27 @@ export const Chat = () => {
     };
   }, []);
 
-  return (
-    <div className={classes.chatContainer}>
-      {status === 'error' && (
-        <div style={{ color: 'red' }}>Some error occurred. Please refresh page. </div>
-      )}
-      <Message />
-      <AddMessageForm />
-    </div>
-  );
-};
-
-export const Message: React.FC = () => {
-  const { messages } = useAppSelector(chatSelector);
-  const messageAnchorRef = useRef<HTMLDivElement>(null);
-  const [isAutoScroll, setIsAutoScroll] = useState(true);
-
-  const scrollHandler = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
-    const element = e.currentTarget;
-    if (Math.abs(element.scrollHeight - element.scrollTop - element.clientHeight) < 300) {
-      !isAutoScroll && setIsAutoScroll(true);
-    } else {
-      isAutoScroll && setIsAutoScroll(false);
-    }
+  const onChatActive = () => {
+    setChatToggle();
+    dispatch(setUnreadMessages([]));
   };
 
-  useEffect(() => {
-    if (isAutoScroll) {
-      messageAnchorRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [messages]);
-
   return (
-    <div className={classes.messages} onScroll={scrollHandler}>
-      {messages.map((m) => (
-        <div key={m.id}>
-          <img className={classes.img} src={m.photo ? m.photo : noAvatarImg} alt="" />
-          <p>{m.message}</p>
+    <>
+      <div onClick={onChatActive} className={classes.navMessagesBlock}>
+        <i className={`far fa-comment-alt fa-lg`} />
+        {!chatToggle && unreadMessages.length !== 0 && (
+          <span className={classes.newMessageNotification}>{unreadMessages.length}</span>
+        )}
+      </div>
+
+      {chatToggle && (
+        <div className={classes.chatContainer}>
+          <h2>General chat</h2>
+          <Message />
+          <AddMessageForm />
         </div>
-      ))}
-      <div ref={messageAnchorRef} />
-    </div>
-  );
-};
-
-export const AddMessageForm: React.FC = () => {
-  const [message, setMessage] = useState<string>('');
-  const { status } = useAppSelector(chatSelector);
-
-  const dispatch = useAppDispatch();
-
-  const sendMessageHandler = () => {
-    if (!message) {
-      return;
-    }
-
-    dispatch(sendMessage(message));
-    setMessage('');
-  };
-
-  return (
-    <div>
-      <textarea onChange={(e) => setMessage(e.target.value)} value={message} />
-      <Button color={'primary'} disabled={status !== 'ready'} onClick={sendMessageHandler}>
-        send
-      </Button>
-    </div>
+      )}
+    </>
   );
 };

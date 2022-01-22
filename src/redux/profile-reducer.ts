@@ -41,10 +41,12 @@ export const getUserProfile = createAsyncThunk<void, number | null, { state: Roo
   async function (userId, { dispatch, getState }) {
     const authorizedUserId = getState().auth.id;
     const authorizedUserAvatar = getState().auth.avatar;
+
     const profileData = await profileAPI.getProfile(userId);
     let status = await profileAPI.getUserStatus(userId);
+
     if (!authorizedUserAvatar && userId === authorizedUserId) {
-      dispatch(setAuthUserAvatar(profileData.photos?.small));
+      dispatch(setAuthUserAvatar(profileData.photos?.small as null));
     }
     if (!status) status = 'No status';
     dispatch(setUserProfile({ profileData, status }));

@@ -16,6 +16,7 @@ import HelpPage from './page/components/Help/HelpPage';
 import { withSuspense } from './hoc/withSuspense';
 import { ROUTE } from './routes/routing';
 import Users from './page/components/Users/Users';
+import { Chat } from './page/components/Chat/Chat';
 
 const ProfilePage = React.lazy(() => import('./page/profile-page/ProfilePage'));
 
@@ -51,7 +52,6 @@ const App = () => {
           <Route path="*" element={<Main />} />
         </Routes>
       </div>
-      {/*<Chat />*/}
     </div>
   );
 };
