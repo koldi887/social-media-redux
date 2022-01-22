@@ -9,8 +9,8 @@ export interface IAuth {
   id: number | null;
   email: string | null;
   login: string | null;
+  avatar: string | null;
   isAuth: boolean;
-  avatar: null | string;
   captchaUrl: null | string;
   errors: {
     loginErrors: Array<string | undefined>;
@@ -21,8 +21,8 @@ const initialState: IAuth = {
   id: null,
   email: null,
   login: null,
-  isAuth: false,
   avatar: null,
+  isAuth: false,
   captchaUrl: null,
   errors: {
     loginErrors: [],
@@ -36,33 +36,31 @@ export interface ILog {
   captcha?: string;
 }
 
-export const getAuthUserData = createAsyncThunk<void, void, { state: RootState }>(
-  'auth/getAuthUser',
-  async function (_, { dispatch }) {
-    const response = await authAPI.authMe();
-    if (response.resultCode === ResultCodeEnum.success) {
-      const { id, email, login } = response.data;
-      dispatch(setAuthUserData({ id, email, login, isAuth: true }));
-      dispatch(getUserProfile(id));
-    }
+export const getAuthUserData = createAsyncThunk<
+  void,
+  void,
+  { dispatch: AppDispatch; state: RootState }
+>('auth/getAuthUser', async function (_, { dispatch }) {
+  const response = await authAPI.authMe();
+  if (response.resultCode === ResultCodeEnum.success) {
+    const { id, email, login } = response.data;
+    dispatch(setAuthUserData({ id, email, login, isAuth: true }));
+    dispatch(setCaptchaUrl(null));
+    dispatch(getUserProfile(id));
   }
-);
+});
 
 export const login = createAsyncThunk<void, any, { dispatch: AppDispatch }>(
-  'auth/login',
+  'auth/Login',
   async function ({ email, password, rememberMe, captcha }, { dispatch }) {
     const response = await authAPI.login(email, password, rememberMe, captcha);
     if (response.resultCode === ResultCodeEnum.success) {
       dispatch(getAuthUserData());
-      dispatch(setCaptchaUrl(null));
-      dispatch(setErrors([]));
     }
     if (response.resultCode === ResultCodeEnum.captcha) {
       dispatch(getCaptchaUrl());
     }
-    if (response.messages.length) {
-      dispatch(setErrors(response.messages));
-    }
+    dispatch(setErrors(response.messages));
   }
 );
 
@@ -107,14 +105,15 @@ const authSlice = createSlice({
       };
     },
 
+    setAuthUserAvatar: (state, action: PayloadAction<string | null>) => {
+      state.avatar = action.payload;
+    },
+
     setCaptchaUrl: (state, action: PayloadAction<string | null>) => {
       state.captchaUrl = action.payload;
     },
     setErrors: (state, action) => {
       state.errors.loginErrors = action.payload;
-    },
-    setAuthUserAvatar: (state, action) => {
-      state.avatar = action.payload;
     },
   },
 });

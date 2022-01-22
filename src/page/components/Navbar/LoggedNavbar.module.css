@@ -26,43 +26,8 @@
     color: #707073;
 }
 
-.navProfileBlock {
-    display: flex;
-    align-items: center;
-    position: relative;
-    gap: 0.5rem;
-    height: 100%;
-    list-style-type: none;
-    margin: 0;
-}
-
-.navProfile {
-    display: flex;
-    align-items: center;
-    height: 100%;
-    padding: 0 0.5rem 0 0.5rem;
-}
-
-.navProfile i {
-    color: #707073;
-}
-
-.navProfileImg {
-    height: 2em;
-    width: 2em;
-    margin-right: 0.5rem;
-}
-
 .navNotification:hover,
 .navMusic:hover {
     cursor: pointer;
     background-color: #e7e9ee;
-}
-
-.navProfile:hover {
-    cursor: pointer;
-    background-color: #e7e9ee;
-}
-.active {
-background-color:#e7e9ee;
 }

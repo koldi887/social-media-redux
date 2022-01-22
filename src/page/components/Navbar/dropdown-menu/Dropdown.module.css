@@ -1,4 +1,38 @@
-.profileDropBlock {
+.navProfileContainer {
+    display: flex;
+    align-items: center;
+    position: relative;
+    gap: 0.5rem;
+    height: 100%;
+    list-style-type: none;
+    margin: 0;
+}
+
+.navProfileBlock {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 0.5rem 0 0.5rem;
+}
+
+.navProfileBlock:hover {
+    cursor: pointer;
+    background-color: #e7e9ee;
+}
+
+.navProfileBlock i {
+    color: #707073;
+}
+
+.navProfileImg {
+    height: 2em;
+    width: 2em;
+    margin-right: 0.5rem;
+}
+
+/*DropDown*/
+
+.dropDownBlock {
     position: absolute;
     width: 14rem;
     top: 3rem;
@@ -10,19 +44,22 @@
     padding: 0 0 0.5rem 0;
 }
 
-.profileDropBlock li {
+.dropDownLinks {
     display: flex;
     align-items: center;
     height: 2.5rem;
     padding: 0 1rem 0 1rem;
+    text-decoration: none;
+    color: inherit;
+
 }
 
-.profileDropBlock li i {
+.dropDownLinks i {
     margin-right: 0.4rem;
     color: #3f88b5;
 }
 
-.profileDropBlock li:hover {
+.dropDownLinks:hover {
     cursor: pointer;
     background-color: #e7e9ee;
 }
