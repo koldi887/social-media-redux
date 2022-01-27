@@ -45,7 +45,6 @@ export const getAuthUserData = createAsyncThunk<
   if (response.resultCode === ResultCodeEnum.success) {
     const { id, email, login } = response.data;
     dispatch(setAuthUserData({ id, email, login, isAuth: true }));
-    dispatch(setCaptchaUrl(null));
     dispatch(getUserProfile(id));
   }
 });
@@ -55,6 +54,7 @@ export const login = createAsyncThunk<void, any, { dispatch: AppDispatch }>(
   async function ({ email, password, rememberMe, captcha }, { dispatch }) {
     const response = await authAPI.login(email, password, rememberMe, captcha);
     if (response.resultCode === ResultCodeEnum.success) {
+      dispatch(setCaptchaUrl(null));
       dispatch(getAuthUserData());
     }
     if (response.resultCode === ResultCodeEnum.captcha) {

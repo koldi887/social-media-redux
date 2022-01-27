@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, current, Dispatch, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './redux-store';
 import { chatAPI, IChatMessageApi, StatusType } from '../api/chat-api';
 import { v1 } from 'uuid';
@@ -28,7 +28,7 @@ const statusChangedHandlerCreator = (dispatch: Dispatch) => {
 };
 
 export const startMessagesListening = createAsyncThunk(
-  'Chat/startMessagesListening',
+  'chat/startMessagesListening',
   async function (_, { dispatch }) {
     chatAPI.start();
     chatAPI.subscribe('messages-received', newMessagesHandlerCreator(dispatch));
@@ -37,7 +37,7 @@ export const startMessagesListening = createAsyncThunk(
 );
 
 export const stopMessagesListening = createAsyncThunk(
-  'Chat/stopMessagesListening',
+  'chat/stopMessagesListening',
   async function (_, { dispatch }) {
     chatAPI.unsubscribe('messages-received', newMessagesHandlerCreator(dispatch));
     chatAPI.unsubscribe('status-changed', statusChangedHandlerCreator(dispatch));
@@ -45,17 +45,14 @@ export const stopMessagesListening = createAsyncThunk(
   }
 );
 
-export const sendMessage = createAsyncThunk<void, string>(
-  'Chat/sendMessage',
-  async function (message) {
-    chatAPI.sendMessage(message);
-  }
-);
+export const sendMessage = createAsyncThunk<void, string>('sendMessage', async function (message) {
+  chatAPI.sendMessage(message);
+});
 
 const initialState = {
   messages: [] as ChatMessageType[],
   status: 'pending' as StatusType,
-  unreadMessages: [] as string[],
+  unreadMessages: [] as IChatMessageApi[],
 };
 
 const chatSlice = createSlice({
@@ -73,14 +70,15 @@ const chatSlice = createSlice({
       const actualState = action.payload;
       const prevState = state.messages;
       if (actualState.length !== 0 && prevState.length !== 0) {
-        const lastMessageId = actualState[actualState.length - 1].message;
-        const prevLastMessageId = prevState[prevState.length - 1].message;
-        if (lastMessageId !== prevLastMessageId) {
-          state.unreadMessages.push(lastMessageId);
+        const lastMessage = actualState[actualState.length - 1];
+        const prevLastMessage = prevState[prevState.length - 1];
+        if (lastMessage.message !== prevLastMessage.message) {
+          state.unreadMessages.push(lastMessage);
         }
-      } else state.unreadMessages = [];
+      } else if (prevState.length !== 0) {
+        state.unreadMessages = [];
+      }
     },
-
     statusChanged: (state, action: PayloadAction<StatusType>) => {
       state.status = action.payload;
     },

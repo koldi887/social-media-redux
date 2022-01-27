@@ -1,5 +1,5 @@
-import React from 'react'
-import { ROUTE } from '../../../../routes/routing'
+import React from 'react';
+import { ROUTE } from '../../../../routes/routing';
 
 export const dropdownElements = [
   {
@@ -13,8 +13,13 @@ export const dropdownElements = [
     logo: <i className="fas fa-cog" />,
   },
   {
+    name: 'Dialogs',
+    path: ROUTE.DIALOGS,
+    logo: <i className="fas fa-cog" />,
+  },
+  {
     name: 'Help',
     path: ROUTE.HELP,
     logo: <i className="far fa-question-circle" />,
   },
-]
+];
