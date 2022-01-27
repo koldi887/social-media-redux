@@ -3,12 +3,12 @@ import classes from './Users.module.css';
 import PreLoader from '../common/Preloader/Preloader';
 import User from './User/User';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import NewPaginator from '../common/Paginator/Paginator';
 import { Button } from '@material-ui/core';
 import { requestUsers, usersSelector } from '../../../redux/users-reducer';
 import { ROUTE } from '../../../routes/routing';
 import { friendParamValueConvert } from '../../../utils/friendParamValueConvert';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import Paginator from '../common/Paginator/Paginator';
 
 const Users: React.FC = () => {
   const { users, isFetching, filter, totalUsersCount, currentPage, pageSize } =
@@ -75,7 +75,7 @@ const Users: React.FC = () => {
       </div>
       <div>
         {location.pathname === ROUTE.USERS ? (
-          <NewPaginator
+          <Paginator
             currentPage={currentPage}
             onPageChanged={onPageChanged}
             totalItemsCount={totalUsersCount}

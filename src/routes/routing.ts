@@ -8,4 +8,5 @@ export enum ROUTE {
   MUSIC = '/music/',
   HELP = '/help/',
   SETTINGS = '/settings/',
+  DIALOGS = '/dialogs/',
 }

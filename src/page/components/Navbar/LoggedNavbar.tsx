@@ -6,14 +6,12 @@ import { Chat } from '../Chat/Chat';
 const LoggedNavbar = () => {
   return (
     <div className={classes.navBlock}>
-      <ul className={classes.navLinksBlock}>
-        <li>
-          <Chat />
-        </li>
-        <li className={classes.navMusic}>
+      <div className={classes.navLinksBlock}>
+        <Chat />
+        <div className={classes.navMusic}>
           <i className={`fas fa-music fa-lg`} />
-        </li>
-      </ul>
+        </div>
+      </div>
       <DropdownMenu />
     </div>
   );

@@ -12,11 +12,7 @@ export const AddMessageForm: React.FC = () => {
   const { register, handleSubmit, reset } = useForm<DataType>();
 
   const dispatch = useAppDispatch();
-
   const onMessageSend = handleSubmit((data) => {
-    if (!data) {
-      return;
-    }
     dispatch(sendMessage(data.message));
     reset();
   });
@@ -24,15 +20,15 @@ export const AddMessageForm: React.FC = () => {
   return (
     <form className={classes.messageFormBlock} onSubmit={onMessageSend}>
       <TextField
+        type="submit"
         id="standard-multiline-static"
         variant="outlined"
         className={classes.textField}
         rows={2}
         multiline
         fullWidth
-        {...register('message', {
-          required: '',
-        })}
+        required={true}
+        {...register('message')}
       />
       <Button
         type="submit"

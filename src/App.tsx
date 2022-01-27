@@ -17,6 +17,8 @@ import { withSuspense } from './hoc/withSuspense';
 import { ROUTE } from './routes/routing';
 import Users from './page/components/Users/Users';
 import { Chat } from './page/components/Chat/Chat';
+import { profileAPI } from './api/profile-api';
+import { Dialogs } from './page/components/Dialogs/Dialogs';
 
 const ProfilePage = React.lazy(() => import('./page/profile-page/ProfilePage'));
 
@@ -48,6 +50,7 @@ const App = () => {
             <Route path={ROUTE.MUSIC} element={<Music />} />
             <Route path={ROUTE.SETTINGS} element={<Settings />} />
             <Route path={ROUTE.HELP} element={<HelpPage />} />
+            <Route path={ROUTE.DIALOGS} element={<Dialogs />} />
           </Route>
           <Route path="*" element={<Main />} />
         </Routes>

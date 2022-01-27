@@ -1,0 +1,30 @@
+.dialogsListContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 1rem;
+    width: 10rem;
+    height: 40rem;
+    box-shadow: 0 0 20px 0 rgb(0 0 0 / 20%);
+}
+
+.dialogsList {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.dialogsListItems {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1rem 0 1rem;
+    align-items: center;
+    font-size: larger;
+    border-bottom: 1px solid #949292;
+}
+
+
+.dialogsListItems:hover {
+    background-color: #cbcaca;
+    cursor: pointer;
+}

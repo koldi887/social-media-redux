@@ -19,21 +19,6 @@ export interface IUsersState {
   };
 }
 
-const initialState: IUsersState = {
-  users: [],
-  followingInProgress: [],
-  isFetching: true,
-  status: '',
-  error: '',
-  pageSize: 15,
-  currentPage: 1,
-  totalUsersCount: 0,
-  filter: {
-    term: '',
-    friend: null,
-  },
-};
-
 interface IRequestResponse {
   items: IUser[];
   totalCount: number;
@@ -66,6 +51,21 @@ export const followUnfollowUser = createAsyncThunk<
     dispatch(followUnfollowUserSuccess(userId));
   }
 });
+
+const initialState: IUsersState = {
+  users: [],
+  followingInProgress: [],
+  isFetching: true,
+  status: '',
+  error: '',
+  pageSize: 15,
+  currentPage: 1,
+  totalUsersCount: 0,
+  filter: {
+    term: '',
+    friend: null,
+  },
+};
 
 const usersSlice = createSlice({
   name: 'users',

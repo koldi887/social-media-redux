@@ -3,7 +3,6 @@ import { IAPIResponse, instance } from './api';
 
 export const profileAPI = {
   getProfile(userId: number | null) {
-    console.log('profileAPI');
     return instance.get<IProfileData>('profile/' + userId).then((response) => response.data);
   },
 
