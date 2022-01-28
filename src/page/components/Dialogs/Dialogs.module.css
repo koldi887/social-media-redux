@@ -1,6 +1,8 @@
 .dialogsContainer {
-    display: flex;
+    display: grid;
     width: 60rem;
-    background-color: #f6f6f6;
+    grid-template-columns: 10rem 49rem;
+    grid-template-rows: 40rem;
+    gap: 1rem;
 }
 
