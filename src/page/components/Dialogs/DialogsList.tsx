@@ -7,16 +7,15 @@ import { capitalize } from '../../../utils/capitalize';
 import { IDialog } from '../../../types/IDialogs';
 
 interface IDialogsListProps {
-  setSelectedDialog: (value: number) => void;
+  setSelectedDialog: (value: IDialog) => void;
+  selectedDialog: IDialog | null;
 }
 
-export const DialogsList: React.FC<IDialogsListProps> = ({ setSelectedDialog }) => {
+export const DialogsList: React.FC<IDialogsListProps> = ({ setSelectedDialog, selectedDialog }) => {
   const { data, isLoading } = useGetDialogsQuery();
 
   const onDialogClick = (dialog: IDialog) => {
-    setSelectedDialog(dialog.id);
-    if (dialog.hasNewMessages) {
-    }
+    setSelectedDialog(dialog);
   };
 
   return (
@@ -29,7 +28,9 @@ export const DialogsList: React.FC<IDialogsListProps> = ({ setSelectedDialog }) 
           data?.map((dialog) => (
             <li
               key={dialog.id}
-              className={classes.dialogsListItems}
+              className={`${classes.dialogsListItems} ${
+                dialog.id === selectedDialog?.id ? classes.active : ''
+              }`}
               onClick={() => onDialogClick(dialog)}
             >
               <p> {capitalize(dialog.userName)}</p>
