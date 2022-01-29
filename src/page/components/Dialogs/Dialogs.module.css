@@ -1,6 +1,5 @@
 .dialogsContainer {
     display: grid;
-    width: 60rem;
     grid-template-columns: 10rem 49rem;
     grid-template-rows: 40rem;
     gap: 1rem;
