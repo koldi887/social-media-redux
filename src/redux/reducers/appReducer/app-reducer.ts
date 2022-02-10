@@ -1,14 +1,14 @@
-import { getAuthUserData } from './auth-reducer';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { AppDispatch, RootState } from './redux-store';
+import { getAuthUserData } from "../../auth-reducer";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { AppDispatch, RootState } from "../../redux-store";
 
 let initialState = {
-  initialized: false,
+  initialized: false
 };
 
 export const initializeApp = createAsyncThunk<Promise<void>, void, { dispatch: AppDispatch }>(
-  'init/initializeApp',
-  async function (_, { dispatch }) {
+  "init/initializeApp",
+  async function(_, { dispatch }) {
     let promise = dispatch(getAuthUserData());
     Promise.all([promise]).then(() => {
       dispatch(initializedSuccess());
@@ -17,13 +17,13 @@ export const initializeApp = createAsyncThunk<Promise<void>, void, { dispatch: A
 );
 
 const appSlice = createSlice({
-  name: 'init',
+  name: "init",
   initialState,
   reducers: {
     initializedSuccess: (state) => {
       state.initialized = true;
-    },
-  },
+    }
+  }
 });
 
 export const { initializedSuccess } = appSlice.actions;
