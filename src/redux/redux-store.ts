@@ -1,13 +1,23 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import {combineReducers, configureStore} from '@reduxjs/toolkit';
+import {FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE} from 'redux-persist';
+import {createReduxHistoryContext} from "redux-first-history";
+import {createBrowserHistory} from "history";
+import createSagaMiddleware from 'redux-saga';
 import dialogsPageSlice from './reducers/dialogsReducer/dialogs-reducer';
 import UsersSlice from './reducers/usersReducer/users-reducer';
 import appSlice from './reducers/appReducer/app-reducer';
 import authSlice from './reducers/authReducer/auth-reducer';
 import profileSlice from './reducers/profileReducer/profile-reducer';
 import chatSlice from './reducers/chatReducer/chat-reducer';
-import { dialogsApi } from '../api/dialogs-api';
+import {dialogsApi} from '../api/dialogs-api';
+import rootSaga from "./sagas/rootSaga";
+
+const {
+  createReduxHistory,
+  routerMiddleware,
+  routerReducer
+} = createReduxHistoryContext(
+    {history: createBrowserHistory()});
 
 export const rootReducer = combineReducers({
   profilePage: profileSlice,
@@ -17,28 +27,26 @@ export const rootReducer = combineReducers({
   app: appSlice,
   chat: chatSlice,
   [dialogsApi.reducerPath]: dialogsApi.reducer,
+  router: routerReducer
 });
 
-const persistConfig = {
-  key: 'redux',
-  storage,
-  whitelist: ['chat'],
-};
+export let sagaMiddleware = createSagaMiddleware();
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-export const setupStore = () => {
-  return configureStore({
-    reducer: persistedReducer,
-    middleware: (getDefaultMiddleware) =>
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         serializableCheck: {
           ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
         },
-      }).concat([dialogsApi.middleware]),
-  });
-};
+      }).concat(sagaMiddleware, routerMiddleware, dialogsApi.middleware)
+})
 
+sagaMiddleware.run(rootSaga)
+
+export const history = createReduxHistory(store);
 export type RootState = ReturnType<typeof rootReducer>;
-export type AppStore = ReturnType<typeof setupStore>;
+export type AppStore = typeof store;
 export type AppDispatch = AppStore['dispatch'];
+
+export default store;
