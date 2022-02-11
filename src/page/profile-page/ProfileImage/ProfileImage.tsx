@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import classes from './ProfileImage.module.css';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import userPhoto from '../../../assets/img/pinpng.com-no-avatar-png-3416159.png';
-import { profileSelector, updateProfilePhoto } from '../../../redux/profile-reducer';
+import { profileSelector, updateProfilePhoto } from '../../../redux/reducers/profileReducer/profile-reducer';
 import { Button, styled } from '@material-ui/core';
-import { getAuthUserData } from '../../../redux/auth-reducer';
+import { getAuthUserData } from '../../../redux/reducers/authReducer/auth-reducer';
 
 interface IProfileImageProps {
   paramsUserId: string | undefined;

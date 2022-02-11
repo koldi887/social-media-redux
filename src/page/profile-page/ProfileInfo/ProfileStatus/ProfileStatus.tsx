@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import classes from './ProfileStatus.module.css'
 import { useAppDispatch } from '../../../../hooks/redux'
 import { Button, TextField } from '@material-ui/core'
-import { updateProfileStatus } from '../../../../redux/profile-reducer'
+import { updateProfileStatus } from '../../../../redux/reducers/profileReducer/profile-reducer'
 
 interface IStatusProps {
   setStatusToggle: () => void

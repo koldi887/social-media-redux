@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from './redux-store';
-import { IDialog, IDialogMessage, IDialogWithUser } from '../types/IDialogs';
-import { dialogsApi } from '../api/dialogs-api';
+import { RootState } from '../../redux-store';
+import { IDialog, IDialogMessage, IDialogWithUser } from '../../../types/IDialogs';
+import { dialogsApi } from '../../../api/dialogs-api';
 
 export interface IDialogsPageState {
   dialogs: IDialogMessage[];

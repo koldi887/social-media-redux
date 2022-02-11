@@ -5,11 +5,11 @@ import { ROUTE } from '../../../../routes/routing';
 import userPhoto from '../../../../assets/img/noAvatar.png';
 import { Avatar, Button } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import { followUnfollowUser, usersSelector } from '../../../../redux/users-reducer';
+import { followUnfollowUser, usersSelector } from '../../../../redux/reducers/usersReducer/users-reducer';
 import { IUser } from '../../../../types/IUser';
 import { capitalize } from '../../../../utils/capitalize';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
-import { authSelector } from '../../../../redux/auth-reducer';
+import { authSelector } from '../../../../redux/reducers/authReducer/auth-reducer';
 
 interface IUserProps {
   user: IUser;

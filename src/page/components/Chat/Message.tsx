@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useAppSelector } from '../../../hooks/redux';
-import { chatSelector } from '../../../redux/chat-reducer';
+import { chatSelector } from '../../../redux/reducers/chatReducer/chat-reducer';
 import classes from './Chat.module.css';
 import noAvatarImg from '../../../assets/img/pinpng.com-no-avatar-png-3416159.png';
 

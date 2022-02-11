@@ -1,6 +1,6 @@
-import { getAuthUserData } from "../../auth-reducer";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AppDispatch, RootState } from "../../redux-store";
+import {getAuthUserData} from "../authReducer/auth-reducer";
 
 let initialState = {
   initialized: false

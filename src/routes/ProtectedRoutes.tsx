@@ -1,6 +1,6 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useAppSelector } from '../hooks/redux'
-import { authSelector } from '../redux/auth-reducer'
+import { authSelector } from '../redux/reducers/authReducer/auth-reducer'
 import { ROUTE } from './routing'
 
 const ProtectedRoutes = () => {

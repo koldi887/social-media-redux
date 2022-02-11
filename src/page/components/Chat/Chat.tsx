@@ -6,7 +6,7 @@ import {
   setUnreadMessages,
   startMessagesListening,
   stopMessagesListening,
-} from '../../../redux/chat-reducer';
+} from '../../../redux/reducers/chatReducer/chat-reducer';
 import { AddMessageForm } from './SendMessagesForm';
 import { Message } from './Message';
 import { useToggle } from '../../../hooks/useToggle';

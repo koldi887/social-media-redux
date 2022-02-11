@@ -1,6 +1,6 @@
 import { usersAPI } from "../api/users-api";
 import { IAPIResponse, ResultCodeEnum } from "../api/api";
-import { followingInProgress, followUnfollowUser } from "./users-reducer";
+import { followingInProgress, followUnfollowUser } from "./reducers/usersReducer/users-reducer";
 
 const userAPIMock = usersAPI as jest.Mocked<typeof usersAPI>;
 

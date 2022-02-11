@@ -1,9 +1,9 @@
-import { ResultCodeEnum } from "../api/api";
+import { ResultCodeEnum } from "../../../api/api";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "./redux-store";
-import { IPhotoType, IProfileData, profileData } from "../types/IProfileData";
-import { profileAPI } from "../api/profile-api";
-import { setAuthUserAvatar } from "./reducers/authReducer/auth-reducer";
+import { RootState } from "../../redux-store";
+import { IPhotoType, IProfileData, profileData } from "../../../types/IProfileData";
+import { profileAPI } from "../../../api/profile-api";
+import {setAuthUserAvatar} from "../authReducer/auth-reducer";
 
 export interface IPosts {
   id: number | null;

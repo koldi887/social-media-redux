@@ -3,7 +3,7 @@ import classes from './Navbar.module.css';
 import navLogo from '../../../assets/img/lukso_token_logo.png';
 import LoggedNavbar from './LoggedNavbar';
 import { useAppSelector } from '../../../hooks/redux';
-import { authSelector } from '../../../redux/auth-reducer';
+import { authSelector } from '../../../redux/reducers/authReducer/auth-reducer';
 import { Link } from 'react-router-dom';
 import SearchBox from './Search/SearchBox';
 import { ROUTE } from '../../../routes/routing';

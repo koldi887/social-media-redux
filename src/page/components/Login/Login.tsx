@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from './Login.module.css';
 import { useForm } from 'react-hook-form';
-import { authSelector, ILog, login } from '../../../redux/auth-reducer';
+import { authSelector, ILog, login } from '../../../redux/reducers/authReducer/auth-reducer';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { Navigate } from 'react-router-dom';
 import { Button, Checkbox, FormControlLabel, TextField } from '@material-ui/core';

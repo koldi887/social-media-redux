@@ -2,7 +2,7 @@ import React from 'react';
 import classes from './SearchBox.module.css';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
-import { FilterType, requestUsers, usersSelector } from '../../../../redux/users-reducer';
+import { FilterType, requestUsers, usersSelector } from '../../../../redux/reducers/usersReducer/users-reducer';
 import { friendParamValueConvert } from '../../../../utils/friendParamValueConvert';
 
 export interface ISearchForm {

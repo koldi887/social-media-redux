@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import classes from './Chat.module.css';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { chatSelector, sendMessage } from '../../../redux/chat-reducer';
+import { chatSelector, sendMessage } from '../../../redux/reducers/chatReducer/chat-reducer';
 import { Button, TextField } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
 

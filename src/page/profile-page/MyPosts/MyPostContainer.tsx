@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { addNewPost, profileSelector } from '../../../redux/profile-reducer';
+import { addNewPost, profileSelector } from '../../../redux/reducers/profileReducer/profile-reducer';
 import MyPosts from './MyPosts';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 

@@ -4,7 +4,7 @@ import { IProfileContacts, IProfileData } from '../../../../types/IProfileData'
 import { useForm } from 'react-hook-form'
 import { Button, Checkbox, FormControlLabel, TextField } from '@material-ui/core'
 import { useAppDispatch } from '../../../../hooks/redux'
-import { saveProfileInfo } from '../../../../redux/profile-reducer'
+import { saveProfileInfo } from '../../../../redux/reducers/profileReducer/profile-reducer'
 import { useToggle } from '../../../../hooks/useToggle'
 import { ErrorMessage } from '@hookform/error-message'
 

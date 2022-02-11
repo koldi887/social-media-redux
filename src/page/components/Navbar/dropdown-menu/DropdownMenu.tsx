@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import classes from './Dropdown.module.css';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
-import { authSelector, logOut } from '../../../../redux/auth-reducer';
+import { authSelector, logOut } from '../../../../redux/reducers/authReducer/auth-reducer';
 import { dropdownElements } from './dropdownElements';
 import noAvatarImg from '../../../../assets/img/pinpng.com-no-avatar-png-3416159.png';
 import { useToggle } from '../../../../hooks/useToggle';

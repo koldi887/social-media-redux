@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import classes from './ProfileInfo.module.css';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { getUserProfile, profileSelector } from '../../../redux/profile-reducer';
+import { getUserProfile, profileSelector } from '../../../redux/reducers/profileReducer/profile-reducer';
 import ProfileStatus from './ProfileStatus/ProfileStatus';
 import { capitalize } from '../../../utils/capitalize';
 import ProfileInfoData from './ProfileInfoData/ProfileInfoData';

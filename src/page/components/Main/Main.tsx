@@ -3,7 +3,7 @@ import classes from './Main.module.css'
 import { Button } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import { useAppSelector } from '../../../hooks/redux'
-import { authSelector } from '../../../redux/auth-reducer'
+import { authSelector } from '../../../redux/reducers/authReducer/auth-reducer'
 import { ROUTE } from '../../../routes/routing'
 
 const Main = () => {

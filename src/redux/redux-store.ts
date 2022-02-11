@@ -1,12 +1,12 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import dialogsPageSlice from './dialogs-reducer';
-import UsersSlice from './users-reducer';
-import appSlice from './app-reducer';
-import authSlice from './auth-reducer';
-import profileSlice from './profile-reducer';
-import chatSlice from './chat-reducer';
+import dialogsPageSlice from './reducers/dialogsReducer/dialogs-reducer';
+import UsersSlice from './reducers/usersReducer/users-reducer';
+import appSlice from './reducers/appReducer/app-reducer';
+import authSlice from './reducers/authReducer/auth-reducer';
+import profileSlice from './reducers/profileReducer/profile-reducer';
+import chatSlice from './reducers/chatReducer/chat-reducer';
 import { dialogsApi } from '../api/dialogs-api';
 
 export const rootReducer = combineReducers({

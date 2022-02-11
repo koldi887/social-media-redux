@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, current, Dispatch, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from './redux-store';
-import { chatAPI, IChatMessageApi, StatusType } from '../api/chat-api';
+import { RootState } from '../../redux-store';
+import { chatAPI, IChatMessageApi, StatusType } from '../../../api/chat-api';
 import { v1 } from 'uuid';
 
 export type ChatMessageType = IChatMessageApi & { id: string };

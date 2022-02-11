@@ -5,7 +5,7 @@ import profileReducer, {
   updateProfilePhoto,
   updateProfileStatus,
 } from "./profile-reducer";
-import { profileData } from "../types/IProfileData";
+import { profileData } from "../../../types/IProfileData";
 
 const initialState: IState = {
   posts: [

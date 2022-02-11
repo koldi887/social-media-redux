@@ -4,7 +4,7 @@ import PreLoader from '../common/Preloader/Preloader';
 import User from './User/User';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { Button } from '@material-ui/core';
-import { requestUsers, usersSelector } from '../../../redux/users-reducer';
+import { requestUsers, usersSelector } from '../../../redux/reducers/usersReducer/users-reducer';
 import { ROUTE } from '../../../routes/routing';
 import { friendParamValueConvert } from '../../../utils/friendParamValueConvert';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
