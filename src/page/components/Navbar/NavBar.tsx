@@ -1,14 +1,14 @@
-import * as React from 'react';
-import classes from './Navbar.module.css';
-import navLogo from '../../../assets/img/lukso_token_logo.png';
-import LoggedNavbar from './LoggedNavbar';
-import { useAppSelector } from '../../../hooks/redux';
-import { authSelector } from '../../../redux/reducers/authReducer/auth-reducer';
-import { Link } from 'react-router-dom';
-import SearchBox from './Search/SearchBox';
-import { ROUTE } from '../../../routes/routing';
+import * as React from "react";
+import classes from "./Navbar.module.css";
+import navLogo from "../../../assets/img/lukso_token_logo.png";
+import LoggedNavbar from "./LoggedNavbar";
+import { useAppSelector } from "../../../hooks/redux";
+import { authSelector } from "../../../redux/reducers/authReducer/auth-reducer";
+import { Link } from "react-router-dom";
+import SearchBox from "./Search/SearchBox";
+import { ROUTE } from "../../../routes/routes";
 
-const NavBar = () => {
+export const NavBar = () => {
   const { isAuth } = useAppSelector(authSelector);
 
   return (
@@ -25,5 +25,3 @@ const NavBar = () => {
     </nav>
   );
 };
-
-export default NavBar;

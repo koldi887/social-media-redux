@@ -1,6 +1,6 @@
 import { useGetDialogsQuery } from '../../../api/dialogs-api';
 import classes from './DialogsList.module.css';
-import PreLoader from '../common/Preloader/Preloader';
+import { PreLoader } from "../common/Preloader/Preloader";
 import React from 'react';
 import { Badge } from '@material-ui/core';
 import { capitalize } from '../../../utils/capitalize';

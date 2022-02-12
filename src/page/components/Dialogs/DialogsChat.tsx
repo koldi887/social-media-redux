@@ -3,7 +3,7 @@ import classes from './DialogsChat.module.css';
 import { Button, TextField } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
 import { useGetDialogWithUserQuery, useSendNewMessageMutation } from '../../../api/dialogs-api';
-import PreLoader from '../common/Preloader/Preloader';
+import { PreLoader } from "../common/Preloader/Preloader";
 import { IDialog } from '../../../types/IDialogs';
 import { capitalize } from '../../../utils/capitalize';
 

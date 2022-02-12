@@ -1,25 +1,27 @@
-import React from 'react'
-import classes from './Main.module.css'
-import { Button } from '@material-ui/core'
-import { Link } from 'react-router-dom'
-import { useAppSelector } from '../../../hooks/redux'
-import { authSelector } from '../../../redux/reducers/authReducer/auth-reducer'
-import { ROUTE } from '../../../routes/routing'
+import React from "react";
+import classes from "./Main.module.css";
+import { Button } from "@material-ui/core";
+import { Link } from "react-router-dom";
+import { useAppSelector } from "../../../hooks/redux";
+import { authSelector } from "../../../redux/reducers/authReducer/auth-reducer";
+import { ROUTE } from "../../../routes/routes";
 
-const Main = () => {
-  const { isAuth } = useAppSelector(authSelector)
+export const Main = () => {
+  const { isAuth } = useAppSelector(authSelector);
 
   return (
     <div className={classes.mainInfoContainer}>
       <p className={classes.mainInfo}>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. A atque autem commodi consequuntur
-        culpa delectus deleniti , dolores in laborum natus nostrum officious, quibusdam quos ratione
-        reprehenderit repudiandae rerum sint, utLorem ipsum dolor sit amet, consectetur adipisicing
-        elit. A atque autem commodi consequuntur culpa delectus deleniti , dolores in laborum natus
-        nostrum officiis, quibusdam quos ratione reprehenderit repudiandae rerum sint, utLorem ipsum
-        dolor sit amet, consectetur adipisicing elit. A atque autem commodi consequuntur culpa
-        delectus deleniti , dolores in laborum natus nostrum officiis, quibusdam quos ratione
-        reprehenderit repudiandae rerum sint, ut.
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. A atque autem
+        commodi consequuntur culpa delectus deleniti , dolores in laborum natus
+        nostrum officious, quibusdam quos ratione reprehenderit repudiandae
+        rerum sint, utLorem ipsum dolor sit amet, consectetur adipisicing elit.
+        A atque autem commodi consequuntur culpa delectus deleniti , dolores in
+        laborum natus nostrum officiis, quibusdam quos ratione reprehenderit
+        repudiandae rerum sint, utLorem ipsum dolor sit amet, consectetur
+        adipisicing elit. A atque autem commodi consequuntur culpa delectus
+        deleniti , dolores in laborum natus nostrum officiis, quibusdam quos
+        ratione reprehenderit repudiandae rerum sint, ut.
       </p>
       <div className={classes.buttonsBlock}>
         <Button
@@ -42,7 +44,5 @@ const Main = () => {
         </Button>
       </div>
     </div>
-  )
-}
-
-export default Main
+  );
+};

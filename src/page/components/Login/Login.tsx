@@ -1,12 +1,21 @@
-import React from 'react';
-import classes from './Login.module.css';
-import { useForm } from 'react-hook-form';
-import { authSelector, ILog, login } from '../../../redux/reducers/authReducer/auth-reducer';
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { Navigate } from 'react-router-dom';
-import { Button, Checkbox, FormControlLabel, TextField } from '@material-ui/core';
-import { ErrorMessage } from '@hookform/error-message';
-import { ROUTE } from '../../../routes/routing';
+import React from "react";
+import classes from "./Login.module.css";
+import { useForm } from "react-hook-form";
+import {
+  authSelector,
+  ILog,
+  login,
+} from "../../../redux/reducers/authReducer/auth-reducer";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
+import { Navigate } from "react-router-dom";
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  TextField,
+} from "@material-ui/core";
+import { ErrorMessage } from "@hookform/error-message";
+import { ROUTE } from "../../../routes/routes";
 
 export const Login = () => {
   const { isAuth, captchaUrl } = useAppSelector(authSelector);
@@ -38,8 +47,8 @@ export const Login = () => {
         <TextField
           label="Email"
           variant="outlined"
-          size={'small'}
-          {...register('email', {
+          size={"small"}
+          {...register("email", {
             required: true,
           })}
         />
@@ -48,12 +57,12 @@ export const Login = () => {
           label="Password"
           type="password"
           variant="outlined"
-          size={'small'}
-          {...register('password', {
+          size={"small"}
+          {...register("password", {
             required: true,
             minLength: {
               value: 5,
-              message: 'Minimum length is 5',
+              message: "Minimum length is 5",
             },
           })}
         />
@@ -61,7 +70,7 @@ export const Login = () => {
 
         <div className={classes.formCheckBoxBlock}>
           <FormControlLabel
-            control={<Checkbox {...register('rememberMe')} />}
+            control={<Checkbox {...register("rememberMe")} />}
             label="Remember Me"
           />
         </div>
@@ -69,7 +78,7 @@ export const Login = () => {
         {captchaUrl && (
           <div className={classes.captcha}>
             <img src={captchaUrl} alt="captcha" />
-            <input type="text" {...register('captcha')} />
+            <input type="text" {...register("captcha")} />
           </div>
         )}
 

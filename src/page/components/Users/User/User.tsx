@@ -1,15 +1,18 @@
-import React from 'react';
-import classes from './User.module.css';
-import { NavLink } from 'react-router-dom';
-import { ROUTE } from '../../../../routes/routing';
-import userPhoto from '../../../../assets/img/noAvatar.png';
-import { Avatar, Button } from '@material-ui/core';
-import { useSelector } from 'react-redux';
-import { followUnfollowUser, usersSelector } from '../../../../redux/reducers/usersReducer/users-reducer';
-import { IUser } from '../../../../types/IUser';
-import { capitalize } from '../../../../utils/capitalize';
-import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
-import { authSelector } from '../../../../redux/reducers/authReducer/auth-reducer';
+import React from "react";
+import classes from "./User.module.css";
+import { NavLink } from "react-router-dom";
+import { ROUTE } from "../../../../routes/routes";
+import userPhoto from "../../../../assets/img/noAvatar.png";
+import { Avatar, Button } from "@material-ui/core";
+import { useSelector } from "react-redux";
+import {
+  followUnfollowUser,
+  usersSelector,
+} from "../../../../redux/reducers/usersReducer/users-reducer";
+import { IUser } from "../../../../types/IUser";
+import { capitalize } from "../../../../utils/capitalize";
+import { useAppDispatch, useAppSelector } from "../../../../hooks/redux";
+import { authSelector } from "../../../../redux/reducers/authReducer/auth-reducer";
 
 interface IUserProps {
   user: IUser;
@@ -28,10 +31,13 @@ const User: React.FC<IUserProps> = ({ user }) => {
   return (
     <div className={classes.userBlock} key={user.id}>
       <NavLink to={ROUTE.PROFILE + user.id} className={classes.userAvatar}>
-        <Avatar alt={user.name} src={user.photos.small != null ? user.photos.small : userPhoto} />
+        <Avatar
+          alt={user.name}
+          src={user.photos.small != null ? user.photos.small : userPhoto}
+        />
       </NavLink>
       <p className={user.status ? classes.userStatus : classes.noStatus}>
-        {user.status ? capitalize(user.status) : 'No status'}
+        {user.status ? capitalize(user.status) : "No status"}
       </p>
       <p className={classes.userName}>{capitalize(user.name)}</p>
       <div>
@@ -48,7 +54,9 @@ const User: React.FC<IUserProps> = ({ user }) => {
           <Button
             onClick={() => onUserFollow(user.id, user.followed)}
             className={classes.followBtn}
-            disabled={isAuth ? followingInProgress.some((id) => id === user.id) : true}
+            disabled={
+              isAuth ? followingInProgress.some((id) => id === user.id) : true
+            }
             color="primary"
           >
             Follow

@@ -1,16 +1,19 @@
-import React, { useEffect } from 'react';
-import classes from './Users.module.css';
-import PreLoader from '../common/Preloader/Preloader';
-import User from './User/User';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { Button } from '@material-ui/core';
-import { requestUsers, usersSelector } from '../../../redux/reducers/usersReducer/users-reducer';
-import { ROUTE } from '../../../routes/routing';
-import { friendParamValueConvert } from '../../../utils/friendParamValueConvert';
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import Paginator from '../common/Paginator/Paginator';
+import React, { useEffect } from "react";
+import classes from "./Users.module.css";
+import { PreLoader } from "../common/Preloader/Preloader";
+import User from "./User/User";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { Button } from "@material-ui/core";
+import {
+  requestUsers,
+  usersSelector,
+} from "../../../redux/reducers/usersReducer/users-reducer";
+import { ROUTE } from "../../../routes/routes";
+import { friendParamValueConvert } from "../../../utils/friendParamValueConvert";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
+import Paginator from "../common/Paginator/Paginator";
 
-const Users: React.FC = () => {
+export const Users: React.FC = () => {
   const { users, isFetching, filter, totalUsersCount, currentPage, pageSize } =
     useAppSelector(usersSelector);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -20,18 +23,28 @@ const Users: React.FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const searchTerm = searchParams.get('term');
-    const searchFriend = friendParamValueConvert(searchParams.get('friend'));
-    const searchPage = Number(searchParams.get('page'));
+    const searchTerm = searchParams.get("term");
+    const searchFriend = friendParamValueConvert(searchParams.get("friend"));
+    const searchPage = Number(searchParams.get("page"));
 
     let actualPage = currentPage;
     let actualFilter = filter;
 
     if (searchPage) actualPage = searchPage;
     if (searchTerm) actualFilter = { ...actualFilter, term: searchTerm };
-    if (searchFriend) actualFilter = { ...actualFilter, friend: searchFriend };
+    if (searchFriend)
+      actualFilter = {
+        ...actualFilter,
+        friend: searchFriend,
+      };
 
-    dispatch(requestUsers({ page: actualPage, pageSize, filter: actualFilter }));
+    dispatch(
+      requestUsers({
+        page: actualPage,
+        pageSize,
+        filter: actualFilter,
+      })
+    );
   }, []);
 
   useEffect(() => {
@@ -64,7 +77,9 @@ const Users: React.FC = () => {
       </div>
       <div
         className={`${
-          location.pathname !== ROUTE.USERS ? classes.usersBlockProfilePage : classes.usersBlock
+          location.pathname !== ROUTE.USERS
+            ? classes.usersBlockProfilePage
+            : classes.usersBlock
         }`}
       >
         {isFetching ? <PreLoader /> : null}
@@ -82,7 +97,11 @@ const Users: React.FC = () => {
             pageSize={pageSize}
           />
         ) : (
-          <Button variant="outlined" onClick={() => navigate(ROUTE.USERS)} color={'primary'}>
+          <Button
+            variant="outlined"
+            onClick={() => navigate(ROUTE.USERS)}
+            color={"primary"}
+          >
             Show all users
           </Button>
         )}
@@ -90,5 +109,3 @@ const Users: React.FC = () => {
     </div>
   );
 };
-
-export default Users;

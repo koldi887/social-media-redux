@@ -1,24 +1,24 @@
-import React from 'react';
-import { ROUTE } from '../../../../routes/routing';
+import React from "react";
+import { ROUTE } from "../../../../routes/routes";
 
 export const dropdownElements = [
   {
-    name: 'Profile',
+    name: "Profile",
     path: ROUTE.PROFILE,
     logo: <i className="fas fa-user-alt" />,
   },
   {
-    name: 'Settings',
+    name: "Settings",
     path: ROUTE.SETTINGS,
     logo: <i className="fas fa-cog" />,
   },
   {
-    name: 'Dialogs',
+    name: "Dialogs",
     path: ROUTE.DIALOGS,
     logo: <i className="fas fa-cog" />,
   },
   {
-    name: 'Help',
+    name: "Help",
     path: ROUTE.HELP,
     logo: <i className="far fa-question-circle" />,
   },

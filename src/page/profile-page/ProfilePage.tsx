@@ -4,7 +4,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import ProfileInfo from './ProfileInfo/ProfileInfo';
 import ProfileImage from './ProfileImage/ProfileImage';
 import MyPostsContainer from './MyPosts/MyPostContainer';
-import Users from '../components/Users/Users';
+import { Users } from "../components/Users/Users";
 import { getUserProfile } from '../../redux/reducers/profileReducer/profile-reducer';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { usePrevLocation } from '../../hooks/usePrevLocation';
