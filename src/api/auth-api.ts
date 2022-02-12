@@ -1,9 +1,10 @@
 import { IAPIResponse, instance } from "./api";
 
 export interface IAuthMe {
-  id: number | null;
-  email: string;
-  login: string;
+  id: null | number;
+  email: null | string;
+  login: null | string;
+  isAuth: null | boolean;
 }
 
 export const authAPI = {

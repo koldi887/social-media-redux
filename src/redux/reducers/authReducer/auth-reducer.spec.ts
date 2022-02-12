@@ -1,4 +1,4 @@
-import authReducer, { IAuth, setCaptchaUrl, setErrors, setAuthUserData } from './auth-reducer';
+import authReducer, { IAuth, setCaptchaUrl, setErrors, authSuccess } from './auth-reducer';
 
 const initialState: IAuth = {
   id: null,
@@ -24,7 +24,7 @@ describe('auth reducer sync actions', () => {
       login: 'Dmitri',
       isAuth: true,
     };
-    const actual = authReducer(initialState, setAuthUserData(value));
+    const actual = authReducer(initialState, authSuccess(value));
     expect(actual).toEqual({
       ...initialState,
       id: 222,

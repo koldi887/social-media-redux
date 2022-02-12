@@ -1,5 +1,4 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
-import {FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE} from 'redux-persist';
 import {createReduxHistoryContext} from "redux-first-history";
 import {createBrowserHistory} from "history";
 import createSagaMiddleware from 'redux-saga';
@@ -13,34 +12,30 @@ import {dialogsApi} from '../api/dialogs-api';
 import rootSaga from "./sagas/rootSaga";
 
 const {
-  createReduxHistory,
-  routerMiddleware,
-  routerReducer
+    createReduxHistory,
+    routerMiddleware,
+    routerReducer
 } = createReduxHistoryContext(
     {history: createBrowserHistory()});
 
 export const rootReducer = combineReducers({
-  profilePage: profileSlice,
-  dialogsPage: dialogsPageSlice,
-  usersPage: UsersSlice,
-  auth: authSlice,
-  app: appSlice,
-  chat: chatSlice,
-  [dialogsApi.reducerPath]: dialogsApi.reducer,
-  router: routerReducer
+    profilePage: profileSlice,
+    dialogsPage: dialogsPageSlice,
+    usersPage: UsersSlice,
+    auth: authSlice,
+    app: appSlice,
+    chat: chatSlice,
+    [dialogsApi.reducerPath]: dialogsApi.reducer,
+    router: routerReducer
 });
 
 export let sagaMiddleware = createSagaMiddleware();
 
 const store = configureStore({
-  reducer: rootReducer,
-  middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware({
-        serializableCheck: {
-          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-        },
-      }).concat(sagaMiddleware, routerMiddleware, dialogsApi.middleware)
-})
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware()
+        .concat(sagaMiddleware, routerMiddleware, dialogsApi.middleware)
+});
 
 sagaMiddleware.run(rootSaga)
 
