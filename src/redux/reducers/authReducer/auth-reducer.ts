@@ -129,4 +129,5 @@ export const { authSuccess, setCaptchaUrl, setErrors, setAuthUserAvatar } =
   authSlice.actions;
 export const authSelector = (state: RootState) => state.auth;
 export const authUserIdSelector = (state: RootState) => state.auth.id;
+
 export default authSlice.reducer;

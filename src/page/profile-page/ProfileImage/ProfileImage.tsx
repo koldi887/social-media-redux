@@ -1,17 +1,21 @@
-import React, { useEffect } from 'react';
-import classes from './ProfileImage.module.css';
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import userPhoto from '../../../assets/img/pinpng.com-no-avatar-png-3416159.png';
-import { profileSelector, updateProfilePhoto } from '../../../redux/reducers/profileReducer/profile-reducer';
-import { Button, styled } from '@material-ui/core';
-import { getAuthUserData } from '../../../redux/reducers/authReducer/auth-reducer';
+import React, { useEffect } from "react";
+import classes from "./ProfileImage.module.css";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
+import userPhoto from "../../../assets/img/pinpng.com-no-avatar-png-3416159.png";
+import {
+  profileSelector,
+  updateProfilePhoto,
+} from "../../../redux/reducers/profileReducer/profile-reducer";
+import { Button, styled } from "@material-ui/core";
+
+import { getAuthUserData } from "../../../redux/reducers/authReducer/auth-reducer";
 
 interface IProfileImageProps {
   paramsUserId: string | undefined;
 }
 
-const Input = styled('input')({
-  display: 'none',
+const Input = styled("input")({
+  display: "none",
 });
 
 const ProfileImage: React.FC<IProfileImageProps> = ({ paramsUserId }) => {
@@ -19,7 +23,9 @@ const ProfileImage: React.FC<IProfileImageProps> = ({ paramsUserId }) => {
 
   const dispatch = useAppDispatch();
 
-  const onProfilePhotoSelected = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onProfilePhotoSelected = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     let photoFile = event.target.files;
     if (photoFile?.length) {
       dispatch(updateProfilePhoto(photoFile[0]));
@@ -31,7 +37,7 @@ const ProfileImage: React.FC<IProfileImageProps> = ({ paramsUserId }) => {
       <img
         src={profile.photos?.large || userPhoto}
         className={classes.profileImg}
-        alt={'profile'}
+        alt={"profile"}
       />
       {!paramsUserId && (
         <label htmlFor="contained-button-file">
@@ -42,14 +48,19 @@ const ProfileImage: React.FC<IProfileImageProps> = ({ paramsUserId }) => {
             type="file"
             onChange={(event) => onProfilePhotoSelected(event)}
           />
-          <Button variant="contained" component="span" size={'small'} color={'primary'}>
+          <Button
+            variant="contained"
+            component="span"
+            size={"small"}
+            color={"primary"}
+          >
             Change photo
           </Button>
         </label>
       )}
       <div className={classes.statusBlock}>
         <h3 className={classes.statusTitle}>Status:</h3>
-        <p className={classes.profileStatus}>{status}</p>
+        <p className={classes.profileStatus}>{status ? status : "No status"}</p>
       </div>
     </div>
   );

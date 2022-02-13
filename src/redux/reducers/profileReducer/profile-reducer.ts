@@ -1,13 +1,13 @@
-import {ResultCodeEnum} from "../../../api/api";
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {RootState} from "../../redux-store";
+import { ResultCodeEnum } from "../../../api/api";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../../redux-store";
 import {
   IPhotoType,
   IProfileData,
   profileData,
 } from "../../../types/IProfileData";
-import {profileAPI} from "../../../api/profile-api";
-import {setAuthUserAvatar} from "../authReducer/auth-reducer";
+import { profileAPI } from "../../../api/profile-api";
+import { setAuthUserAvatar } from "../authReducer/auth-reducer";
 
 export interface IPosts {
   id: number | null;
@@ -35,40 +35,41 @@ const initialState: IState = {
   isFetching: false,
 };
 
-export const getUserProfile = createAsyncThunk<void,
-    number | null,
-    { state: RootState }>("profile/getUserProfile", async function (userId, {
-  dispatch,
-  getState
-}) {
+export const getUserProfile = createAsyncThunk<
+  void,
+  number | null,
+  { state: RootState }
+>("profile/getUserProfile", async function (userId, { dispatch, getState }) {
   const authorizedUserId = getState().auth.id;
   const authorizedUserAvatar = getState().auth.avatar;
 
-  const profileData = await profileAPI.getProfile(userId);
-  let status = await profileAPI.getUserStatus(userId);
-
-  if (!authorizedUserAvatar && userId === authorizedUserId) {
-    dispatch(setAuthUserAvatar(profileData.photos?.small as null));
-  }
-
-  if (!status) status = "No status";
-  dispatch(setProfileSuccess(profileData));
-  dispatch(setStatusSuccess(status));
+  // const profileData = await profileAPI.getProfile(userId);
+  // let status = await profileAPI.getUserStatus(userId);
+  //
+  // if (!authorizedUserAvatar && userId === authorizedUserId) {
+  //   dispatch(setAuthUserAvatar(profileData.photos?.small as null));
+  // }
+  //
+  // if (!status) status = "No status";
+  // dispatch(setProfileSuccess(profileData));
+  // dispatch(setStatusSuccess(status));
 });
 
 export const updateProfileStatus = createAsyncThunk<string | undefined, string>(
-    "profile/updateUserStatus",
-    async function (status) {
-      const response = await profileAPI.updateUserStatus(status);
-      if (response.data.resultCode === ResultCodeEnum.success) {
-        return status;
-      }
-      return;
+  "profile/updateUserStatus",
+  async function (status) {
+    const response = await profileAPI.updateUserStatus(status);
+    if (response.data.resultCode === ResultCodeEnum.success) {
+      return status;
     }
+    return;
+  }
 );
 
-export const updateProfilePhoto = createAsyncThunk<IPhotoType | undefined,
-    File>("profile/updateProfilePhoto", async function (photoFile, {dispatch}) {
+export const updateProfilePhoto = createAsyncThunk<
+  IPhotoType | undefined,
+  File
+>("profile/updateProfilePhoto", async function (photoFile, { dispatch }) {
   const response = await profileAPI.updateProfilePhoto(photoFile);
   if (response.resultCode === ResultCodeEnum.success) {
     dispatch(setAuthUserAvatar(response.data.photos.small));
@@ -76,17 +77,19 @@ export const updateProfilePhoto = createAsyncThunk<IPhotoType | undefined,
   }
 });
 
-export const saveProfileInfo = createAsyncThunk<void | string[],
-    object,
-    { state: RootState }>(
-    "profile/updateProfilePhoto",
-    async function (profileData, {dispatch, getState}) {
-      const authUserId = getState().auth.id;
-      const response = await profileAPI.updateProfileInfo(profileData);
-      if (response.resultCode === ResultCodeEnum.success) {
-        dispatch(getUserProfile(authUserId));
-      }
+export const saveProfileInfo = createAsyncThunk<
+  void | string[],
+  object,
+  { state: RootState }
+>(
+  "profile/updateProfilePhoto",
+  async function (profileData, { dispatch, getState }) {
+    const authUserId = getState().auth.id;
+    const response = await profileAPI.updateProfileInfo(profileData);
+    if (response.resultCode === ResultCodeEnum.success) {
+      dispatch(getUserProfile(authUserId));
     }
+  }
 );
 
 const profileSlice = createSlice({
@@ -114,10 +117,10 @@ const profileSlice = createSlice({
 
   extraReducers: (builder) => {
     builder.addCase(
-        updateProfileStatus.fulfilled,
-        (state, action: PayloadAction<string | undefined>) => {
-          state.status = action.payload;
-        }
+      updateProfileStatus.fulfilled,
+      (state, action: PayloadAction<string | undefined>) => {
+        state.status = action.payload;
+      }
     );
 
     builder.addCase(updateProfilePhoto.pending, (state) => {
@@ -125,15 +128,17 @@ const profileSlice = createSlice({
     });
 
     builder.addCase(
-        updateProfilePhoto.fulfilled,
-        (state, action: PayloadAction<IPhotoType | undefined>) => {
-          state.profile.photos = action.payload;
-        }
+      updateProfilePhoto.fulfilled,
+      (state, action: PayloadAction<IPhotoType | undefined>) => {
+        state.profile.photos = action.payload;
+      }
     );
   },
 });
 
-export const {addNewPost, setProfileSuccess, setStatusSuccess} =
-    profileSlice.actions;
+export const { addNewPost, setProfileSuccess, setStatusSuccess } =
+  profileSlice.actions;
 export const profileSelector = (state: RootState) => state.profilePage;
 export default profileSlice.reducer;
+
+export type ProfileSelectorType = ReturnType<typeof profileSelector>;

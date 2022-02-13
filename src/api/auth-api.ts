@@ -13,6 +13,7 @@ export const authAPI = {
       .get<IAPIResponse<IAuthMe>>(`auth/me`)
       .then((response) => response.data);
   },
+
   login(email: string, password: string, rememberMe: boolean, captcha = "") {
     return instance
       .post<IAPIResponse<number>>(`auth/login`, {
@@ -23,6 +24,7 @@ export const authAPI = {
       })
       .then((response) => response.data);
   },
+
   logOut() {
     return instance
       .delete<IAPIResponse<object>>(`auth/login`)
