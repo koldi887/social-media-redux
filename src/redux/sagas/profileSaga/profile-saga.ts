@@ -77,14 +77,12 @@ function* loadUsersOnRouteEnter({ payload }: PayloadAction<LocationType>) {
 
   if (profilePage) {
     const { userId } = profilePage.params;
-    debugger;
     yield call(setUserProfile, {
       payload: { id: Number(userId) },
     } as PayloadAction<IAuthMe>);
   }
 
   if (actionPath === ROUTE.PROFILE && profile.userId !== authUserId) {
-    debugger;
     yield call(setUserProfile, {
       payload: { id: authUserId },
     } as PayloadAction<IAuthMe>);
