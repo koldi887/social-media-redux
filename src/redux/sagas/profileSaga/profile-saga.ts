@@ -1,21 +1,17 @@
 import {
   call,
   put,
-  SagaReturnType,
   select,
   takeEvery,
+  SagaReturnType,
 } from "redux-saga/effects";
 import { profileAPI } from "../../../api/profile-api";
 import {
-  authSuccess,
   authUserIdSelector,
   setAuthUserAvatar,
 } from "../../reducers/authReducer/auth-reducer";
-import { IAuthMe } from "../../../api/auth-api";
 import { PayloadAction } from "@reduxjs/toolkit";
 import {
-  profileSelector,
-  ProfileSelectorType,
   setProfileSuccess,
   setStatusSuccess,
 } from "../../reducers/profileReducer/profile-reducer";
@@ -64,9 +60,10 @@ function* getUserStatus(userId: number) {
   }
 }
 
-function* loadUsersOnRouteEnter({ payload }: PayloadAction<LocationType>) {
+function* loadUserProfileOnRouteEnter({
+  payload,
+}: PayloadAction<LocationType>) {
   const actionPath: string = payload.location.pathname;
-  const { profile }: ProfileSelectorType = yield select(profileSelector);
   const authUserId: AuthUserIdSelectType = yield select(authUserIdSelector);
 
   const profilePage: MatchPathType = matchPath(
@@ -77,27 +74,19 @@ function* loadUsersOnRouteEnter({ payload }: PayloadAction<LocationType>) {
 
   if (profilePage) {
     const { userId } = profilePage.params;
-    yield call(setUserProfile, {
-      payload: { id: Number(userId) },
-    } as PayloadAction<IAuthMe>);
+    yield call(setUserProfile, Number(userId));
   }
 
-  if (actionPath === ROUTE.PROFILE && profile.userId !== authUserId) {
-    yield call(setUserProfile, {
-      payload: { id: authUserId },
-    } as PayloadAction<IAuthMe>);
+  if (actionPath === ROUTE.PROFILE && authUserId) {
+    yield call(setUserProfile, authUserId as number);
   }
 }
 
-function* setUserProfile({ payload }: PayloadAction<IAuthMe>) {
-  const { id } = payload;
-  if (id) {
-    yield call(getUserProfile, id as number);
-    yield call(getUserStatus, id as number);
-  }
+export function* setUserProfile(id: number) {
+  yield call(getUserProfile, id);
+  yield call(getUserStatus, id);
 }
 
 export default function* profileSaga() {
-  yield takeEvery(authSuccess, setUserProfile);
-  yield takeEvery(LOCATION_CHANGE, loadUsersOnRouteEnter);
+  yield takeEvery(LOCATION_CHANGE, loadUserProfileOnRouteEnter);
 }

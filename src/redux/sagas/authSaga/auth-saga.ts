@@ -1,4 +1,4 @@
-import { call, fork, put, SagaReturnType } from "redux-saga/effects";
+import { call, put, SagaReturnType } from "redux-saga/effects";
 import { authAPI } from "../../../api/auth-api";
 import { ResultCodeEnum } from "../../../api/api";
 import { authSuccess } from "../../reducers/authReducer/auth-reducer";
@@ -6,6 +6,7 @@ import {
   initializedError,
   initializedSuccess,
 } from "../../reducers/appReducer/app-reducer";
+import { setUserProfile } from "../profileSaga/profile-saga";
 
 type AuthResponseType = SagaReturnType<typeof authAPI.authMe>;
 
@@ -15,6 +16,7 @@ function* setAuthUserData() {
     if (response.resultCode === ResultCodeEnum.success) {
       const { id, email, login } = response.data;
       yield put(authSuccess({ id, email, login, isAuth: true }));
+      yield call(setUserProfile, id as number);
     }
   } catch (err) {
     err = "Something went wrong. Please refresh the page";
@@ -25,5 +27,5 @@ function* setAuthUserData() {
 }
 
 export default function* authSaga() {
-  yield fork(setAuthUserData);
+  yield call(setAuthUserData);
 }
