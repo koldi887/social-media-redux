@@ -1,5 +1,5 @@
 import profileReducer, {
-  addNewPost,
+  addPostSuccess,
   getUserProfile,
   IState,
   updateProfilePhoto,
@@ -28,7 +28,10 @@ describe("profile reducer sync actions", () => {
   });
 
   it("should add new post", () => {
-    const actual = profileReducer(initialState, addNewPost("new post text"));
+    const actual = profileReducer(
+      initialState,
+      addPostSuccess("new post text")
+    );
     expect(actual.posts.length).toEqual(2);
   });
 });

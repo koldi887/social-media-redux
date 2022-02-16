@@ -3,7 +3,8 @@ import appReducer from "./app-reducer";
 
 let initialState = {
   initialized: false,
-  error: null
+  error: null,
+  prevPath: "",
 };
 
 describe("app reducer sync actions", () => {

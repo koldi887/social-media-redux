@@ -1,5 +1,5 @@
 import React from "react";
-import classes from "./posts.module.css";
+import classes from "./Posts.module.css";
 
 interface IProps {
   text: string;

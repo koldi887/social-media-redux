@@ -3,7 +3,7 @@ import classes from "./Login.module.css";
 import { useForm } from "react-hook-form";
 import {
   authSelector,
-  ILog,
+  ILoginData,
   login,
 } from "../../../redux/reducers/authReducer/auth-reducer";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
@@ -27,7 +27,7 @@ export const Login = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ILog>();
+  } = useForm<ILoginData>();
 
   const onFormSubmit = handleSubmit((data) => {
     dispatch(login(data));

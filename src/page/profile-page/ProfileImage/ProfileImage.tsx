@@ -8,8 +8,6 @@ import {
 } from "../../../redux/reducers/profileReducer/profile-reducer";
 import { Button, styled } from "@material-ui/core";
 
-import { getAuthUserData } from "../../../redux/reducers/authReducer/auth-reducer";
-
 interface IProfileImageProps {
   paramsUserId: string | undefined;
 }

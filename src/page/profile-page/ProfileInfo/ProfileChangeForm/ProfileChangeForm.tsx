@@ -1,34 +1,42 @@
-import React from 'react'
-import classes from './ProfileDataForm.module.css'
-import { IProfileContacts, IProfileData } from '../../../../types/IProfileData'
-import { useForm } from 'react-hook-form'
-import { Button, Checkbox, FormControlLabel, TextField } from '@material-ui/core'
-import { useAppDispatch } from '../../../../hooks/redux'
-import { saveProfileInfo } from '../../../../redux/reducers/profileReducer/profile-reducer'
-import { useToggle } from '../../../../hooks/useToggle'
-import { ErrorMessage } from '@hookform/error-message'
+import React from "react";
+import classes from "./ProfileChangeForm.module.css";
+import { IProfileContacts, IProfileData } from "../../../../types/IProfileData";
+import { useForm } from "react-hook-form";
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  TextField,
+} from "@material-ui/core";
+import { useAppDispatch } from "../../../../hooks/redux";
+import { saveProfileInfo } from "../../../../redux/reducers/profileReducer/profile-reducer";
+import { useToggle } from "../../../../hooks/useToggle";
+import { ErrorMessage } from "@hookform/error-message";
 
 interface IProfileFormProps {
-  profile: IProfileData
-  setEditMode: () => void
+  profile: IProfileData;
+  setEditMode: () => void;
 }
 
-const ProfileDataForm: React.FC<IProfileFormProps> = ({ profile, setEditMode }) => {
-  const lookingForAJob = profile.lookingForAJob
-  const [toggleValue, setToggleValue] = useToggle(lookingForAJob)
+const ProfileChangeForm: React.FC<IProfileFormProps> = ({
+  profile,
+  setEditMode,
+}) => {
+  const lookingForAJob = profile.lookingForAJob;
+  const [toggleValue, setToggleValue] = useToggle(lookingForAJob);
 
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IProfileData>()
+  } = useForm<IProfileData>();
 
   const onProfileInfoSubmit = handleSubmit((profileData) => {
-    dispatch(saveProfileInfo(profileData))
-    setEditMode()
-  })
+    dispatch(saveProfileInfo(profileData));
+    setEditMode();
+  });
 
   return (
     <form className={classes.editForm} onSubmit={onProfileInfoSubmit}>
@@ -36,10 +44,10 @@ const ProfileDataForm: React.FC<IProfileFormProps> = ({ profile, setEditMode }) 
       <TextField
         label="Full name"
         variant="outlined"
-        size={'small'}
+        size={"small"}
         defaultValue={profile.fullName}
-        {...register('fullName', {
-          required: 'This field is required',
+        {...register("fullName", {
+          required: "This field is required",
         })}
       />
       <ErrorMessage errors={errors} name="FullName" />
@@ -49,7 +57,7 @@ const ProfileDataForm: React.FC<IProfileFormProps> = ({ profile, setEditMode }) 
           <Checkbox
             defaultChecked={profile.lookingForAJob}
             onClick={setToggleValue}
-            {...register('lookingForAJob')}
+            {...register("lookingForAJob")}
           />
         }
       />
@@ -64,8 +72,8 @@ const ProfileDataForm: React.FC<IProfileFormProps> = ({ profile, setEditMode }) 
             defaultValue={profile.lookingForAJobDescription}
             multiline
             fullWidth
-            {...register('lookingForAJobDescription', {
-              required: 'This field is required',
+            {...register("lookingForAJobDescription", {
+              required: "This field is required",
             })}
           />
           <ErrorMessage errors={errors} name="LookingForAJobDescription" />
@@ -76,12 +84,12 @@ const ProfileDataForm: React.FC<IProfileFormProps> = ({ profile, setEditMode }) 
         id="standard-multiline-static"
         label="About me"
         variant="outlined"
-        size={'small'}
+        size={"small"}
         defaultValue={profile.aboutMe}
         rows={4}
         multiline
         fullWidth
-        {...register('aboutMe')}
+        {...register("aboutMe")}
       />
       <section className={classes.contactsList}>
         <label className={classes.contactsLabel}>Contacts:</label>
@@ -101,12 +109,17 @@ const ProfileDataForm: React.FC<IProfileFormProps> = ({ profile, setEditMode }) 
         <Button type="submit" size="small" variant="contained" color="primary">
           Edit Info
         </Button>
-        <Button variant="outlined" size="small" color="primary" onClick={setEditMode}>
+        <Button
+          variant="outlined"
+          size="small"
+          color="primary"
+          onClick={setEditMode}
+        >
           Cancel
         </Button>
       </section>
     </form>
-  )
-}
+  );
+};
 
-export default ProfileDataForm
+export default ProfileChangeForm

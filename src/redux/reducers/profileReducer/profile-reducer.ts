@@ -22,19 +22,6 @@ export interface IState {
   isFetching: boolean;
 }
 
-const initialState: IState = {
-  posts: [
-    {
-      id: null,
-      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
-      likesCount: 12,
-    },
-  ],
-  profile: profileData,
-  status: "",
-  isFetching: false,
-};
-
 export const getUserProfile = createAsyncThunk<
   void,
   number | null,
@@ -43,42 +30,43 @@ export const getUserProfile = createAsyncThunk<
   const authorizedUserId = getState().auth.id;
   const authorizedUserAvatar = getState().auth.avatar;
 
-  // const profileData = await profileAPI.getProfile(userId);
-  // let status = await profileAPI.getUserStatus(userId);
-  //
-  // if (!authorizedUserAvatar && userId === authorizedUserId) {
-  //   dispatch(setAuthUserAvatar(profileData.photos?.small as null));
-  // }
-  //
-  // if (!status) status = "No status";
-  // dispatch(setProfileSuccess(profileData));
-  // dispatch(setStatusSuccess(status));
+  const profileData = await profileAPI.getProfile(userId);
+  let status = (await profileAPI.getUserStatus(userId)) || "No status";
+
+  if (
+    !authorizedUserAvatar &&
+    userId === authorizedUserId &&
+    profileData.photos
+  ) {
+    dispatch(setAuthUserAvatar(profileData.photos.small));
+  }
+  dispatch(setProfileSuccess(profileData));
+  dispatch(setStatusSuccess(status));
 });
 
-export const updateProfileStatus = createAsyncThunk<string | undefined, string>(
+export const updateProfileStatus = createAsyncThunk<void, string>(
   "profile/updateUserStatus",
-  async function (status) {
+  async function (status, { dispatch }) {
     const response = await profileAPI.updateUserStatus(status);
     if (response.data.resultCode === ResultCodeEnum.success) {
-      return status;
+      dispatch(setStatusSuccess(status));
     }
-    return;
   }
 );
 
-export const updateProfilePhoto = createAsyncThunk<
-  IPhotoType | undefined,
-  File
->("profile/updateProfilePhoto", async function (photoFile, { dispatch }) {
-  const response = await profileAPI.updateProfilePhoto(photoFile);
-  if (response.resultCode === ResultCodeEnum.success) {
-    dispatch(setAuthUserAvatar(response.data.photos.small));
-    return response.data.photos;
+export const updateProfilePhoto = createAsyncThunk<IPhotoType | void, File>(
+  "profile/updateProfilePhoto",
+  async function (photoFile, { dispatch }) {
+    const response = await profileAPI.updateProfilePhoto(photoFile);
+    if (response.resultCode === ResultCodeEnum.success) {
+      dispatch(setAuthUserAvatar(response.data.photos.small));
+      return response.data.photos;
+    }
   }
-});
+);
 
 export const saveProfileInfo = createAsyncThunk<
-  void | string[],
+  void,
   object,
   { state: RootState }
 >(
@@ -92,11 +80,24 @@ export const saveProfileInfo = createAsyncThunk<
   }
 );
 
+const initialState: IState = {
+  posts: [
+    {
+      id: null,
+      text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
+      likesCount: 12,
+    },
+  ],
+  profile: profileData,
+  status: "",
+  isFetching: false,
+};
+
 const profileSlice = createSlice({
   name: "profile",
   initialState,
   reducers: {
-    addNewPost: (state, action: PayloadAction<string>) => {
+    addPostSuccess: (state, action: PayloadAction<string>) => {
       const postId = state.posts.length;
       state.posts.push({
         id: postId,
@@ -109,36 +110,23 @@ const profileSlice = createSlice({
       state.isFetching = false;
       state.profile = action.payload;
     },
-
     setStatusSuccess: (state, action: PayloadAction<string>) => {
       state.status = action.payload;
+    },
+    updateProfilePhotoSuccess: (state, action: PayloadAction<IPhotoType>) => {
+      state.profile.photos = action.payload;
+      state.isFetching = false;
     },
   },
 
   extraReducers: (builder) => {
-    builder.addCase(
-      updateProfileStatus.fulfilled,
-      (state, action: PayloadAction<string | undefined>) => {
-        state.status = action.payload;
-      }
-    );
-
-    builder.addCase(updateProfilePhoto.pending, (state) => {
+    builder.addCase(getUserProfile.pending, (state) => {
       state.isFetching = true;
     });
-
-    builder.addCase(
-      updateProfilePhoto.fulfilled,
-      (state, action: PayloadAction<IPhotoType | undefined>) => {
-        state.profile.photos = action.payload;
-      }
-    );
   },
 });
 
-export const { addNewPost, setProfileSuccess, setStatusSuccess } =
+export const { addPostSuccess, setProfileSuccess, setStatusSuccess } =
   profileSlice.actions;
 export const profileSelector = (state: RootState) => state.profilePage;
 export default profileSlice.reducer;
-
-export type ProfileSelectorType = ReturnType<typeof profileSelector>;

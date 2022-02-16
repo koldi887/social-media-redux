@@ -1,12 +1,15 @@
-import React, { useRef } from 'react';
-import classes from './Dropdown.module.css';
-import { Link } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
-import { authSelector, logOut } from '../../../../redux/reducers/authReducer/auth-reducer';
-import { dropdownElements } from './dropdownElements';
-import noAvatarImg from '../../../../assets/img/pinpng.com-no-avatar-png-3416159.png';
-import { useToggle } from '../../../../hooks/useToggle';
-import useOnClickOutside from '../../../../hooks/useOnClickOutside';
+import React, { useRef } from "react";
+import classes from "./Dropdown.module.css";
+import { Link } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../../../hooks/redux";
+import {
+  authSelector,
+  logOut,
+} from "../../../../redux/reducers/authReducer/auth-reducer";
+import { dropdownElements } from "./dropdownElements";
+import noAvatarImg from "../../../../assets/img/pinpng.com-no-avatar-png-3416159.png";
+import { useToggle } from "../../../../hooks/useToggle";
+import useOnClickOutside from "../../../../hooks/useOnClickOutside";
 
 const DropdownMenu = () => {
   const { avatar } = useAppSelector(authSelector);
@@ -24,17 +27,27 @@ const DropdownMenu = () => {
   return (
     <div className={classes.navProfileContainer} ref={dropdownRef}>
       <div
-        className={`${classes.navProfileBlock} ${toggleValue && classes.active}`}
+        className={`${classes.navProfileBlock} ${
+          toggleValue && classes.active
+        }`}
         onClick={setToggleValue}
       >
-        <img src={avatar ? avatar : noAvatarImg} alt="" className={classes.navProfileImg} />
+        <img
+          src={avatar ? avatar : noAvatarImg}
+          alt=""
+          className={classes.navProfileImg}
+        />
         <i className="fas fa-angle-down" />
       </div>
 
       {toggleValue && (
         <div className={classes.dropDownBlock}>
           {dropdownElements.map((elem) => (
-            <Link to={elem.path} key={elem.name} className={classes.dropDownLinks}>
+            <Link
+              to={elem.path}
+              key={elem.name}
+              className={classes.dropDownLinks}
+            >
               {elem.logo}
               {elem.name}
             </Link>

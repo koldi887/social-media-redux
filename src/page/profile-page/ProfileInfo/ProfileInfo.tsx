@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
-import classes from './ProfileInfo.module.css';
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { getUserProfile, profileSelector } from '../../../redux/reducers/profileReducer/profile-reducer';
-import ProfileStatus from './ProfileStatus/ProfileStatus';
-import { capitalize } from '../../../utils/capitalize';
-import ProfileInfoData from './ProfileInfoData/ProfileInfoData';
-import ProfileDataForm from './ProfileDataForm/ProfileDataForm';
-import { useToggle } from '../../../hooks/useToggle';
-import { Button } from '@material-ui/core';
+import React from "react";
+import classes from "./ProfileInfo.module.css";
+import { useAppSelector } from "../../../hooks/redux";
+import { profileSelector } from "../../../redux/reducers/profileReducer/profile-reducer";
+import ProfileStatus from "./ProfileStatus/ProfileStatus";
+import { capitalize } from "../../../utils/capitalize";
+import { ProfileData } from "./ProfileData/ProfileData";
+import ProfileChangeForm from "./ProfileChangeForm/ProfileChangeForm";
+import { useToggle } from "../../../hooks/useToggle";
+import { Button } from "@material-ui/core";
 
 interface IProfileInfoProps {
   paramsUserId: string | undefined;
@@ -23,15 +23,26 @@ const ProfileInfo: React.FC<IProfileInfoProps> = ({ paramsUserId }) => {
       <h2 className={classes.profileName}>{capitalize(profile.fullName)}</h2>
 
       {!paramsUserId && (
-        <Button variant="outlined" size={'small'} color={'primary'} onClick={setStatusToggle}>
+        <Button
+          variant="outlined"
+          size={"small"}
+          color={"primary"}
+          onClick={setStatusToggle}
+        >
           Set Status
         </Button>
       )}
-      {!paramsUserId && statusToggle && <ProfileStatus setStatusToggle={setStatusToggle} />}
+      {!paramsUserId && statusToggle && (
+        <ProfileStatus setStatusToggle={setStatusToggle} />
+      )}
       {editMode ? (
-        <ProfileDataForm profile={profile} setEditMode={setEditMode} />
+        <ProfileChangeForm profile={profile} setEditMode={setEditMode} />
       ) : (
-        <ProfileInfoData profile={profile} paramsUserId={paramsUserId} setEditMode={setEditMode} />
+        <ProfileData
+          profile={profile}
+          paramsUserId={paramsUserId}
+          setEditMode={setEditMode}
+        />
       )}
     </div>
   );

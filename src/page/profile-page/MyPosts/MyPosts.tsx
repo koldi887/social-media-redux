@@ -1,26 +1,37 @@
-import React from "react";
-import classes from "./myPosts.module.css";
+import React, { ChangeEvent, useState } from "react";
+import classes from "./MyPosts.module.css";
 import Grid from "@material-ui/core/Grid";
 import { Button } from "@material-ui/core";
 import Post from "./Posts";
-import { IPosts } from "../../../redux/reducers/profileReducer/profile-reducer";
+import {
+  addPostSuccess,
+  profileSelector,
+} from "../../../redux/reducers/profileReducer/profile-reducer";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 
-interface IProps {
-  newPost: string;
-  setNewPost: React.Dispatch<React.SetStateAction<string>>;
-  addPost: () => void;
-  posts: Array<IPosts>;
-}
+export const MyPosts: React.FC = () => {
+  const { posts } = useAppSelector(profileSelector);
+  const [newPostText, setNewPostText] = useState("");
 
-const MyPosts: React.FC<IProps> = ({ newPost, setNewPost, addPost, posts }) => {
+  const dispatch = useAppDispatch();
+
+  const addPost = () => {
+    dispatch(addPostSuccess(newPostText));
+    setNewPostText("");
+  };
+
+  const newPostTextHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setNewPostText(e.target.value);
+  };
+
   return (
     <Grid md={12} item>
       <div className={classes.addPostBlock}>
-        <h2>Minu postitused</h2>
+        <h2>My posts</h2>
         <textarea
           className={classes.newPostTextArea}
-          value={newPost}
-          onChange={(event) => setNewPost(event.target.value)}
+          value={newPostText}
+          onChange={newPostTextHandler}
         />
         <Button
           onClick={addPost}
@@ -28,7 +39,7 @@ const MyPosts: React.FC<IProps> = ({ newPost, setNewPost, addPost, posts }) => {
           size="medium"
           color="primary"
         >
-          Lisa postitus
+          Add post
         </Button>
       </div>
       {posts.map((p) => (
@@ -37,5 +48,3 @@ const MyPosts: React.FC<IProps> = ({ newPost, setNewPost, addPost, posts }) => {
     </Grid>
   );
 };
-
-export default MyPosts;

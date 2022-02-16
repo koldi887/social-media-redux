@@ -1,17 +1,17 @@
 import React from "react";
-import {Main} from "../page/components/Main/Main";
-import {Login} from "../page/components/Login/Login";
-import {Register} from "../page/components/Register/Register";
-import {ProtectedRoutes} from "./ProtectedRoutes";
-import {withSuspense} from "../hoc/withSuspense";
-import {Users} from "../page/components/Users/Users";
-import {Music} from "../page/components/Music/Music";
-import {Settings} from "../page/components/Settings/Settings";
-import {HelpPage} from "../page/components/Help/HelpPage";
-import {Dialogs} from "../page/components/Dialogs/Dialogs";
+import { Main } from "../page/components/Main/Main";
+import { Login } from "../page/components/Login/Login";
+import { Register } from "../page/components/Register/Register";
+import { ProtectedRoutes } from "./ProtectedRoutes";
+import { withSuspense } from "../hoc/withSuspense";
+import { Users } from "../page/components/Users/Users";
+import { Music } from "../page/components/Music/Music";
+import { Settings } from "../page/components/Settings/Settings";
+import { HelpPage } from "../page/components/Help/HelpPage";
+import { Dialogs } from "../page/components/Dialogs/Dialogs";
 
 const ProfilePage = React.lazy(
-    () => import("../page/profile-page/ProfilePage")
+  () => import("../page/profile-page/ProfilePage")
 );
 
 export enum ROUTE {
@@ -47,68 +47,68 @@ export const routesList = [
   {
     id: MAIN_ROUTE,
     path: ROUTE.MAIN,
-    element: <Main/>,
+    element: <Main />,
   },
   {
     id: REGISTER_ROUTE,
     path: ROUTE.REGISTER,
-    element: <Register/>,
+    element: <Register />,
   },
   {
     id: LOGIN_ROUTE,
     path: ROUTE.LOGIN,
-    element: <Login/>,
+    element: <Login />,
   },
   {
     id: PROTECTED_ROUTES,
-    element: <ProtectedRoutes/>,
+    element: <ProtectedRoutes />,
     children: [
       {
         id: PROFILE_ROUTE,
         path: ROUTE.PROFILE,
-        element: <SuspenseProfilePage/>,
+        element: <SuspenseProfilePage />,
       },
       {
         id: USER_PROFILE_ROUTE,
         path: ROUTE.USER_PROFILE,
-        element: <SuspenseProfilePage/>,
+        element: <SuspenseProfilePage />,
       },
       {
         id: USERS_ROUTE,
         path: ROUTE.USERS,
-        element: <Users/>,
+        element: <Users />,
       },
       {
         id: MUSIC_ROUTE,
         path: ROUTE.MUSIC,
-        element: <Music/>,
+        element: <Music />,
       },
       {
         id: SETTINGS_ROUTE,
         path: ROUTE.SETTINGS,
-        element: <Settings/>,
+        element: <Settings />,
       },
       {
         id: HELP_ROUTE,
         path: ROUTE.HELP,
-        element: <HelpPage/>,
+        element: <HelpPage />,
       },
       {
         id: DIALOGS_ROUTE,
         path: ROUTE.DIALOGS,
-        element: <Dialogs/>,
+        element: <Dialogs />,
       },
     ],
   },
   {
     id: OTHER_ROUTE,
     path: ROUTE.OTHER_ROUTES,
-    element: <Main/>,
+    element: <Main />,
   },
   {
     id: OTHER_ROUTE,
     path: ROUTE.OTHER_ROUTES,
-    element: <Main/>,
+    element: <Main />,
   },
 ];
 
@@ -121,15 +121,15 @@ export const getRouteConfig = (id: string) => {
       if (r.children) {
         const route = r.children.find((r) => r.id === id);
         if (route) {
-          const {element, ...rest} = route;
+          const { element, ...rest } = route;
           childrenRoute = rest;
-        } else childrenRoute = null as unknown as string;
+        } else childrenRoute = null;
       }
     });
-    if (!childrenRoute) return null as unknown as string;
-    return childrenRoute
+    if (!childrenRoute) return;
+    return childrenRoute;
   }
 
-  const {element, children, ...rest} = route;
+  const { element, children, ...rest } = route;
   return rest;
 };
