@@ -1,9 +1,9 @@
-import React from 'react';
-import classes from './LoggedNavbar.module.css';
-import DropdownMenu from './dropdown-menu/DropdownMenu';
-import { Chat } from '../Chat/Chat';
+import React from "react";
+import classes from "./LoggedNavbar.module.css";
+import DropdownMenu from "./dropdown-menu/DropdownMenu";
+import { Chat } from "../Chat/Chat";
 
-const LoggedNavbar = () => {
+export const LoggedNavbar = () => {
   return (
     <div className={classes.navBlock}>
       <div className={classes.navLinksBlock}>
@@ -16,5 +16,3 @@ const LoggedNavbar = () => {
     </div>
   );
 };
-
-export default LoggedNavbar;

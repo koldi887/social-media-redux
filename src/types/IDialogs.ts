@@ -1,4 +1,4 @@
-import { IPhotoType } from './IProfileData';
+import { IPhotoType } from "./IProfile";
 
 export interface IDialog {
   hasNewMessages: boolean;

@@ -1,7 +1,7 @@
 import { screen } from "@testing-library/react";
 import { ProfileData } from "./ProfileData";
 import { renderWithStore } from "../../../../utils/test-utils/reduxStoreWrapper";
-import { profileData } from "../../../../types/IProfileData";
+import { profileData } from "../../../../types/IProfile";
 
 const profile = {
   ...profileData,

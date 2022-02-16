@@ -1,13 +1,12 @@
 import profileReducer, {
   addPostSuccess,
   getUserProfile,
-  IState,
   updateProfilePhoto,
   updateProfileStatus,
 } from "./profile-reducer";
-import { profileData } from "../../../types/IProfileData";
+import { profileData, IProfileState } from "../../../types/IProfile";
 
-const initialState: IState = {
+const initialState: IProfileState = {
   posts: [
     {
       id: null,

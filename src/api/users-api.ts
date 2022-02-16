@@ -1,8 +1,8 @@
-import { IUser } from "../types/IUser";
+import { IUsers } from "../types/IUsers";
 import { IAPIResponse, instance } from "./api";
 
 export interface IRequestUserAPI {
-  items: Array<IUser>;
+  items: Array<IUsers>;
   totalCount: number;
   error: string | null;
 }

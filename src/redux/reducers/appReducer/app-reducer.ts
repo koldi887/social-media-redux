@@ -13,6 +13,7 @@ export const initializeApp = createAsyncThunk<
   { dispatch: AppDispatch }
 >("init/initializeApp", async function (_, { dispatch }) {
   const promise = dispatch(getAuthUserData());
+  console.log(promise);
   Promise.all([promise]).then(() => {
     dispatch(initializedSuccess());
   });

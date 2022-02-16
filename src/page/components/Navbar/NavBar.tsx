@@ -1,12 +1,12 @@
 import * as React from "react";
 import classes from "./Navbar.module.css";
 import navLogo from "../../../assets/img/lukso_token_logo.png";
-import LoggedNavbar from "./LoggedNavbar";
+import { Link } from "react-router-dom";
+import { ROUTE } from "../../../routes/routes";
 import { useAppSelector } from "../../../hooks/redux";
 import { authSelector } from "../../../redux/reducers/authReducer/auth-reducer";
-import { Link } from "react-router-dom";
-import SearchBox from "./Search/SearchBox";
-import { ROUTE } from "../../../routes/routes";
+import { SearchBox } from "./Search/SearchBox";
+import { LoggedNavbar } from "./LoggedNavbar";
 
 export const NavBar = () => {
   const { isAuth } = useAppSelector(authSelector);

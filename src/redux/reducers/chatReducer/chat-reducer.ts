@@ -1,7 +1,12 @@
-import { createAsyncThunk, createSlice, current, Dispatch, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../../redux-store';
-import { chatAPI, IChatMessageApi, StatusType } from '../../../api/chat-api';
-import { v1 } from 'uuid';
+import {
+  createAsyncThunk,
+  createSlice,
+  Dispatch,
+  PayloadAction,
+} from "@reduxjs/toolkit";
+import { RootState } from "../../redux-store";
+import { chatAPI, IChatMessageApi, StatusType } from "../../../api/chat-api";
+import { v1 } from "uuid";
 
 export type ChatMessageType = IChatMessageApi & { id: string };
 
@@ -28,35 +33,44 @@ const statusChangedHandlerCreator = (dispatch: Dispatch) => {
 };
 
 export const startMessagesListening = createAsyncThunk(
-  'chat/startMessagesListening',
+  "chat/startMessagesListening",
   async function (_, { dispatch }) {
     chatAPI.start();
-    chatAPI.subscribe('messages-received', newMessagesHandlerCreator(dispatch));
-    chatAPI.subscribe('status-changed', statusChangedHandlerCreator(dispatch));
+    chatAPI.subscribe("messages-received", newMessagesHandlerCreator(dispatch));
+    chatAPI.subscribe("status-changed", statusChangedHandlerCreator(dispatch));
   }
 );
 
 export const stopMessagesListening = createAsyncThunk(
-  'chat/stopMessagesListening',
+  "chat/stopMessagesListening",
   async function (_, { dispatch }) {
-    chatAPI.unsubscribe('messages-received', newMessagesHandlerCreator(dispatch));
-    chatAPI.unsubscribe('status-changed', statusChangedHandlerCreator(dispatch));
+    chatAPI.unsubscribe(
+      "messages-received",
+      newMessagesHandlerCreator(dispatch)
+    );
+    chatAPI.unsubscribe(
+      "status-changed",
+      statusChangedHandlerCreator(dispatch)
+    );
     chatAPI.stop();
   }
 );
 
-export const sendMessage = createAsyncThunk<void, string>('sendMessage', async function (message) {
-  chatAPI.sendMessage(message);
-});
+export const sendMessage = createAsyncThunk<void, string>(
+  "sendMessage",
+  async function (message) {
+    chatAPI.sendMessage(message);
+  }
+);
 
 const initialState = {
   messages: [] as ChatMessageType[],
-  status: 'pending' as StatusType,
+  status: "pending" as StatusType,
   unreadMessages: [] as IChatMessageApi[],
 };
 
 const chatSlice = createSlice({
-  name: 'chat',
+  name: "chat",
   initialState,
   reducers: {
     setMessages: (state, action: PayloadAction<IChatMessageApi[]>) => {
@@ -85,6 +99,7 @@ const chatSlice = createSlice({
   },
 });
 
-export const { setMessages, statusChanged, setUnreadMessages } = chatSlice.actions;
+export const { setMessages, statusChanged, setUnreadMessages } =
+  chatSlice.actions;
 export const chatSelector = (state: RootState) => state.chat;
 export default chatSlice.reducer;

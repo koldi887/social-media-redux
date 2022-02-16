@@ -1,4 +1,4 @@
-import { IPhotoType, IProfileData } from "../types/IProfileData";
+import { IPhotoType, IProfileData } from "../types/IProfile";
 import { IAPIResponse, instance } from "./api";
 
 export const profileAPI = {

@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "./ProfileChangeForm.module.css";
-import { IProfileContacts, IProfileData } from "../../../../types/IProfileData";
+import { IProfileContacts, IProfileData } from "../../../../types/IProfile";
 import { useForm } from "react-hook-form";
 import {
   Button,
@@ -122,4 +122,4 @@ const ProfileChangeForm: React.FC<IProfileFormProps> = ({
   );
 };
 
-export default ProfileChangeForm
+export default ProfileChangeForm;

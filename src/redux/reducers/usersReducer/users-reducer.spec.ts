@@ -1,9 +1,9 @@
 import usersReducer, {
   followingInProgress,
   followUnfollowUserSuccess,
-  IUsersState,
   requestUsers,
 } from "./users-reducer";
+import { IUsersState } from "../../../types/IUsers";
 
 const initialState: IUsersState = {
   users: [

@@ -10,12 +10,12 @@ type PropsType = {
 };
 
 let Paginator: React.FC<PropsType> = ({
-                                        totalItemsCount,
-                                        pageSize,
-                                        currentPage = 1,
-                                        onPageChanged = (x) => x,
-                                        portionSize = 10
-                                      }) => {
+  totalItemsCount,
+  pageSize,
+  currentPage = 1,
+  onPageChanged = (x) => x,
+  portionSize = 10,
+}) => {
   let pagesCount = Math.ceil(totalItemsCount / pageSize);
 
   let pages: Array<number> = [];
@@ -51,7 +51,9 @@ let Paginator: React.FC<PropsType> = ({
           .map((page) => {
             return (
               <span
-                className={`${classes.paginationNumbers} ${setPageActiveClass(page)}`}
+                className={`${classes.paginationNumbers} ${setPageActiveClass(
+                  page
+                )}`}
                 key={page}
                 onClick={() => {
                   onPageChanged(page);

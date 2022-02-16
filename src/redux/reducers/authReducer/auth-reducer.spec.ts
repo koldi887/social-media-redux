@@ -1,20 +1,18 @@
 import authReducer, {
-  IAuth,
   setCaptchaUrl,
   setLoginErrors,
   authSuccess,
 } from "./auth-reducer";
+import { IAuthState } from "../../../types/IAuth";
 
-const initialState: IAuth = {
+const initialState: IAuthState = {
   id: null,
   email: null,
   login: null,
   isAuth: false,
   avatar: null,
   captchaUrl: null,
-  errors: {
-    loginErrors: [],
-  },
+  loginErrors: [],
 };
 
 describe("auth reducer sync actions", () => {
@@ -47,6 +45,6 @@ describe("auth reducer sync actions", () => {
   it("should set errors", () => {
     const value = "error";
     const actual = authReducer(initialState, setLoginErrors([value]));
-    expect(actual.errors.loginErrors).toEqual(value);
+    expect(actual.loginErrors).toEqual(value);
   });
 });

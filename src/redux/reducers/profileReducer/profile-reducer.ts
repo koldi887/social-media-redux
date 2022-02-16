@@ -4,23 +4,11 @@ import { RootState } from "../../redux-store";
 import {
   IPhotoType,
   IProfileData,
+  IProfileState,
   profileData,
-} from "../../../types/IProfileData";
+} from "../../../types/IProfile";
 import { profileAPI } from "../../../api/profile-api";
 import { setAuthUserAvatar } from "../authReducer/auth-reducer";
-
-export interface IPosts {
-  id: number | null;
-  text: string;
-  likesCount: number;
-}
-
-export interface IState {
-  posts: Array<IPosts>;
-  profile: IProfileData;
-  status: string | undefined;
-  isFetching: boolean;
-}
 
 export const getUserProfile = createAsyncThunk<
   void,
@@ -29,10 +17,8 @@ export const getUserProfile = createAsyncThunk<
 >("profile/getUserProfile", async function (userId, { dispatch, getState }) {
   const authorizedUserId = getState().auth.id;
   const authorizedUserAvatar = getState().auth.avatar;
-
   const profileData = await profileAPI.getProfile(userId);
   let status = (await profileAPI.getUserStatus(userId)) || "No status";
-
   if (
     !authorizedUserAvatar &&
     userId === authorizedUserId &&
@@ -70,7 +56,7 @@ export const saveProfileInfo = createAsyncThunk<
   object,
   { state: RootState }
 >(
-  "profile/updateProfilePhoto",
+  "profile/saveProfileInfo",
   async function (profileData, { dispatch, getState }) {
     const authUserId = getState().auth.id;
     const response = await profileAPI.updateProfileInfo(profileData);
@@ -80,7 +66,7 @@ export const saveProfileInfo = createAsyncThunk<
   }
 );
 
-const initialState: IState = {
+const initialState: IProfileState = {
   posts: [
     {
       id: null,
@@ -105,9 +91,7 @@ const profileSlice = createSlice({
         likesCount: 0,
       });
     },
-
     setProfileSuccess: (state, action: PayloadAction<IProfileData>) => {
-      state.isFetching = false;
       state.profile = action.payload;
     },
     setStatusSuccess: (state, action: PayloadAction<string>) => {
@@ -115,14 +99,7 @@ const profileSlice = createSlice({
     },
     updateProfilePhotoSuccess: (state, action: PayloadAction<IPhotoType>) => {
       state.profile.photos = action.payload;
-      state.isFetching = false;
     },
-  },
-
-  extraReducers: (builder) => {
-    builder.addCase(getUserProfile.pending, (state) => {
-      state.isFetching = true;
-    });
   },
 });
 

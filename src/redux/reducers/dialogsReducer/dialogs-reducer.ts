@@ -3,22 +3,21 @@ import { RootState } from "../../redux-store";
 import { IDialogMessage } from "../../../types/IDialogs";
 import { dialogsApi } from "../../../api/dialogs-api";
 
-export interface IDialogsPageState {
-  dialogs: IDialogMessage[];
-}
-
-const initialState: IDialogsPageState = {
-  dialogs: [],
+const initialState = {
+  dialogs: [] as IDialogMessage[],
 };
 
 const dialogPageSlice = createSlice({
-  name: 'dialogs',
+  name: "dialogs",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addMatcher(dialogsApi.endpoints.getDialogWithUser.matchFulfilled, (state, action) => {
-      state.dialogs = action.payload;
-    });
+    builder.addMatcher(
+      dialogsApi.endpoints.getDialogWithUser.matchFulfilled,
+      (state, action) => {
+        state.dialogs = action.payload;
+      }
+    );
   },
 });
 

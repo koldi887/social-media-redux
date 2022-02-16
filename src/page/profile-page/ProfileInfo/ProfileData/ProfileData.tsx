@@ -4,7 +4,7 @@ import {
   IProfileContacts,
   IProfileData,
   profileData,
-} from "../../../../types/IProfileData";
+} from "../../../../types/IProfile";
 import { Button } from "@material-ui/core";
 import { capitalize } from "../../../../utils/capitalize";
 

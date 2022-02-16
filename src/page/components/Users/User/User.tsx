@@ -9,13 +9,13 @@ import {
   followUnfollowUser,
   usersSelector,
 } from "../../../../redux/reducers/usersReducer/users-reducer";
-import { IUser } from "../../../../types/IUser";
+import { IUsers } from "../../../../types/IUsers";
 import { capitalize } from "../../../../utils/capitalize";
 import { useAppDispatch, useAppSelector } from "../../../../hooks/redux";
 import { authSelector } from "../../../../redux/reducers/authReducer/auth-reducer";
 
 interface IUserProps {
-  user: IUser;
+  user: IUsers;
 }
 
 const User: React.FC<IUserProps> = ({ user }) => {
