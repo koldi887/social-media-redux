@@ -1,17 +1,22 @@
-import React from 'react';
-import classes from './DialogsChat.module.css';
-import { Button, TextField } from '@material-ui/core';
-import { useForm } from 'react-hook-form';
-import { useGetDialogWithUserQuery, useSendNewMessageMutation } from '../../../api/dialogs-api';
+import React from "react";
+import classes from "./DialogsChat.module.css";
+import { Button, TextField } from "@material-ui/core";
+import { useForm } from "react-hook-form";
+import {
+  useGetDialogWithUserQuery,
+  useSendNewMessageMutation,
+} from "../../../api/dialogs-api";
 import { PreLoader } from "../common/Preloader/Preloader";
-import { IDialog } from '../../../types/IDialogs';
-import { capitalize } from '../../../utils/capitalize';
+import { IDialog } from "../../../types/IDialogs";
+import { capitalize } from "../../../utils/capitalize";
 
 interface IDialogsChatProps {
   selectedDialog: IDialog;
 }
 
-export const DialogsChat: React.FC<IDialogsChatProps> = ({ selectedDialog }) => {
+export const DialogsChat: React.FC<IDialogsChatProps> = ({
+  selectedDialog,
+}) => {
   const { register, handleSubmit, reset } = useForm();
   const [sendMessage] = useSendNewMessageMutation();
   const { data, isLoading } = useGetDialogWithUserQuery({
@@ -54,9 +59,14 @@ export const DialogsChat: React.FC<IDialogsChatProps> = ({ selectedDialog }) => 
               multiline
               fullWidth
               required={true}
-              {...register('body')}
+              {...register("body")}
             />
-            <Button type="submit" size="small" variant="contained" color="primary">
+            <Button
+              type="submit"
+              size="small"
+              variant="contained"
+              color="primary"
+            >
               Send
             </Button>
           </form>
