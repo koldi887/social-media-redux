@@ -1,13 +1,16 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IDialog, IDialogMessage, IDialogWithUser } from '../types/IDialogs';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { IDialog, IDialogMessage, IDialogWithUser } from "../types/IDialogs";
 
 function providesList<R extends { id: string | number }[], T extends string>(
   resultsWithIds: R | undefined,
   tagType: T
 ) {
   return resultsWithIds
-    ? [{ type: tagType, id: 'LIST' }, ...resultsWithIds.map(({ id }) => ({ type: tagType, id }))]
-    : [{ type: tagType, id: 'LIST' }];
+    ? [
+        { type: tagType, id: "LIST" },
+        ...resultsWithIds.map(({ id }) => ({ type: tagType, id })),
+      ]
+    : [{ type: tagType, id: "LIST" }];
 }
 
 interface IPost {
@@ -16,21 +19,25 @@ interface IPost {
 }
 
 export const dialogsApi = createApi({
-  reducerPath: 'dialogsApi',
+  reducerPath: "dialogsApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://social-network.samuraijs.com/api/1.0/',
-    credentials: 'include',
+    baseUrl: "https://social-network.samuraijs.com/api/1.0/",
+    credentials: "include",
     headers: {
-      'API-KEY': '5a063c6f-71b9-4b11-9633-305ea5213c14',
+      "API-KEY": "5a063c6f-71b9-4b11-9633-305ea5213c14",
     },
   }),
-  tagTypes: ['Dialogs'],
+  tagTypes: ["Dialogs"],
 
   endpoints: (build) => ({
-    getDialogWithUser: build.query<IDialogMessage[], { userId: number; currentPage: number }>({
-      query: ({ userId, currentPage }) => `dialogs/${userId}/messages?page=${currentPage}`,
+    getDialogWithUser: build.query<
+      IDialogMessage[],
+      { userId: number; currentPage: number }
+    >({
+      query: ({ userId, currentPage }) =>
+        `dialogs/${userId}/messages?page=${currentPage}`,
       transformResponse: (response: IDialogWithUser) => response.items,
-      providesTags: (result) => providesList(result, 'Dialogs'),
+      providesTags: (result) => providesList(result, "Dialogs"),
     }),
 
     getDialogs: build.query<IDialog[], void>({
@@ -49,13 +56,13 @@ export const dialogsApi = createApi({
     sendNewMessage: build.mutation({
       query: (data: IPost) => ({
         url: `dialogs/${data.userId}/messages`,
-        method: 'POST',
+        method: "POST",
         headers: {
-          'API-KEY': '5a063c6f-71b9-4b11-9633-305ea5213c14',
+          "API-KEY": "5a063c6f-71b9-4b11-9633-305ea5213c14",
         },
         body: { body: data.message },
       }),
-      invalidatesTags: [{ type: 'Dialogs', id: 'LIST' }],
+      invalidatesTags: [{ type: "Dialogs", id: "LIST" }],
     }),
 
     refreshUser: build.query({
